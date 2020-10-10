@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="by.kristev.utils.StringUtilsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-10-10T15:24:38" hostname="MacBook-Air-Sergei.local" time="0.033">
+  <properties/>
+  <testcase name="isPositiveNumber()" classname="by.kristev.utils.StringUtilsTest" time="0.033"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
