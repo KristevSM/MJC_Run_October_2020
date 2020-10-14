@@ -1,3 +1,7 @@
 rootProject.name = 'gift-certificate-system'
 include 'model'
+include 'dao'
+
+project(':model').projectDir = new File(settingsDir, '/model')
+project(':dao').projectDir = new File(settingsDir, '/dao')
 
