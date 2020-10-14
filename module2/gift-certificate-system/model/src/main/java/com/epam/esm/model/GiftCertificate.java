@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class GiftCertificate implements Serializable {
 
+    private Long id;
     private String name;
     private String description;
     private BigDecimal price;

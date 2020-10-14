@@ -18,6 +18,9 @@ subprojects {
     }
 
     dependencies {
+        // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+        compile group: 'org.springframework', name: 'spring-webmvc', version: '5.2.9.RELEASE'
+
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
     }
@@ -44,6 +47,24 @@ project(':model') {
 
         testCompileOnly 'org.projectlombok:lombok:1.18.14'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
+    }
+}
+
+project(':dao') {
+    dependencies {
+
+        // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+        compile group: 'org.springframework', name: 'spring-jdbc', version: '5.2.9.RELEASE'
+
+        // https://mvnrepository.com/artifact/com.h2database/h2
+        testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
+
+        // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+        compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+
+
+        compile project(':model')
+
     }
 }
 
