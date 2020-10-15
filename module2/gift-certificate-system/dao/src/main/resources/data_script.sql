@@ -8,5 +8,6 @@ INSERT INTO tag (name) VALUES ('Tag 2');
 INSERT INTO tag (name) VALUES ('Tag 3');
 
 INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('1', '1');
-INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('2', '1');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('2', '2');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('2', '3');
 INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('3', '2');

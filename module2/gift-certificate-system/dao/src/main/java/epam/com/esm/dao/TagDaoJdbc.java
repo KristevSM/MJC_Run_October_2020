@@ -1,21 +1,16 @@
 package epam.com.esm.dao;
 
-import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class TagDaoJdbc implements CrudDAO<Tag> {
+public class TagDaoJdbc implements TagDao {
 
-    //language=SQL
     private static final String SQL_SELECT_ALL_TAGS = "SELECT id, name FROM tag;";
     private static final String SQL_INSERT_TAG = "INSERT INTO tag (name)" +
             " VALUES (:name);";
@@ -76,6 +71,6 @@ public class TagDaoJdbc implements CrudDAO<Tag> {
 
     @Override
     public List<Tag> findAll() {
-        return  namedParameterJdbcTemplate.query(SQL_SELECT_ALL_TAGS, tagRowMapper);
+        return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_TAGS, tagRowMapper);
     }
 }
