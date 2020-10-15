@@ -1,6 +1,3 @@
-CREATE SCHEMA IF NOT EXISTS `gift_certificate_service` DEFAULT CHARACTER SET utf8 ;
-USE `gift_certificate_service` ;
-
 CREATE TABLE tag (
   id bigint(10) NOT NULL AUTO_INCREMENT,
   name varchar(40) NOT NULL,
