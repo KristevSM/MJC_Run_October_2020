@@ -16,7 +16,7 @@ class TagDaoJdbcTest {
     //    private DataSource dataSource;
     private DriverManagerDataSource dataSource;
     private EmbeddedDatabase db;
-    private CrudDAO<Tag> tagCrudDAO;
+    private TagDao tagCrudDAO;
 
     @BeforeEach
     void setUp() {
