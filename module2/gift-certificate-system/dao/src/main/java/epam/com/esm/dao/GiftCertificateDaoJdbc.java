@@ -2,27 +2,30 @@ package epam.com.esm.dao;
 
 import com.epam.esm.model.GiftCertificate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class GiftCertificateDaoJdbc implements GiftCertificateDao {
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    private static final String SQL_SELECT_ALL_CERTIFICATES = "SELECT * FROM gift_certificate;";
+    private static final String SQL_SELECT_ALL_CERTIFICATES = "SELECT id, name, description, create_date, last_update_date," +
+            " price, duration FROM gift_certificate;";
     private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO gift_certificate (name, description, price, duration)" +
             " VALUES (:name, :description, :price, :duration);";
-    private static final String SQL_SELECT_BY_ID = "SELECT * FROM gift_certificate WHERE id = :id;";
+    private static final String SQL_SELECT_BY_ID = "SELECT id, name, description, create_date, last_update_date, " +
+            "price, duration FROM gift_certificate WHERE id = :id;";
     private static final String SQL_UPDATE_GIFT_CERTIFICATE = "UPDATE gift_certificate SET name = :name, description = :description," +
             " price = :price, create_date = :createDate WHERE (id = :id);";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM gift_certificate WHERE (id = :id);";
+
+
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 
     public GiftCertificateDaoJdbc(DataSource dataSource) {
@@ -53,13 +56,19 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     }
 
     @Override
-    public void save(GiftCertificate model) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("name", model.getName());
-        params.put("description", model.getDescription());
-        params.put("price", model.getPrice());
-        params.put("duration", model.getDuration());
-        namedParameterJdbcTemplate.update(SQL_INSERT_GIFT_CERTIFICATE, params);
+    public Long save(GiftCertificate model) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("name", model.getName())
+                .addValue("description", model.getDescription())
+                .addValue("price", model.getPrice())
+                .addValue("duration", model.getDuration());
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(SQL_INSERT_GIFT_CERTIFICATE, parameters, keyHolder);
+        if (keyHolder.getKey() == null) {
+            throw new NoSuchElementException("Saving certificate failed, no ID obtained.");
+        } else {
+            return keyHolder.getKey().longValue();
+        }
     }
 
     @Override
@@ -85,6 +94,6 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
 
     @Override
     public List<GiftCertificate> findAll() {
-        return  namedParameterJdbcTemplate.query(SQL_SELECT_ALL_CERTIFICATES, giftCertificateRowMapper);
+        return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_CERTIFICATES, giftCertificateRowMapper);
     }
 }
