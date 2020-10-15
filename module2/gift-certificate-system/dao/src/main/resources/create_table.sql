@@ -9,8 +9,8 @@ CREATE TABLE gift_certificate (
                                   name varchar(40) NOT NULL,
                                   description varchar(250) NOT NULL,
                                   price DECIMAL(12,2) NOT NULL,
-                                  create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                  create_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                  last_update_date DATETIME DEFAULT CURRENT_TIMESTAMP,
                                   duration INT NOT NULL,
                                   PRIMARY KEY (id));
 
