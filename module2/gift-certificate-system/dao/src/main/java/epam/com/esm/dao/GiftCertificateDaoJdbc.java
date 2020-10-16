@@ -3,21 +3,24 @@ package epam.com.esm.dao;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.simpleflatmapper.jdbc.spring.JdbcTemplateMapperFactory;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GiftCertificateDaoJdbc implements GiftCertificateDao {
 
+    //todo fix sql
     private static final String SQL_SELECT_ALL_CERTIFICATES = "SELECT id, name, description, create_date, last_update_date," +
             " price, duration FROM gift_certificate;";
     private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO gift_certificate (name, description, price, duration)" +
@@ -56,6 +59,55 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     private final RowMapper<GiftCertificate> giftCertificateRowMapper =
             JdbcTemplateMapperFactory.newInstance().newRowMapper(GiftCertificate.class);
 
+//    private final RowMapper<GiftCertificate> giftCertificateRowMapperSimple = (resultSet, i) -> GiftCertificate.builder()
+//            .id(resultSet.getLong("id"))
+//            .name(resultSet.getString("name"))
+//            .description(resultSet.getString("description"))
+//            .price(resultSet.getBigDecimal("price"))
+//            .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("create_date").getTime())
+//                    .atZone(ZoneId.systemDefault())
+//                    .toLocalDateTime()))
+//            .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("last_update_date").getTime())
+//                    .atZone(ZoneId.systemDefault())
+//                    .toLocalDateTime()))
+//            .duration(resultSet.getInt("duration"))
+//            .build();
+
+    private final ResultSetExtractor<List<GiftCertificate>> resultSetExtractor = resultSet -> {
+        Map<Long, GiftCertificate> giftCertificateMap = new HashMap<>();
+        Long id = 0L;
+        while (resultSet.next()) {
+            if (!giftCertificateMap.containsKey(id)) {
+                id = resultSet.getLong("id");
+                GiftCertificate certificate = GiftCertificate.builder()
+                        .id(resultSet.getLong("id"))
+                        .name(resultSet.getString("name"))
+                        .description(resultSet.getString("description"))
+                        .price(resultSet.getBigDecimal("price"))
+                        .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("create_date").getTime())
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDateTime()))
+                        .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("last_update_date").getTime())
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDateTime()))
+                        .duration(resultSet.getInt("duration"))
+                        .tags(new ArrayList<>())
+                        .build();
+                giftCertificateMap.put(id, certificate);
+            }
+            Tag tag = Tag.builder()
+                    .id(resultSet.getLong("tag_id"))
+                    .name(resultSet.getString("tag_name"))
+                    .build();
+            giftCertificateMap.get(id).getTags().add(tag);
+        }
+        List<GiftCertificate> result = new ArrayList<>();
+        result.add(giftCertificateMap.get(id));
+        return result;
+    };
+
+
+
     @Override
     public Optional<GiftCertificate> find(Long id) {
         Map<String, Object> params = new HashMap<>();
@@ -76,7 +128,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
                 .addValue("duration", model.getDuration());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(SQL_INSERT_GIFT_CERTIFICATE, parameters, keyHolder, new String[] { "id" });
+        namedParameterJdbcTemplate.update(SQL_INSERT_GIFT_CERTIFICATE, parameters, keyHolder, new String[]{"id"});
         if (keyHolder.getKey() == null) {
             throw new NoSuchElementException("Saving certificate failed, no ID obtained.");
         } else {
@@ -114,7 +166,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     public List<GiftCertificate> getCertificatesByTagName(String tagName) {
         Map<String, Object> params = new HashMap<>();
         params.put("tag_name", tagName);
-        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_TAG_NAME, params, giftCertificateRowMapper);
+        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_TAG_NAME, params, resultSetExtractor);
     }
 
     @Override
@@ -122,7 +174,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         Map<String, Object> params = new HashMap<>();
         partOfName = "%" + partOfName + "%";
         params.put("part_name", partOfName);
-        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_PART_OF_NAME, params, giftCertificateRowMapper);
+        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_PART_OF_NAME, params, resultSetExtractor);
     }
 
     @Override
@@ -130,7 +182,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         Map<String, Object> params = new HashMap<>();
         partOfDescription = "%" + partOfDescription + "%";
         params.put("part_description", partOfDescription);
-        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_PART_OF_DESCRIPTION, params, giftCertificateRowMapper);
+        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_PART_OF_DESCRIPTION, params, resultSetExtractor);
 
     }
 }
