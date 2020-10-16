@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.util.Assert;
-
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class TagDaoJdbcTest {
 
@@ -37,7 +37,7 @@ class TagDaoJdbcTest {
     @Test
     void shouldFindAllTags() {
         List<Tag> tags = tagCrudDAO.findAll();
-        Assert.notEmpty(tags);
+        assertFalse(tags.isEmpty());
         System.out.println(tags);
 
     }
@@ -46,7 +46,7 @@ class TagDaoJdbcTest {
     void shouldFindTagById() {
         Optional<Tag> tag = tagCrudDAO.find(1L);
         System.out.println(tag);
-        Assert.isTrue(tag.isPresent());
+        assertTrue(tag.isPresent());
 
     }
 
@@ -58,10 +58,10 @@ class TagDaoJdbcTest {
 
         Long id = tagCrudDAO.save(tag);
         System.out.println("Current id: " + id);
-        Assert.isTrue(tagCrudDAO.find(id).isPresent());
+        assertTrue(tagCrudDAO.find(id).isPresent());
 
         tagCrudDAO.delete(id);
-        Assert.isTrue(!tagCrudDAO.find(id).isPresent());
+        assertTrue(!tagCrudDAO.find(id).isPresent());
     }
 
     @Test
