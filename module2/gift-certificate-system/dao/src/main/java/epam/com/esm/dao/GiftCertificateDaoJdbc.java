@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -101,11 +102,16 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
                     .build();
             giftCertificateMap.get(id).getTags().add(tag);
         }
-        List<GiftCertificate> result = new ArrayList<>();
-        result.add(giftCertificateMap.get(id));
-        return result;
-    };
 
+        List<GiftCertificate> result;
+        if (!giftCertificateMap.isEmpty()) {
+            result = new ArrayList<>();
+            result.add(giftCertificateMap.get(id));
+            return result;
+        } else {
+            throw new NoSuchElementException("The element not found");
+        }
+    };
 
 
     @Override
