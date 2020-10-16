@@ -18,5 +18,5 @@ public interface GiftCertificateService {
     void addTagToCertificate(Long certificateId, Long tagId);
     void removeTagFromCertificate(Long certificateId, Long tagId);
 
-    void sortCertificateByParameter(String...parameters);
+    void sortCertificateByParameters(String...parameters);
 }

@@ -48,6 +48,7 @@ class GiftCertificateDaoJdbcTest {
     void shouldFindAllCertificates() {
         List<GiftCertificate> giftCertificates = certificateCrudDAO.findAll();
         assertFalse(giftCertificates.isEmpty());
+        System.out.println(giftCertificates.size());
         System.out.println(giftCertificates);
 
     }
@@ -110,7 +111,7 @@ class GiftCertificateDaoJdbcTest {
 
     @Test
     void shouldFindCertificateByTagName() {
-        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByTagName("Tag 2");
+        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByTagName("Tag 3");
         assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
     }
