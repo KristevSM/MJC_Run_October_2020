@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class GiftCertificate implements Serializable {
 
+    private static final long serialVersionUID = -1L;
     private Long id;
     private String name;
     private String description;
@@ -22,6 +23,7 @@ public class GiftCertificate implements Serializable {
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
     private int duration;
+    private List<Tag> tags;
 
 
 }
