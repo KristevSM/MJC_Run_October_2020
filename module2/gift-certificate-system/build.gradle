@@ -62,6 +62,8 @@ project(':dao') {
         // https://mvnrepository.com/artifact/mysql/mysql-connector-java
         compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
 
+        implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
+
 
         compile project(':model')
 

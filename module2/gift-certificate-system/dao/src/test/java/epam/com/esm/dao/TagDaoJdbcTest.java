@@ -4,35 +4,30 @@ import com.epam.esm.model.Tag;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.util.Assert;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
 class TagDaoJdbcTest {
 
-    //    private DataSource dataSource;
-    private DriverManagerDataSource dataSource;
+    private DataSource dataSource;
     private EmbeddedDatabase db;
     private TagDao tagCrudDAO;
 
     @BeforeEach
     void setUp() {
 
-//        dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-//                .generateUniqueName(true)
-//                .addScript("classpath:schema.sql")
-//                .addScript("classpath:create_table.sql")
-//                .addScript("classpath:data_script.sql")
-//                .build();
-
-        dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUsername("gift_service_admin");
-        dataSource.setPassword("gift");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/gift_certificate_service");
+        dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+                .generateUniqueName(true)
+                .addScript("classpath:schema.sql")
+                .addScript("classpath:create_table.sql")
+                .addScript("classpath:data_script.sql")
+                .build();
 
         tagCrudDAO = new TagDaoJdbc(dataSource);
     }
