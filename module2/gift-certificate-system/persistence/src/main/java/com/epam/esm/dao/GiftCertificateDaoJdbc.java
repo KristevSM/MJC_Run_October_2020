@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.time.Instant;
@@ -16,11 +17,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
+@Repository
 public class GiftCertificateDaoJdbc implements GiftCertificateDao {
 
-    //todo fix sql
-    private static final String SQL_SELECT_ALL_CERTIFICATES = "SELECT id, name, description, create_date, last_update_date," +
-            " price, duration FROM gift_certificate;";
+    private static final String SQL_SELECT_ALL_CERTIFICATES = "SELECT gift_certificate.id, gift_certificate.name, description, \n" +
+            "price, create_date, last_update_date, duration, tag.id as tag_id, tag.name as tag_name \n" +
+            "FROM gift_certificate \n" +
+            "left JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
+            "left JOIN tag on (tag.id=tag_has_gift_certificate.tag_id);";
     private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO gift_certificate (name, description, price, duration)" +
             " VALUES (:name, :description, :price, :duration);";
     private static final String SQL_SELECT_BY_ID = "SELECT gift_certificate.id, gift_certificate.name, \n" +
@@ -82,7 +86,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         Map<Long, GiftCertificate> giftCertificateMap = new HashMap<>();
         Long id = 0L;
         while (resultSet.next()) {
-            if (!giftCertificateMap.containsKey(id)) {
+            if (!giftCertificateMap.containsKey(resultSet.getLong("id"))) {
                 id = resultSet.getLong("id");
                 GiftCertificate certificate = GiftCertificate.builder()
                         .id(resultSet.getLong("id"))
@@ -92,7 +96,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
                         .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("create_date").getTime())
                                 .atZone(ZoneId.systemDefault())
                                 .toLocalDateTime()))
-                        .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("last_update_date").getTime())
+                        .lastUpdateDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("last_update_date").getTime())
                                 .atZone(ZoneId.systemDefault())
                                 .toLocalDateTime()))
                         .duration(resultSet.getInt("duration"))
@@ -109,8 +113,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
 
         List<GiftCertificate> result;
         if (!giftCertificateMap.isEmpty()) {
-            result = new ArrayList<>();
-            result.add(giftCertificateMap.get(id));
+            result = new ArrayList<>(giftCertificateMap.values());
             return result;
         } else {
             throw new NoSuchElementException("The element not found");
@@ -169,7 +172,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
 
     @Override
     public List<GiftCertificate> findAll() {
-        return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_CERTIFICATES, giftCertificateRowMapper);
+        return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_CERTIFICATES, resultSetExtractor);
     }
 
     @Override
