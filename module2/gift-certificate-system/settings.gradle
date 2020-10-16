@@ -1,7 +1,10 @@
 rootProject.name = 'gift-certificate-system'
-include 'model'
-include 'dao'
+include 'persistence'
+include 'service'
+include 'web'
 
-project(':model').projectDir = new File(settingsDir, '/model')
-project(':dao').projectDir = new File(settingsDir, '/dao')
+project(':persistence').projectDir = new File(settingsDir, '/persistence')
+project(':service').projectDir = new File(settingsDir, '/service')
+project(':web').projectDir = new File(settingsDir, '/web')
+
 
