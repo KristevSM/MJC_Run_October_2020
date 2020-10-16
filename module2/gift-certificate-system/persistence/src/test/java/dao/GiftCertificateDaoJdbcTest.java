@@ -2,22 +2,23 @@ package dao;
 
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.GiftCertificateDaoJdbc;
+import com.epam.esm.dao.TagDaoJdbc;
 import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.model.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.util.Assert;
-
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class GiftCertificateDaoJdbcTest {
@@ -26,6 +27,7 @@ class GiftCertificateDaoJdbcTest {
 //    private DriverManagerDataSource dataSource;
     private EmbeddedDatabase db;
     private GiftCertificateDao certificateCrudDAO;
+    private TagDaoJdbc tagDaoJdbc;
 
     @BeforeEach
     void setUp() {
@@ -37,6 +39,7 @@ class GiftCertificateDaoJdbcTest {
                 .addScript("classpath:data_script.sql")
                 .build();
         certificateCrudDAO = new GiftCertificateDaoJdbc(dataSource);
+        tagDaoJdbc = new TagDaoJdbc(dataSource);
     }
 
 
@@ -44,7 +47,7 @@ class GiftCertificateDaoJdbcTest {
     @Test
     void shouldFindAllCertificates() {
         List<GiftCertificate> giftCertificates = certificateCrudDAO.findAll();
-        Assert.notEmpty(giftCertificates);
+        assertFalse(giftCertificates.isEmpty());
         System.out.println(giftCertificates);
 
     }
@@ -53,7 +56,7 @@ class GiftCertificateDaoJdbcTest {
     void shouldFindCertificateById() {
         Optional<GiftCertificate> giftCertificate = certificateCrudDAO.find(1L);
         System.out.println(giftCertificate);
-        Assert.isTrue(giftCertificate.isPresent());
+        assertTrue(giftCertificate.isPresent());
 
     }
 
@@ -83,43 +86,50 @@ class GiftCertificateDaoJdbcTest {
                 .price(BigDecimal.valueOf(100D))
                 .createDate(LocalDateTime.now())
                 .duration(6)
+                .tags(new ArrayList<>())
                 .build();
 
         Long id = certificateCrudDAO.save(certificate);
-        System.out.println("Current id: " + id);
-        Assert.isTrue(certificateCrudDAO.find(id).isPresent());
+        Tag tag = Tag.builder()
+                .id(2L)
+                .name("Tag 2")
+                .build();
 
+        Long tagId = tagDaoJdbc.save(tag);
+        certificateCrudDAO.addTagToCertificate(id, tagId);
+        System.out.println("Current id: " + id);
+        assertTrue(certificateCrudDAO.find(id).isPresent());
+
+        certificateCrudDAO.removeTagFromCertificate(id, tagId);
         certificateCrudDAO.delete(id);
-        Assert.isTrue(!certificateCrudDAO.find(id).isPresent());
+        tagDaoJdbc.delete(tagId);
+        assertThrows(NoSuchElementException.class, () -> {
+            certificateCrudDAO.find(id);
+        });
     }
 
     @Test
     void shouldFindCertificateByTagName() {
         List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByTagName("Tag 2");
-        Assert.isTrue(giftCertificates.size() == 1);
+        assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
     }
 
     @Test
     void shouldFindCertificateByPartOfDescription() {
         List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByPartOfDescription("certificate 2");
-        Assert.isTrue(giftCertificates.size() == 1);
+        assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
     }
 
     @Test
     void shouldFindCertificateByPartOfName() {
         List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByPartOfName("2");
-        Assert.isTrue(giftCertificates.size() == 1);
+        assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
         assertThrows(NoSuchElementException.class, () -> {
             certificateCrudDAO.getCertificatesByPartOfName("2f");
         });
     }
-
-//    @AfterEach
-//    void tearDown() {
-//        db.shutdown();
-//    }
 
 }
