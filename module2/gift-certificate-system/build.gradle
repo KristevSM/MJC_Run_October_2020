@@ -40,17 +40,7 @@ subprojects {
 
 }
 
-project(':model') {
-    dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.14'
-        annotationProcessor 'org.projectlombok:lombok:1.18.14'
-
-        testCompileOnly 'org.projectlombok:lombok:1.18.14'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
-    }
-}
-
-project(':dao') {
+project(':persistence') {
     dependencies {
 
         // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
@@ -64,9 +54,24 @@ project(':dao') {
 
         implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
 
+        compileOnly 'org.projectlombok:lombok:1.18.14'
+        annotationProcessor 'org.projectlombok:lombok:1.18.14'
 
-        compile project(':model')
+        testCompileOnly 'org.projectlombok:lombok:1.18.14'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
 
+    }
+}
+
+project(':service') {
+    dependencies {
+        compile project(':persistence')
+    }
+}
+
+project(':web') {
+    dependencies {
+        compile project(':service')
     }
 }
 
