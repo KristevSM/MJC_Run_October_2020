@@ -46,7 +46,7 @@ public class TagDaoJdbc implements TagDao {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", model.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(SQL_INSERT_TAG, parameters, keyHolder);
+        namedParameterJdbcTemplate.update(SQL_INSERT_TAG, parameters, keyHolder, new String[] { "id" });
         if (keyHolder.getKey() == null) {
             throw new NoSuchElementException("Saving tag failed, no ID obtained.");
         } else {
