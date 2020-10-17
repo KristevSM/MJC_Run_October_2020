@@ -93,7 +93,7 @@ class GiftCertificateDaoJdbcTest {
         Long id = certificateCrudDAO.save(certificate);
         Tag tag = Tag.builder()
                 .id(2L)
-                .name("Tag 2")
+                .name("Tag 4")
                 .build();
 
         Long tagId = tagDaoJdbc.save(tag);
