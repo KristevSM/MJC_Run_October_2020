@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,7 +29,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public Optional<GiftCertificate> findCertificateById(Long id) {
-        return Optional.empty();
+        return giftCertificateDao.find(id);
     }
 
     @Override
