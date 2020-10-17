@@ -1,11 +1,11 @@
 
 CREATE TABLE tag (
-                     id bigint(10) NOT NULL AUTO_INCREMENT,
-                     name varchar(40) NOT NULL,
+                     id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
+                     name varchar(40) NOT NULL UNIQUE,
                      PRIMARY KEY (id));
 
 CREATE TABLE gift_certificate (
-                                  id bigint(10) NOT NULL AUTO_INCREMENT,
+                                  id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
                                   name varchar(40) NOT NULL,
                                   description varchar(250) NOT NULL,
                                   price DECIMAL(12,2) NOT NULL,
