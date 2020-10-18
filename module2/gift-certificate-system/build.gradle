@@ -29,6 +29,16 @@ subprojects {
 
         testCompileOnly 'org.projectlombok:lombok:1.18.14'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
+
+        // https://mvnrepository.com/artifact/org.springframework/spring-test
+        testCompile group: 'org.springframework', name: 'spring-test', version: '5.2.9.RELEASE'
+
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+        compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.11.3'
+
+
     }
 
     test {
@@ -73,16 +83,19 @@ project(':web') {
     dependencies {
         // https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp
         compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2'
+
         compile project(':service')
+
         // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
         providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
-        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
-        compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.3'
-        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
+//        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+//        compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
+
         // https://mvnrepository.com/artifact/javax.validation/validation-api
         compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 
+        // https://mvnrepository.com/artifact/com.github.java-json-tools/json-patch
+        compile group: 'com.github.java-json-tools', name: 'json-patch', version: '1.13'
 
     }
 }

@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface TagDao extends CrudDAO<Tag> {
     Optional<Tag> findByTagName(String tagName);
-    void assignDefaultTag(Long tagId, Long certificateId);
+    void assignTag(Long tagId, Long certificateId);
 }

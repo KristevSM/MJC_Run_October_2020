@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface GiftCertificateService {
 
     List<GiftCertificate> findAllCertificates();
-    Optional<GiftCertificate> findCertificateById(Long id);
+    GiftCertificate findCertificateById(Long id);
     Long saveCertificate(GiftCertificate giftCertificate);
     void updateCertificate(GiftCertificate giftCertificate);
     void deleteCertificate(Long id);
