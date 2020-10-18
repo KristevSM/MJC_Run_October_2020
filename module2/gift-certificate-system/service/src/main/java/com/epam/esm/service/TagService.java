@@ -11,4 +11,5 @@ public interface TagService {
     Long saveTag(Tag tag);
     void updateTag(Tag tag);
     void deleteTag(Long id);
+    void assignDefaultTag(String tagName, Long certificateId);
 }
