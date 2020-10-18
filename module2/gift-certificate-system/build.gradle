@@ -23,6 +23,12 @@ subprojects {
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
+
+        compileOnly 'org.projectlombok:lombok:1.18.14'
+        annotationProcessor 'org.projectlombok:lombok:1.18.14'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.14'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
     }
 
     test {
@@ -53,12 +59,6 @@ project(':persistence') {
         compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
 
         implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
-
-        compileOnly 'org.projectlombok:lombok:1.18.14'
-        annotationProcessor 'org.projectlombok:lombok:1.18.14'
-
-        testCompileOnly 'org.projectlombok:lombok:1.18.14'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
 
     }
 }
