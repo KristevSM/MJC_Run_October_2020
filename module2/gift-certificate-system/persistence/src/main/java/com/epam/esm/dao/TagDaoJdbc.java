@@ -20,6 +20,9 @@ public class TagDaoJdbc implements TagDao {
     private static final String SQL_SELECT_BY_ID = "SELECT id, name FROM tag WHERE id = :id;";
     private static final String SQL_UPDATE_TAG = "UPDATE tag SET name = :name WHERE (id = :id);";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM tag WHERE (id = :id);";
+    private static final String SQL_SELECT_BY_TAG_NAME = "SELECT id, name FROM tag WHERE name = :name;";
+    private static final String SQL_ASSIGN_DEFAULT_TAG = "INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) " +
+            "VALUES (:tag_id, :gift_certificate_id)";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -49,7 +52,7 @@ public class TagDaoJdbc implements TagDao {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", model.getName());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(SQL_INSERT_TAG, parameters, keyHolder, new String[] { "id" });
+        namedParameterJdbcTemplate.update(SQL_INSERT_TAG, parameters, keyHolder, new String[]{"id"});
         if (keyHolder.getKey() == null) {
             throw new NoSuchElementException("Saving tag failed, no ID obtained.");
         } else {
@@ -75,5 +78,25 @@ public class TagDaoJdbc implements TagDao {
     @Override
     public List<Tag> findAll() {
         return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_TAGS, tagRowMapper);
+    }
+
+    @Override
+    public Optional<Tag> findByTagName(String tagName) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", tagName);
+        List<Tag> result = namedParameterJdbcTemplate.query(SQL_SELECT_BY_TAG_NAME, params, tagRowMapper);
+
+        if (result.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(result.get(0));
+    }
+
+    @Override
+    public void assignDefaultTag(Long tagId, Long certificateId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("tag_id", tagId);
+        params.put("gift_certificate_id", certificateId);
+        namedParameterJdbcTemplate.update(SQL_ASSIGN_DEFAULT_TAG, params);
     }
 }

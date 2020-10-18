@@ -3,7 +3,7 @@ INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Certi
 INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Certificate 3', 'Description of certificate 3', '65.5', '12');
 
 
-INSERT INTO tag (name) VALUES ('Tag 1');
+INSERT INTO tag (name) VALUES ('Main');
 INSERT INTO tag (name) VALUES ('Tag 2');
 INSERT INTO tag (name) VALUES ('Tag 3');
 

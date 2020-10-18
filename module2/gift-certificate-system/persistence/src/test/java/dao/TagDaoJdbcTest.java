@@ -77,6 +77,14 @@ class TagDaoJdbcTest {
         System.out.println(updatedTag);
 
     }
+
+    @Test
+    void shouldFindTagName() {
+        Optional<Tag> tag = tagCrudDAO.findByTagName("Main");
+        System.out.println(tag);
+        assertTrue(tag.isPresent());
+
+    }
 //    @AfterEach
 //    void tearDown() {
 //        db.shutdown();
