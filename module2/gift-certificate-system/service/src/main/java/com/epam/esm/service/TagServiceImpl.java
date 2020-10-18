@@ -21,12 +21,14 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> findAllTags() {
-        return null;
+
+        return tagDao.findAll();
     }
 
     @Override
-    public Optional<Tag> findTagById(Long id) {
-        return Optional.empty();
+    public Tag findTagById(Long id) {
+
+        return tagDao.find(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -36,7 +38,12 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void updateTag(Tag tag) {
+        tagDao.update(tag);
+    }
 
+    @Override
+    public void assignTag(Long tagId, Long certificateId) {
+        tagDao.assignTag(tagId, certificateId);
     }
 
     @Override
@@ -51,7 +58,7 @@ public class TagServiceImpl implements TagService {
             throw new NoSuchElementException("The tag not found");
         } else {
             Tag currentTag = tag.get();
-            tagDao.assignDefaultTag(currentTag.getId(), certificateId);
+            tagDao.assignTag(currentTag.getId(), certificateId);
         }
     }
 }
