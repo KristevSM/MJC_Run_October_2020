@@ -30,9 +30,6 @@ public class GiftCertificateValidator implements Validator {
                 && giftCertificate.getPrice().doubleValue() < 0) {
             errors.rejectValue("price", "giftCertificatePrice.negative");
         }
-        if (giftCertificate.getCreateDate() == null) {
-            errors.rejectValue("createDate", "giftCertificateCreateDate.isNotSet");
-        }
         if (giftCertificate.getCreateDate() != null && giftCertificate.getLastUpdateDate() != null
                 && giftCertificate.getLastUpdateDate().isBefore(giftCertificate.getCreateDate())) {
             errors.rejectValue("lastUpdateDate", "giftCertificateLastUpdateDate.beforeCreating");
