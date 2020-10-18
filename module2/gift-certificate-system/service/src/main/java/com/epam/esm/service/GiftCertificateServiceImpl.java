@@ -3,10 +3,12 @@ package com.epam.esm.service;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -27,19 +29,23 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public Optional<GiftCertificate> findCertificateById(Long id) {
-        return giftCertificateDao.find(id);
+    public GiftCertificate findCertificateById(Long id) {
+        return giftCertificateDao.find(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     public Long saveCertificate(GiftCertificate giftCertificate) {
         //todo if tag == null -> assign default tag
+
         return giftCertificateDao.save(giftCertificate);
     }
 
     @Override
     public void updateCertificate(GiftCertificate giftCertificate) {
+        List<Tag> tags = giftCertificate.getTags();
 
+        tags.forEach(tag -> tagDao.assignTag(tag.getId(), giftCertificate.getId()));
+        giftCertificateDao.update(giftCertificate);
     }
 
     @Override
@@ -69,7 +75,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public void removeTagFromCertificate(Long certificateId, Long tagId) {
-
+            giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
     }
 
     @Override

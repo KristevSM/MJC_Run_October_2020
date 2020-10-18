@@ -93,7 +93,7 @@ public class TagDaoJdbc implements TagDao {
     }
 
     @Override
-    public void assignDefaultTag(Long tagId, Long certificateId) {
+    public void assignTag(Long tagId, Long certificateId) {
         Map<String, Object> params = new HashMap<>();
         params.put("tag_id", tagId);
         params.put("gift_certificate_id", certificateId);
