@@ -3,6 +3,7 @@ package dao;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.GiftCertificateDaoJdbc;
 import com.epam.esm.dao.TagDaoJdbc;
+import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,6 +70,7 @@ class GiftCertificateDaoJdbcTest {
                 .description("Some description")
                 .price(BigDecimal.valueOf(120L))
                 .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
                 .duration(4)
                 .build();
 
@@ -86,6 +88,7 @@ class GiftCertificateDaoJdbcTest {
                 .description("Some description")
                 .price(BigDecimal.valueOf(100D))
                 .createDate(LocalDateTime.now())
+                .lastUpdateDate(LocalDateTime.now())
                 .duration(6)
                 .tags(new ArrayList<>())
                 .build();
@@ -104,7 +107,7 @@ class GiftCertificateDaoJdbcTest {
         certificateCrudDAO.removeTagFromCertificate(id, tagId);
         certificateCrudDAO.delete(id);
         tagDaoJdbc.delete(tagId);
-        assertThrows(NoSuchElementException.class, () -> {
+        assertThrows(GiftCertificateNotFoundException.class, () -> {
             certificateCrudDAO.find(id);
         });
     }
@@ -128,7 +131,7 @@ class GiftCertificateDaoJdbcTest {
         List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByPartOfName("2");
         assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
-        assertThrows(NoSuchElementException.class, () -> {
+        assertThrows(GiftCertificateNotFoundException.class, () -> {
             certificateCrudDAO.getCertificatesByPartOfName("2f");
         });
     }

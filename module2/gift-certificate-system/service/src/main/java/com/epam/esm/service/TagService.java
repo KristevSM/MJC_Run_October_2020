@@ -2,7 +2,6 @@ package com.epam.esm.service;
 
 import com.epam.esm.model.Tag;
 import java.util.List;
-import java.util.Optional;
 
 public interface TagService {
 
@@ -12,5 +11,6 @@ public interface TagService {
     void updateTag(Tag tag);
     void deleteTag(Long id);
     void assignDefaultTag(String tagName, Long certificateId);
+    void addNewTagAndCertificate(String tagName, Long certificateId);
     void assignTag(Long tagId, Long certificateId);
 }
