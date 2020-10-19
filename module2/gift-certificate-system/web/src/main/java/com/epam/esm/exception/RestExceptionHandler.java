@@ -13,6 +13,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -22,6 +23,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Internal exception", ex);
         return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
@@ -55,6 +57,24 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()));
         apiError.setDebugMessage(ex.getMessage());
         return new ResponseEntity<>(apiError, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(GiftCertificateNotFoundException.class)
+    protected ResponseEntity<Object> handleGiftCertificateNotFound(GiftCertificateNotFoundException ex,
+                                                                      WebRequest request) {
+        ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, NOT_FOUND);
+    }
+
+    @ExceptionHandler(TagNotFoundException.class)
+    protected ResponseEntity<Object> handleTagNotFound(GiftCertificateNotFoundException ex,
+                                                                   WebRequest request) {
+        ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, NOT_FOUND);
     }
 
 
