@@ -38,6 +38,17 @@ subprojects {
         // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
         compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.11.3'
 
+        // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+        compile group: 'org.springframework', name: 'spring-jdbc', version: '5.2.9.RELEASE'
+
+        // https://mvnrepository.com/artifact/com.h2database/h2
+        testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
+
+        // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+        compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+
+        implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
+
 
     }
 
@@ -59,16 +70,6 @@ subprojects {
 project(':persistence') {
     dependencies {
 
-        // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
-        compile group: 'org.springframework', name: 'spring-jdbc', version: '5.2.9.RELEASE'
-
-        // https://mvnrepository.com/artifact/com.h2database/h2
-        testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
-
-        // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-        compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
-
-        implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
 
     }
 }
