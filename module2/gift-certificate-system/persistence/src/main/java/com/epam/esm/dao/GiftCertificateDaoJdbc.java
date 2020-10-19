@@ -24,8 +24,8 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
             "FROM gift_certificate \n" +
             "left JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
             "left JOIN tag on (tag.id=tag_has_gift_certificate.tag_id);";
-    private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO gift_certificate (name, description, price, duration)" +
-            " VALUES (:name, :description, :price, :duration);";
+    private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO gift_certificate (name, description, price, duration, create_date, last_update_date)" +
+            " VALUES (:name, :description, :price, :duration, :createDate, :lastUpdateDate);";
     private static final String SQL_SELECT_BY_ID = "SELECT gift_certificate.id, gift_certificate.name, \n" +
             "            description, price, create_date, \n" +
             "            last_update_date, duration, tag.id as tag_id, tag.name as tag_name\n" +
@@ -33,7 +33,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
             "            JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
             "            JOIN tag on (tag.id=tag_has_gift_certificate.tag_id) where gift_certificate.id = :id;";
     private static final String SQL_UPDATE_GIFT_CERTIFICATE = "UPDATE gift_certificate SET name = :name, description = :description," +
-            " price = :price, create_date = :createDate WHERE (id = :id);";
+            " price = :price, create_date = :createDate, last_update_date = :lastUpdateDate WHERE (id = :id);";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM gift_certificate WHERE (id = :id);";
     private static final String SQL_SELECT_CERTIFICATES_BY_TAG_NAME = "SELECT gift_certificate.id, gift_certificate.name, " +
             "description, price, create_date, \n" +
@@ -120,12 +120,14 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("name", model.getName())
                 .addValue("description", model.getDescription())
                 .addValue("price", model.getPrice())
+                .addValue("createDate", model.getCreateDate())
+                .addValue("lastUpdateDate", model.getLastUpdateDate())
                 .addValue("duration", model.getDuration());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(SQL_INSERT_GIFT_CERTIFICATE, parameters, keyHolder, new String[]{"id"});
         if (keyHolder.getKey() == null) {
-            throw new NoSuchElementException("Saving certificate failed, no ID obtained.");
+            throw new IllegalArgumentException("Saving certificate failed, no ID obtained.");
         } else {
             return keyHolder.getKey().longValue();
         }
@@ -139,7 +141,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         params.put("description", model.getDescription());
         params.put("price", model.getPrice());
         params.put("createDate", model.getCreateDate());
-        params.put("lastUpdateDate", LocalDateTime.now());
+        params.put("lastUpdateDate", model.getLastUpdateDate());
         params.put("duration", model.getDuration());
         namedParameterJdbcTemplate.update(SQL_UPDATE_GIFT_CERTIFICATE, params);
     }
@@ -196,4 +198,6 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         params.put("tag_id", tagId);
         namedParameterJdbcTemplate.update(SQL_REMOVE_TAG_FROM_CERTIFICATE, params);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag findTagById(Long id) {
 
-        return tagDao.find(id).orElseThrow(NoSuchElementException::new);
+        return tagDao.find(id).orElseThrow(TagNotFoundException::new);
     }
 
     @Override
@@ -59,6 +60,17 @@ public class TagServiceImpl implements TagService {
         } else {
             Tag currentTag = tag.get();
             tagDao.assignTag(currentTag.getId(), certificateId);
+        }
+    }
+
+    @Override
+    public void addNewTagAndCertificate(String tagName, Long certificateId) {
+        Optional<Tag> tag = tagDao.findByTagName(tagName);
+        if (!tag.isPresent()) {
+            throw new NoSuchElementException("The tag not found");
+        } else {
+            Tag currentTag = tag.get();
+            tagDao.addNewTagAndToCertificate(currentTag.getId(), certificateId);
         }
     }
 }

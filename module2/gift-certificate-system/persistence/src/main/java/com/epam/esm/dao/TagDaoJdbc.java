@@ -25,6 +25,10 @@ public class TagDaoJdbc implements TagDao {
             "VALUES (:tag_id, :gift_certificate_id)";
     private static final String SQL_ASSIGN_NEW_TAG_TO_CERTIFICATE = "UPDATE tag_has_gift_certificate" +
             " SET tag_id = :tag_id WHERE (tag_id = :tag_id) and (gift_certificate_id = :gift_certificate_id);";
+    private static final String SQL_ADD_NEW_TAG_AND_CERTIFICATE = "INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) " +
+            "VALUES (:tag_id, :gift_certificate_id);";
+    private static final String SQL_REMOVE_TAG_AND_CERTIFICATE = "DELETE FROM tag_has_gift_certificate WHERE (tag_id = :tag_id) " +
+            "and (gift_certificate_id = :gift_certificate_id);";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -56,7 +60,7 @@ public class TagDaoJdbc implements TagDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(SQL_INSERT_TAG, parameters, keyHolder, new String[]{"id"});
         if (keyHolder.getKey() == null) {
-            throw new NoSuchElementException("Saving tag failed, no ID obtained.");
+            throw new IllegalArgumentException("Saving tag failed, no ID obtained.");
         } else {
             return keyHolder.getKey().longValue();
         }
@@ -110,5 +114,21 @@ public class TagDaoJdbc implements TagDao {
         params.put("tag_id", tagId);
         params.put("gift_certificate_id", certificateId);
         namedParameterJdbcTemplate.update(SQL_ASSIGN_NEW_TAG_TO_CERTIFICATE, params);
+    }
+
+    @Override
+    public void removeTagAndCertificate(Long tagId, Long certificateId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("tag_id", tagId);
+        params.put("gift_certificate_id", certificateId);
+        namedParameterJdbcTemplate.update(SQL_REMOVE_TAG_AND_CERTIFICATE, params);
+    }
+
+    @Override
+    public void addNewTagAndToCertificate(Long tagId, Long certificateId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("tag_id", tagId);
+        params.put("gift_certificate_id", certificateId);
+        namedParameterJdbcTemplate.update(SQL_ADD_NEW_TAG_AND_CERTIFICATE, params);
     }
 }

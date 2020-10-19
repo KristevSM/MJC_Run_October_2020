@@ -8,8 +8,9 @@ import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
@@ -35,8 +36,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public Long saveCertificate(GiftCertificate giftCertificate) {
-        //todo if tag == null -> assign default tag
-
         return giftCertificateDao.save(giftCertificate);
     }
 
@@ -45,37 +44,44 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         List<Tag> tags = giftCertificate.getTags();
 
         tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
+        giftCertificate.setLastUpdateDate(LocalDateTime.now());
         giftCertificateDao.update(giftCertificate);
     }
 
     @Override
     public void deleteCertificate(Long id) {
-
+        Optional<GiftCertificate> certificate = giftCertificateDao.find(id);
+        if (certificate.isPresent()) {
+            GiftCertificate giftCertificate = certificate.get();
+            giftCertificate.getTags().forEach(tag -> tagDao.removeTagAndCertificate(tag.getId(), id));
+        } else {
+            throw new GiftCertificateNotFoundException("Gift certificate with id: " + id + " not found");
+        }
     }
 
     @Override
     public List<GiftCertificate> getCertificatesByTagName(String tagName) {
-        return null;
+        return giftCertificateDao.getCertificatesByTagName(tagName);
     }
 
     @Override
     public List<GiftCertificate> getCertificatesByPartOfName(String partOfName) {
-        return null;
+        return giftCertificateDao.getCertificatesByPartOfName(partOfName);
     }
 
     @Override
     public List<GiftCertificate> getCertificatesByPartOfDescription(String partOfDescription) {
-        return null;
+        return giftCertificateDao.getCertificatesByPartOfDescription(partOfDescription);
     }
 
     @Override
     public void addTagToCertificate(Long certificateId, Long tagId) {
-
+        tagDao.addNewTagAndToCertificate(tagId, certificateId);
     }
 
     @Override
     public void removeTagFromCertificate(Long certificateId, Long tagId) {
-            giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
+        giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
     }
 
     @Override
