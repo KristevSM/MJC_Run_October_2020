@@ -1,10 +1,9 @@
 package com.epam.esm.dao;
 
+import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
-import org.simpleflatmapper.jdbc.spring.JdbcTemplateMapperFactory;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -65,23 +64,6 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    private final RowMapper<GiftCertificate> giftCertificateRowMapper =
-            JdbcTemplateMapperFactory.newInstance().newRowMapper(GiftCertificate.class);
-
-//    private final RowMapper<GiftCertificate> giftCertificateRowMapperSimple = (resultSet, i) -> GiftCertificate.builder()
-//            .id(resultSet.getLong("id"))
-//            .name(resultSet.getString("name"))
-//            .description(resultSet.getString("description"))
-//            .price(resultSet.getBigDecimal("price"))
-//            .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("create_date").getTime())
-//                    .atZone(ZoneId.systemDefault())
-//                    .toLocalDateTime()))
-//            .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("last_update_date").getTime())
-//                    .atZone(ZoneId.systemDefault())
-//                    .toLocalDateTime()))
-//            .duration(resultSet.getInt("duration"))
-//            .build();
-
     private final ResultSetExtractor<List<GiftCertificate>> resultSetExtractor = resultSet -> {
         Map<Long, GiftCertificate> giftCertificateMap = new HashMap<>();
         Long id = 0L;
@@ -116,7 +98,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
             result = new ArrayList<>(giftCertificateMap.values());
             return result;
         } else {
-            throw new NoSuchElementException("The element not found");
+            throw new GiftCertificateNotFoundException("The gift certificate not found");
         }
     };
 
