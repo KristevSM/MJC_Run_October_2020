@@ -7,7 +7,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,8 +27,8 @@ class GiftCertificateValidatorTest {
                 .name("New certificate")
                 .description("Some description")
                 .price(BigDecimal.valueOf(100D))
-                .createDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now())
+                .createDate(ZonedDateTime.now())
+                .lastUpdateDate(ZonedDateTime.now())
                 .duration(6)
                 .tags(new ArrayList<>())
                 .build();
@@ -45,8 +45,8 @@ class GiftCertificateValidatorTest {
                         "kfwviqrdqaknxwglxsyfmbxxxafskegeerxbejftfhdxsgyngbetifcvyvluxklbonj\n" +
                         "\n")
                 .price(BigDecimal.valueOf(-1D))
-                .createDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now().minusDays(1))
+                .createDate(ZonedDateTime.now())
+                .lastUpdateDate(ZonedDateTime.now().minusDays(1))
                 .duration(-6)
                 .build();
 
