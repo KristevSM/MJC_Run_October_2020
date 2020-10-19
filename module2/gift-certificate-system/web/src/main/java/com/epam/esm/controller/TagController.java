@@ -45,6 +45,7 @@ public class TagController {
             JsonPatch patch, Tag targetTag) throws JsonPatchException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+
         JsonNode patched = patch.apply(objectMapper.convertValue(targetTag, JsonNode.class));
         return objectMapper.treeToValue(patched, Tag.class);
     }

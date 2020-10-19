@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,7 @@ public class GiftCertificateController {
     private GiftCertificate applyPatchToGiftCertificate(
             JsonPatch patch, GiftCertificate targetCertificate) throws JsonPatchException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         JsonNode patched = patch.apply(objectMapper.convertValue(targetCertificate, JsonNode.class));
