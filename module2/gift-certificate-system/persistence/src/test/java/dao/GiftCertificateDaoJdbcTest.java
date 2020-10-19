@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,8 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GiftCertificateDaoJdbcTest {
 
-        private DataSource dataSource;
-//    private DriverManagerDataSource dataSource;
+    private DataSource dataSource;
     private EmbeddedDatabase db;
     private GiftCertificateDao certificateCrudDAO;
     private TagDaoJdbc tagDaoJdbc;
@@ -42,7 +41,6 @@ class GiftCertificateDaoJdbcTest {
         certificateCrudDAO = new GiftCertificateDaoJdbc(dataSource);
         tagDaoJdbc = new TagDaoJdbc(dataSource);
     }
-
 
 
     @Test
