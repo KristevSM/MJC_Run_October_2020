@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class TagDaoJdbcTest {
 
     private DataSource dataSource;
-    private EmbeddedDatabase db;
     private TagDao tagCrudDAO;
 
     @BeforeEach
@@ -85,8 +84,5 @@ class TagDaoJdbcTest {
         assertTrue(tag.isPresent());
 
     }
-//    @AfterEach
-//    void tearDown() {
-//        db.shutdown();
-//    }
+
 }

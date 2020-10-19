@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,8 +67,8 @@ class GiftCertificateDaoJdbcTest {
                 .name("Updated certificate")
                 .description("Some description")
                 .price(BigDecimal.valueOf(120L))
-                .createDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now())
+                .createDate(ZonedDateTime.now())
+                .lastUpdateDate(ZonedDateTime.now())
                 .duration(4)
                 .build();
 
@@ -85,8 +85,8 @@ class GiftCertificateDaoJdbcTest {
                 .name("New certificate")
                 .description("Some description")
                 .price(BigDecimal.valueOf(100D))
-                .createDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now())
+                .createDate(ZonedDateTime.now())
+                .lastUpdateDate(ZonedDateTime.now())
                 .duration(6)
                 .tags(new ArrayList<>())
                 .build();
