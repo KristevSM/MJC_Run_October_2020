@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -75,8 +76,8 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
                         .name(resultSet.getString("name"))
                         .description(resultSet.getString("description"))
                         .price(resultSet.getBigDecimal("price"))
-                        .createDate(resultSet.getTimestamp("create_date").toLocalDateTime())
-                        .lastUpdateDate(resultSet.getTimestamp("last_update_date").toLocalDateTime())
+                        .createDate(resultSet.getTimestamp("create_date").toInstant().atZone(ZoneId.systemDefault()))
+                        .lastUpdateDate(resultSet.getTimestamp("last_update_date").toInstant().atZone(ZoneId.systemDefault()))
                         .duration(resultSet.getInt("duration"))
                         .tags(new ArrayList<>())
                         .build();
@@ -98,11 +99,6 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         }
     };
 
-    LocalDateTime convertToLocalDateTimeViaSqlTimestamp(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                        .atZone(ZoneId.systemDefault())
-                        .toLocalDateTime();
-    }
 
     @Override
     public Optional<GiftCertificate> find(Long id) {
@@ -121,8 +117,8 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("name", model.getName())
                 .addValue("description", model.getDescription())
                 .addValue("price", model.getPrice())
-                .addValue("createDate", model.getCreateDate())
-                .addValue("lastUpdateDate", model.getLastUpdateDate())
+                .addValue("createDate", Timestamp.from(model.getCreateDate().toInstant()))
+                .addValue("lastUpdateDate", Timestamp.from(model.getLastUpdateDate().toInstant()))
                 .addValue("duration", model.getDuration());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -141,8 +137,8 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         params.put("name", model.getName());
         params.put("description", model.getDescription());
         params.put("price", model.getPrice());
-        params.put("createDate", model.getCreateDate());
-        params.put("lastUpdateDate", model.getLastUpdateDate());
+        params.put("createDate", Timestamp.from(model.getCreateDate().toInstant()));
+        params.put("lastUpdateDate", Timestamp.from(model.getLastUpdateDate().toInstant()));
         params.put("duration", model.getDuration());
         namedParameterJdbcTemplate.update(SQL_UPDATE_GIFT_CERTIFICATE, params);
     }

@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -73,8 +74,8 @@ class GiftCertificateServiceImplTest {
                 .name("New certificate")
                 .description("Some description")
                 .price(BigDecimal.valueOf(100D))
-                .createDate(LocalDateTime.now())
-                .lastUpdateDate(LocalDateTime.now())
+                .createDate(ZonedDateTime.now())
+                .lastUpdateDate(ZonedDateTime.now())
                 .duration(6)
                 .tags(new ArrayList<>())
                 .build();

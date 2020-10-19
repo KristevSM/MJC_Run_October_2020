@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         List<Tag> tags = giftCertificate.getTags();
 
         tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
-        giftCertificate.setLastUpdateDate(LocalDateTime.now());
+        giftCertificate.setLastUpdateDate(ZonedDateTime.now());
         giftCertificateDao.update(giftCertificate);
     }
 
