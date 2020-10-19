@@ -23,6 +23,8 @@ public class TagDaoJdbc implements TagDao {
     private static final String SQL_SELECT_BY_TAG_NAME = "SELECT id, name FROM tag WHERE name = :name;";
     private static final String SQL_ASSIGN_DEFAULT_TAG = "INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) " +
             "VALUES (:tag_id, :gift_certificate_id)";
+    private static final String SQL_ASSIGN_NEW_TAG_TO_CERTIFICATE = "UPDATE tag_has_gift_certificate" +
+            " SET tag_id = :tag_id WHERE (tag_id = :tag_id) and (gift_certificate_id = :gift_certificate_id);";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -68,6 +70,8 @@ public class TagDaoJdbc implements TagDao {
         namedParameterJdbcTemplate.update(SQL_UPDATE_TAG, params);
     }
 
+
+
     @Override
     public void delete(Long id) {
         Map<String, Object> params = new HashMap<>();
@@ -98,5 +102,13 @@ public class TagDaoJdbc implements TagDao {
         params.put("tag_id", tagId);
         params.put("gift_certificate_id", certificateId);
         namedParameterJdbcTemplate.update(SQL_ASSIGN_DEFAULT_TAG, params);
+    }
+
+    @Override
+    public void assignNewTagToCertificate(Long tagId, Long certificateId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("tag_id", tagId);
+        params.put("gift_certificate_id", certificateId);
+        namedParameterJdbcTemplate.update(SQL_ASSIGN_NEW_TAG_TO_CERTIFICATE, params);
     }
 }
