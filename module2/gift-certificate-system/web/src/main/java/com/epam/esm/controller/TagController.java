@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tags")
+@RequestMapping("/gift-certificates")
 public class TagController {
 
     private final TagService tagService;
@@ -49,7 +49,7 @@ public class TagController {
         return objectMapper.treeToValue(patched, Tag.class);
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/tags")
     public List<Tag> findAll() {
         return tagService.findAllTags();
     }
