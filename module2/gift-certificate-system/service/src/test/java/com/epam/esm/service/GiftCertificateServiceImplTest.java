@@ -100,32 +100,71 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
-    void updateCertificate() {
+    void shouldUpdatePriceOfCertificate() {
+        GiftCertificate certificate = certificateService.findCertificateById(2L);
+        BigDecimal price = certificate.getPrice();
+        BigDecimal expectedPrice = price.add(BigDecimal.valueOf(2D));
+        certificate.setPrice(expectedPrice);
+        certificateService.updateCertificate(certificate);
+        GiftCertificate updatedCertificate = certificateService.findCertificateById(2L);
+        assertEquals(expectedPrice, updatedCertificate.getPrice());
+
+    }
+
+
+    @Test
+    void shouldGetCertificatesByTagName() {
+        String testTagName = "Tag 2";
+        List<GiftCertificate> certificates = certificateService.getCertificatesByTagName(testTagName);
+        int expectedListSize = 2;
+        assertEquals(expectedListSize, certificates.size());
+        assertThrows(GiftCertificateNotFoundException.class, () -> {
+            certificateService.getCertificatesByTagName("Tag 123");
+        });
     }
 
     @Test
-    void deleteCertificate() {
+    void shouldGetCertificatesByPartOfName() {
+        String partOfName1 = "ficate 1";
+        String partOfName2 = "ficate";
+        List<GiftCertificate> certificates = certificateService.getCertificatesByPartOfName(partOfName1);
+        assertEquals(1, certificates.size());
+
+        List<GiftCertificate> certificates2 = certificateService.getCertificatesByPartOfName(partOfName2);
+        assertEquals(3, certificates2.size());
+
     }
 
     @Test
-    void getCertificatesByTagName() {
-    }
+    void shouldGetCertificatesByPartOfDescription() {
+        String partOfDescription1 = "of certificate 1";
+        String partOfDescription2 = "Description";
+        List<GiftCertificate> certificates = certificateService.getCertificatesByPartOfDescription(partOfDescription1);
+        assertEquals(1, certificates.size());
 
-    @Test
-    void getCertificatesByPartOfName() {
-    }
-
-    @Test
-    void getCertificatesByPartOfDescription() {
+        List<GiftCertificate> certificates2 = certificateService.getCertificatesByPartOfDescription(partOfDescription2);
+        assertEquals(3, certificates2.size());
     }
 
     @Test
     void addTagToCertificate() {
+        GiftCertificate certificate = certificateService.findCertificateById(1L);
+        List<Tag> tags = certificate.getTags();
+
+        tags.forEach(tag -> assertNotEquals(tag.getId(), 3L));
+        certificateService.addTagToCertificate(1L, 3L);
+
+        GiftCertificate updatedCertificate = certificateService.findCertificateById(1L);
+        List<Tag> updatedTags = updatedCertificate.getTags();
+        assertTrue(updatedTags.stream().anyMatch(tag -> tag.getId().equals(3L)));
+        certificateService.removeTagFromCertificate(1L, 3L);
+
+        certificate = certificateService.findCertificateById(1L);
+        tags = certificate.getTags();
+        tags.forEach(tag -> assertNotEquals(tag.getId(), 3L));
+
     }
 
-    @Test
-    void removeTagFromCertificate() {
-    }
 
     @Test
     void sortCertificateByParameters() {
