@@ -49,7 +49,7 @@ public class TagController {
         return objectMapper.treeToValue(patched, Tag.class);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/all")
     public List<Tag> findAll() {
         return tagService.findAllTags();
     }
