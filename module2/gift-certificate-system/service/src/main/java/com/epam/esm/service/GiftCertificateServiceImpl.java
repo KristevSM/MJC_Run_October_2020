@@ -44,7 +44,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public void updateCertificate(GiftCertificate giftCertificate) {
         List<Tag> tags = giftCertificate.getTags();
 
-        tags.forEach(tag -> tagDao.assignTag(tag.getId(), giftCertificate.getId()));
+        tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
         giftCertificateDao.update(giftCertificate);
     }
 
