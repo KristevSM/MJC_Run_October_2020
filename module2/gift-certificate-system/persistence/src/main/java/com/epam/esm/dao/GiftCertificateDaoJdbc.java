@@ -75,12 +75,8 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
                         .name(resultSet.getString("name"))
                         .description(resultSet.getString("description"))
                         .price(resultSet.getBigDecimal("price"))
-                        .createDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("create_date").getTime())
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDateTime()))
-                        .lastUpdateDate(LocalDateTime.from(Instant.ofEpochMilli(resultSet.getDate("last_update_date").getTime())
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDateTime()))
+                        .createDate(resultSet.getTimestamp("create_date").toLocalDateTime())
+                        .lastUpdateDate(resultSet.getTimestamp("last_update_date").toLocalDateTime())
                         .duration(resultSet.getInt("duration"))
                         .tags(new ArrayList<>())
                         .build();
@@ -102,6 +98,11 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         }
     };
 
+    LocalDateTime convertToLocalDateTimeViaSqlTimestamp(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDateTime();
+    }
 
     @Override
     public Optional<GiftCertificate> find(Long id) {
