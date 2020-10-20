@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
@@ -61,6 +60,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (certificate.isPresent()) {
             GiftCertificate giftCertificate = certificate.get();
             giftCertificate.getTags().forEach(tag -> tagDao.removeTagAndCertificate(tag.getId(), id));
+            giftCertificateDao.delete(id);
         } else {
             throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} not found", id));
         }
@@ -111,11 +111,25 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public void removeTagFromCertificate(Long certificateId, Long tagId) {
-            giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
+        giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
     }
 
     @Override
-    public void sortCertificateByParameters(String... parameters) {
+    public List<GiftCertificate> sortCertificateByParameters(String sortParameter, String direction, List<GiftCertificate> certificates) {
 
+        if ("ASC".equals(direction)) {
+            if ("sort_name".equals(sortParameter)) {
+                certificates.sort(Comparator.comparing(GiftCertificate::getName));
+            } else if ("sort_create_date".equals(sortParameter)) {
+                certificates.sort(Comparator.comparing(GiftCertificate::getCreateDate));
+            }
+        } else if ("DESC".equals(direction)) {
+            if ("sort_name".equals(sortParameter)) {
+                certificates.sort(Comparator.comparing(GiftCertificate::getName).reversed());
+            } else if ("sort_create_date".equals(sortParameter)) {
+                certificates.sort(Comparator.comparing(GiftCertificate::getCreateDate).reversed());
+            }
+        }
+        return certificates;
     }
 }
