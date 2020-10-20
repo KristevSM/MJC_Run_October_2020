@@ -1,6 +1,5 @@
 package com.epam.esm.validator;
 
-import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -19,7 +18,7 @@ public class TagValidator implements Validator {
     public void validate(Object target, Errors errors) {
 
         Tag tag = (Tag) target;
-        if(StringUtils.hasLength(tag.getName())
+        if (StringUtils.hasLength(tag.getName())
                 && tag.getName().length() > 40) {
             errors.rejectValue("name", "tag.maxSize");
         }
