@@ -6,7 +6,6 @@ import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.GiftCertificateValidator;
-import com.epam.esm.validator.TagValidator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,8 +27,7 @@ import javax.validation.Valid;
 
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/gift-certificates")
@@ -38,22 +36,15 @@ public class GiftCertificateController {
     private final GiftCertificateService giftCertificateService;
     private final GiftCertificateValidator certificateValidator;
     private final TagService tagService;
-    private final TagValidator tagValidator;
 
     @Autowired
     public GiftCertificateController(GiftCertificateService giftCertificateService, GiftCertificateValidator certificateValidator,
-                                     TagService tagService, TagValidator tagValidator) {
+                                     TagService tagService) {
         this.giftCertificateService = giftCertificateService;
         this.certificateValidator = certificateValidator;
         this.tagService = tagService;
-        this.tagValidator = tagValidator;
     }
 
-
-    @GetMapping(value = "/certificates")
-    public List<GiftCertificate> findAll() {
-        return giftCertificateService.findAllCertificates();
-    }
 
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GiftCertificate> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate,
@@ -105,6 +96,48 @@ public class GiftCertificateController {
         }
     }
 
+    @DeleteMapping(path = "certificates/{id}")
+    public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
+
+        giftCertificateService.deleteCertificate(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "certificates/{id}")
+    public GiftCertificate findCertificateById(@PathVariable Long id) {
+        return giftCertificateService.findCertificateById(id);
+    }
+
+    @GetMapping(value = "/certificates")
+    public List<GiftCertificate> findAll(@RequestParam(value = "sort_name") Optional<String> nameSortDirection,
+                                         @RequestParam(value = "sort_create_date") Optional<String> createDateDirection) {
+        List<GiftCertificate> certificates = giftCertificateService.findAllCertificates();
+        if (nameSortDirection.isPresent()) {
+            return giftCertificateService.sortCertificateByParameters("sort_name", nameSortDirection.get(), certificates);
+        } else if (createDateDirection.isPresent()) {
+            return giftCertificateService.sortCertificateByParameters("sort_create_date", createDateDirection.get(), certificates);
+        } else {
+            return certificates;
+        }
+    }
+
+    @GetMapping(value = "/search")
+    public List<GiftCertificate> findCertificateByParameters(@RequestParam(value = "tag_name") Optional<String> tagName,
+                                                             @RequestParam(value = "part_of_name") Optional<String> partOfName,
+                                                             @RequestParam(value = "part_of_description") Optional<String> partOfDescription) {
+
+        if (tagName.isPresent()) {
+            return giftCertificateService.getCertificatesByTagName(tagName.get());
+        } else if (partOfName.isPresent()) {
+            return giftCertificateService.getCertificatesByPartOfName(partOfName.get());
+        } else if (partOfDescription.isPresent()) {
+            return giftCertificateService.getCertificatesByPartOfDescription(partOfDescription.get());
+        } else {
+            return giftCertificateService.findAllCertificates();
+        }
+    }
+
     private GiftCertificate applyPatchToGiftCertificate(
             JsonPatch patch, GiftCertificate targetCertificate) throws JsonPatchException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -114,12 +147,5 @@ public class GiftCertificateController {
         JsonNode patched = patch.apply(objectMapper.convertValue(targetCertificate, JsonNode.class));
         return objectMapper.treeToValue(patched, GiftCertificate.class);
     }
-
-
-    @GetMapping(value = "certificates/{id}")
-    public GiftCertificate findById(@PathVariable Long id) {
-        return giftCertificateService.findCertificateById(id);
-    }
-
 
 }

@@ -88,7 +88,6 @@ class GiftCertificateServiceImplTest {
         assertTrue(certificateService.findCertificateById(certificateId).getName().contains("New certificate"));
 
         certificateService.deleteCertificate(certificateId);
-        certificateService.removeTagFromCertificate(certificateId, 1L);
         assertThrows(GiftCertificateNotFoundException.class, () -> {
             certificateService.findCertificateById(certificateId);
         });
