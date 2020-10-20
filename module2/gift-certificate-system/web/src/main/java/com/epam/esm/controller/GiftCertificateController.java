@@ -16,15 +16,18 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,11 +56,16 @@ public class GiftCertificateController {
     }
 
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Integer> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate) {
+    public ResponseEntity<GiftCertificate> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate,
+                                                              UriComponentsBuilder ucBuilder) {
 
         if (giftCertificate.getTags() == null) {
             giftCertificate.setTags(new ArrayList<>());
         }
+
+        giftCertificate.setCreateDate(ZonedDateTime.now());
+        giftCertificate.setLastUpdateDate(ZonedDateTime.now());
+
         BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
         certificateValidator.validate(giftCertificate, result);
         if (result.hasErrors()) {
@@ -65,13 +73,16 @@ public class GiftCertificateController {
         } else {
             Long certificateId = giftCertificateService.saveCertificate(giftCertificate);
             tagService.assignDefaultTag("Main", certificateId);
-            return ResponseEntity.ok().build();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificateId).toUri());
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
         }
     }
 
     @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
-                                                                 @RequestBody JsonPatch patch) {
+                                                                 @RequestBody JsonPatch patch,
+                                                                 UriComponentsBuilder ucBuilder) {
 
         try {
             GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
@@ -83,7 +94,9 @@ public class GiftCertificateController {
                 return new ResponseEntity(result.getAllErrors(), HttpStatus.BAD_REQUEST);
             } else {
                 giftCertificateService.updateCertificate(certificatePatched);
-                return ResponseEntity.ok().build();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
+                return new ResponseEntity<>(headers, HttpStatus.CREATED);
             }
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

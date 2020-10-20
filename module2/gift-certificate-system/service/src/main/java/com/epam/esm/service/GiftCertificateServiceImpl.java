@@ -43,6 +43,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public Long saveCertificate(GiftCertificate giftCertificate) {
+
         return giftCertificateDao.save(giftCertificate);
     }
 

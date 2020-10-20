@@ -1,7 +1,9 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
+import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,18 +25,26 @@ public class TagServiceImpl implements TagService {
     @Override
     public List<Tag> findAllTags() {
 
-        return tagDao.findAll();
+        List<Tag> tags = tagDao.findAll();
+        if (tags.isEmpty()) {
+            throw new TagNotFoundException("Tags were not found");
+        } else {
+            return tags;
+        }
     }
 
     @Override
     public Tag findTagById(Long id) {
-
         return tagDao.find(id).orElseThrow(TagNotFoundException::new);
     }
 
     @Override
     public Long saveTag(Tag tag) {
-        return null;
+        Optional<Tag> tagOptional = tagDao.findByTagName(tag.getName());
+        if (tagOptional.isPresent()) {
+            throw new IllegalArgumentException("Tag with name: " + tag.getName() + " already exists");
+        }
+        return tagDao.save(tag);
     }
 
     @Override
