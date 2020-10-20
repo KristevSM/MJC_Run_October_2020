@@ -69,7 +69,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(TagNotFoundException.class)
-    protected ResponseEntity<Object> handleTagNotFound(GiftCertificateNotFoundException ex,
+    protected ResponseEntity<Object> handleTagNotFound(TagNotFoundException ex,
                                                                    WebRequest request) {
         ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setDebugMessage(ex.getMessage());
