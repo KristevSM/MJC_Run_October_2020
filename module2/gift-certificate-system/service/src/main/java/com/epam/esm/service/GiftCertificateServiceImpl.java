@@ -111,15 +111,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public void removeTagFromCertificate(Long certificateId, Long tagId) {
-        Optional<GiftCertificate> certificate = giftCertificateDao.find(certificateId);
-        Optional<Tag> tag = tagDao.find(tagId);
-        if (!certificate.isPresent()) {
-            throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} was not found", certificateId));
-        } else if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("Tag with id: {0} was not found", tagId));
-        } else {
             giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
-        }
     }
 
     @Override

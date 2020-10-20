@@ -1,9 +1,9 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dao.GiftCertificateDaoJdbc;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dao.TagDaoJdbc;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
@@ -15,9 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sql.DataSource;
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,10 +34,15 @@ class TagServiceImplTest {
     @Autowired
     private GiftCertificateDao giftCertificateDao;
 
+    private GiftCertificateService giftCertificateService;
+
     @BeforeEach
     void setUp() {
-        tagService = new TagServiceImpl(tagDao);
         tagDao = new TagDaoJdbc(dataSource);
+        tagService = new TagServiceImpl(tagDao);
+        giftCertificateDao = new GiftCertificateDaoJdbc(dataSource);
+        giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao);
+
     }
 
     @Test
@@ -78,18 +80,67 @@ class TagServiceImplTest {
     }
 
     @Test
-    void updateTag() {
+    void shouldUpdateTag() {
+        Tag actualTag = tagService.findTagById(3L);
+        String previousName = actualTag.getName();
+        System.out.println(previousName);
+        String testName = "Tag 3 updated";
+        actualTag.setName(testName);
+        tagService.updateTag(actualTag);
+        actualTag = tagService.findTagById(3L);
+        assertEquals(testName, actualTag.getName());
+        actualTag.setName(previousName);
+        tagService.updateTag(actualTag);
+        actualTag = tagService.findTagById(3L);
+        assertEquals(previousName, actualTag.getName());
     }
 
     @Test
-    void assignTag() {
+    void shouldAssignTag() {
+        Tag tag = tagService.findTagById(3L);
+        GiftCertificate certificate = giftCertificateService.findCertificateById(3L);
+        System.out.println(certificate.getTags());
+        Long tagId = tag.getId();
+        Long certificateId = certificate.getId();
+        tagService.assignTag(tagId, certificateId);
+        certificate = giftCertificateService.findCertificateById(certificateId);
+
+        assertTrue(certificate.getTags()
+                .stream()
+                .anyMatch(t -> t.getName().equals(tag.getName())));
+
+        System.out.println(certificate.getTags());
+        giftCertificateService.removeTagFromCertificate(certificateId, tagId);
+        certificate = giftCertificateService.findCertificateById(certificateId);
+        System.out.println(certificate.getTags());
+
+        assertFalse(certificate.getTags()
+                .stream()
+                .anyMatch(t -> t.getName().equals(tag.getName())));
     }
 
     @Test
-    void deleteTag() {
-    }
+    void shouldAssignDefaultTag() {
 
-    @Test
-    void assignDefaultTag() {
+        GiftCertificate certificate = giftCertificateService.findCertificateById(3L);
+        System.out.println(certificate.getTags());
+        Long certificateId = certificate.getId();
+        tagService.assignDefaultTag("Main", certificateId);
+        certificate = giftCertificateService.findCertificateById(certificateId);
+
+        assertTrue(certificate.getTags()
+                .stream()
+                .anyMatch(t -> t.getName().equals("Main")));
+
+        System.out.println(certificate.getTags());
+
+        Tag defaultTag = tagService.findTagByTagName("Main");
+        giftCertificateService.removeTagFromCertificate(certificateId, defaultTag.getId());
+        certificate = giftCertificateService.findCertificateById(certificateId);
+        System.out.println(certificate.getTags());
+
+        assertFalse(certificate.getTags()
+                .stream()
+                .anyMatch(t -> t.getName().equals(defaultTag.getName())));
     }
 }
