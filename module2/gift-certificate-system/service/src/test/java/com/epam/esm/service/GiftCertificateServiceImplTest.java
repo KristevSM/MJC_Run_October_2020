@@ -15,13 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sql.DataSource;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -83,16 +80,15 @@ class GiftCertificateServiceImplTest {
         System.out.println(certificate);
 
         Long certificateId = certificateService.saveCertificate(certificate);
-        certificateService.addTagToCertificate(certificateId, 3L);
+        tagDao.addNewTagAndToCertificate(1L, certificateId);
 
         GiftCertificate newCertificate = certificateService.findCertificateById(certificateId);
         System.out.println(newCertificate);
 
         assertTrue(certificateService.findCertificateById(certificateId).getName().contains("New certificate"));
 
-        certificateService.removeTagFromCertificate(certificateId, 1L);
         certificateService.deleteCertificate(certificateId);
-
+        certificateService.removeTagFromCertificate(certificateId, 1L);
         assertThrows(GiftCertificateNotFoundException.class, () -> {
             certificateService.findCertificateById(certificateId);
         });
