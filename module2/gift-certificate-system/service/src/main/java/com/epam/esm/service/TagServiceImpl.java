@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
+
+//todo complete exception messages
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -33,7 +34,12 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag findTagById(Long id) {
-        return tagDao.find(id).orElseThrow(TagNotFoundException::new);
+        Optional<Tag> tag = tagDao.find(id);
+        if (!tag.isPresent()) {
+            throw new TagNotFoundException("The tag not found");
+        } else {
+            return tag.get();
+        }
     }
 
     @Override
@@ -64,7 +70,7 @@ public class TagServiceImpl implements TagService {
     public void assignDefaultTag(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new NoSuchElementException("The tag not found");
+            throw new TagNotFoundException("The tag not found");
         } else {
             Tag currentTag = tag.get();
             tagDao.assignTag(currentTag.getId(), certificateId);
@@ -75,7 +81,7 @@ public class TagServiceImpl implements TagService {
     public void addNewTagAndCertificate(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new NoSuchElementException("The tag not found");
+            throw new TagNotFoundException("The tag not found");
         } else {
             Tag currentTag = tag.get();
             tagDao.addNewTagAndToCertificate(currentTag.getId(), certificateId);
@@ -84,6 +90,11 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag findTagByTagName(String tagName) {
-        return tagDao.findByTagName(tagName).orElseThrow(TagNotFoundException::new);
+        Optional<Tag> tag = tagDao.findByTagName(tagName);
+        if (!tag.isPresent()) {
+            throw new TagNotFoundException("The tag not found");
+        } else {
+            return tag.get();
+        }
     }
 }
