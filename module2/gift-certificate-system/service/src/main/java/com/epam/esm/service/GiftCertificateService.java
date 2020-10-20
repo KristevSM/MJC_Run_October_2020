@@ -2,7 +2,6 @@ package com.epam.esm.service;
 
 import com.epam.esm.model.GiftCertificate;
 import java.util.List;
-import java.util.Optional;
 
 public interface GiftCertificateService {
 
@@ -18,5 +17,5 @@ public interface GiftCertificateService {
     void addTagToCertificate(Long certificateId, Long tagId);
     void removeTagFromCertificate(Long certificateId, Long tagId);
 
-    void sortCertificateByParameters(String...parameters);
+    List<GiftCertificate> sortCertificateByParameters(String sortParameter, String direction, List<GiftCertificate> certificates);
 }
