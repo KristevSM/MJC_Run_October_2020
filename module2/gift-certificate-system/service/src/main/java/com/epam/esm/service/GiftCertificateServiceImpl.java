@@ -9,6 +9,7 @@ import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -117,18 +118,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public List<GiftCertificate> sortCertificateByParameters(String sortParameter, String direction, List<GiftCertificate> certificates) {
 
-        if ("ASC".equals(direction)) {
-            if ("sort_name".equals(sortParameter)) {
-                certificates.sort(Comparator.comparing(GiftCertificate::getName));
-            } else if ("sort_create_date".equals(sortParameter)) {
-                certificates.sort(Comparator.comparing(GiftCertificate::getCreateDate));
-            }
-        } else if ("DESC".equals(direction)) {
-            if ("sort_name".equals(sortParameter)) {
-                certificates.sort(Comparator.comparing(GiftCertificate::getName).reversed());
-            } else if ("sort_create_date".equals(sortParameter)) {
-                certificates.sort(Comparator.comparing(GiftCertificate::getCreateDate).reversed());
-            }
+        if ("sort_name".equals(sortParameter)) {
+            certificates.sort(Comparator.comparing(GiftCertificate::getName));
+        } else if ("sort_create_date".equals(sortParameter)) {
+            certificates.sort(Comparator.comparing(GiftCertificate::getCreateDate));
+        }
+        if ("DESC".equals(direction)) {
+            Collections.reverse(certificates);
         }
         return certificates;
     }
