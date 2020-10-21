@@ -18,7 +18,7 @@ class TagValidatorTest {
     }
 
     @Test
-    void validate() {
+    void shouldThrowErrorForLongName() {
 
         Tag validTag = Tag.builder()
                 .name("Tag Name")

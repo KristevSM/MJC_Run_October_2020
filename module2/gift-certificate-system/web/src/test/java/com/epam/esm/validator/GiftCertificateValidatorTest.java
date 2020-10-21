@@ -22,7 +22,7 @@ class GiftCertificateValidatorTest {
     }
 
     @Test
-    void validate() {
+    void shouldThrowErrorForInvalidCertificate() {
         GiftCertificate validCertificate = GiftCertificate.builder()
                 .name("New certificate")
                 .description("Some description")
