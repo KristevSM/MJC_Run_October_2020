@@ -9,10 +9,12 @@ import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.cert.X509Certificate;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
