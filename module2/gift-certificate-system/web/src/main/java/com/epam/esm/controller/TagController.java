@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -89,7 +88,7 @@ public class TagController {
     }
 
     @DeleteMapping(path = "tags/{id}")
-    public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         Tag tag = tagService.findTagById(id);
         try {
             List<GiftCertificate> certificates = certificateService.getCertificatesByTagName(tag.getName());

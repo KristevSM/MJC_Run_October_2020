@@ -111,7 +111,7 @@ public class GiftCertificateController {
 
     @GetMapping(value = "/certificates")
     public List<GiftCertificate> findAllCertificates(@RequestParam(value = "sort_name") Optional<String> nameSortDirection,
-                                         @RequestParam(value = "sort_create_date") Optional<String> createDateDirection) {
+                                                     @RequestParam(value = "sort_create_date") Optional<String> createDateDirection) {
         List<GiftCertificate> certificates = giftCertificateService.findAllCertificates();
         if (nameSortDirection.isPresent()) {
             return giftCertificateService.sortCertificateByParameters("sort_name", nameSortDirection.get(), certificates);
