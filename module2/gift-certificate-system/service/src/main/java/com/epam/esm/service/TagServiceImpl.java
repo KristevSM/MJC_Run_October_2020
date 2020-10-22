@@ -1,9 +1,7 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
-import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +10,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
-//todo complete exception messages
 
 @Service
 public class TagServiceImpl implements TagService {
@@ -39,7 +36,7 @@ public class TagServiceImpl implements TagService {
     public Tag findTagById(Long id) {
         Optional<Tag> tag = tagDao.find(id);
         if (!tag.isPresent()) {
-            throw new TagNotFoundException("The tag not found");
+            throw new TagNotFoundException(MessageFormat.format("Tag with id: {} not found", id));
         } else {
             return tag.get();
         }
@@ -49,7 +46,7 @@ public class TagServiceImpl implements TagService {
     public Long saveTag(Tag tag) {
         Optional<Tag> tagOptional = tagDao.findByTagName(tag.getName());
         if (tagOptional.isPresent()) {
-            throw new IllegalArgumentException("Tag with name: " + tag.getName() + " already exists");
+            throw new IllegalArgumentException(MessageFormat.format("Tag with name: {} already exists", tag.getName()));
         }
         return tagDao.save(tag);
     }
@@ -75,7 +72,7 @@ public class TagServiceImpl implements TagService {
     public void assignDefaultTag(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new TagNotFoundException("The tag not found");
+            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {} not found", tagName));
         } else {
             Tag currentTag = tag.get();
             tagDao.assignTag(currentTag.getId(), certificateId);
@@ -86,7 +83,7 @@ public class TagServiceImpl implements TagService {
     public void addNewTagAndCertificate(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new TagNotFoundException("The tag not found");
+            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {} not found", tagName));
         } else {
             Tag currentTag = tag.get();
             tagDao.addNewTagAndToCertificate(currentTag.getId(), certificateId);
@@ -97,7 +94,7 @@ public class TagServiceImpl implements TagService {
     public Tag findTagByTagName(String tagName) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new TagNotFoundException("The tag not found");
+            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {} not found", tagName));
         } else {
             return tag.get();
         }
