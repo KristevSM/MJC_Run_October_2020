@@ -87,7 +87,7 @@ public class TagController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
+    //fixme rename method
     @DeleteMapping(path = "tags/{id}")
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
         Tag tag = tagService.findTagById(id);
