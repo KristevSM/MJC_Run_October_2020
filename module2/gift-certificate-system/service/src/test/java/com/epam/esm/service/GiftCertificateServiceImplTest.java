@@ -1,167 +1,182 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dao.GiftCertificateDaoJdbc;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dao.TagDaoJdbc;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
-import javax.sql.DataSource;
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.matches;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"classpath:test-db.xml"})
 class GiftCertificateServiceImplTest {
 
-    private GiftCertificateService certificateService;
+    private GiftCertificateService giftCertificateService;
 
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private TagDao tagDao;
-
-    @Autowired
+    @Mock
     private GiftCertificateDao giftCertificateDao;
+
+    @Mock
+    private TagDao tagDao;
 
     @BeforeEach
     void setUp() {
-        certificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao);
-        tagDao = new TagDaoJdbc(dataSource);
-    }
+        this.giftCertificateDao = mock(GiftCertificateDaoJdbc.class);
+        this.tagDao = mock(TagDaoJdbc.class);
+        this.giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao);
 
-    @AfterEach
-    void tearDown() {
     }
 
     @Test
-    void shouldFindAllCertificates() {
-        List<GiftCertificate> certificates = certificateService.findAllCertificates();
-        int expectedListSize = 3;
-        System.out.println(certificates);
-        assertEquals(expectedListSize, certificates.size());
+    void shouldReturnAllCertificates() {
+
+        List<GiftCertificate> certificateList = mock(ArrayList.class);
+        Mockito.when(certificateList.size()).thenReturn(10);
+        when(giftCertificateDao.findAll()).thenReturn(certificateList);
+
+        assertEquals(10, giftCertificateService.findAllCertificates().size());
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).findAll();
     }
 
     @Test
     void shouldFindCertificateById() {
+
+        GiftCertificate certificate = mock(GiftCertificate.class);
+        when(giftCertificateDao.find(1L)).thenReturn(Optional.of(certificate));
+
+        assertEquals(certificate, giftCertificateService.findCertificateById(1L));
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).find(1L);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCertificateByIdNotFound() {
+
+        GiftCertificate certificate = mock(GiftCertificate.class);
+        when(giftCertificateDao.find(2L)).thenReturn(Optional.of(certificate));
+
+        assertThrows(GiftCertificateNotFoundException.class, () -> {
+            giftCertificateService.findCertificateById(1L);
+        });
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).find(1L);
+    }
+
+    @Test
+    void shouldSaveNewCertificate() {
+
+        GiftCertificate certificate = mock(GiftCertificate.class);
+
+        when(giftCertificateDao.save(certificate)).thenReturn(1L);
         Long expectedId = 1L;
-        GiftCertificate giftCertificate = certificateService.findCertificateById(expectedId);
-        assertEquals(expectedId, giftCertificate.getId());
+        assertEquals(expectedId, giftCertificateService.saveCertificate(certificate));
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).save(certificate);
+    }
+
+    @Test
+    void shouldUpdateCertificate() {
+        GiftCertificate certificate = mock(GiftCertificate.class);
+        List<Tag> tags = mock(ArrayList.class);
+//        Mockito.when(tags.size()).thenReturn(1);
+        tags.add(mock(Tag.class));
+        certificate.setTags(tags);
+
+        giftCertificateService.updateCertificate(certificate);
+//        doNothing().when(tagDao).assignNewTagToCertificate(any(), any());
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).update(certificate);
+//        Mockito.verify(tagDao, Mockito.times(1)).assignNewTagToCertificate(any(), any());
+
+    }
+
+    @Test
+    void shouldDeleteCertificate() {
+
+        GiftCertificate certificate = mock(GiftCertificate.class);
+        when(giftCertificateDao.find(1L)).thenReturn(Optional.ofNullable(certificate));
+        giftCertificateService.deleteCertificate(1L);
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).find(1L);
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).delete(1L);
+
+    }
+
+    @Test
+    void shouldThrowExceptionDeleteCertificate() {
+
+        when(giftCertificateDao.find(1L)).thenThrow(GiftCertificateNotFoundException.class);
         assertThrows(GiftCertificateNotFoundException.class, () -> {
-            certificateService.findCertificateById(12L);
+            giftCertificateService.deleteCertificate(1L);
         });
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).find(1L);
+        Mockito.verify(giftCertificateDao, Mockito.times(0)).delete(1L);
     }
 
     @Test
-    void shouldSaveAndRemoveCertificate() {
-        GiftCertificate certificate = GiftCertificate.builder()
-                .name("New certificate")
-                .description("Some description")
-                .price(BigDecimal.valueOf(100D))
-                .createDate(ZonedDateTime.now())
-                .lastUpdateDate(ZonedDateTime.now())
-                .duration(6)
-                .tags(new ArrayList<>())
-                .build();
+    void shouldFindCertificatesByTagName() {
 
-        System.out.println(certificate);
+        List<GiftCertificate> certificateList = mock(ArrayList.class);
+        Mockito.when(certificateList.size()).thenReturn(5);
+        when(giftCertificateDao.getCertificatesByTagName(matches("tag 2"))).thenReturn(certificateList);
+        assertEquals(5, giftCertificateService.getCertificatesByTagName("tag 2").size());
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).getCertificatesByTagName("tag 2");
+    }
 
-        Long certificateId = certificateService.saveCertificate(certificate);
-        tagDao.addNewTagAndToCertificate(1L, certificateId);
+    @Test
+    void shouldThrowExceptionWhenCertificateByTagNameNotFound() {
 
-        GiftCertificate newCertificate = certificateService.findCertificateById(certificateId);
-        System.out.println(newCertificate);
-
-        assertTrue(certificateService.findCertificateById(certificateId).getName().contains("New certificate"));
-
-        certificateService.deleteCertificate(certificateId);
         assertThrows(GiftCertificateNotFoundException.class, () -> {
-            certificateService.findCertificateById(certificateId);
+            giftCertificateService.getCertificatesByTagName("tag 2");
         });
-
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).getCertificatesByTagName("tag 2");
     }
 
     @Test
-    void shouldUpdatePriceOfCertificate() {
-        GiftCertificate certificate = certificateService.findCertificateById(2L);
-        BigDecimal price = certificate.getPrice();
-        BigDecimal expectedPrice = price.add(BigDecimal.valueOf(2D));
-        certificate.setPrice(expectedPrice);
-        certificateService.updateCertificate(certificate);
-        GiftCertificate updatedCertificate = certificateService.findCertificateById(2L);
-        assertEquals(expectedPrice, updatedCertificate.getPrice());
+    void shouldFindCertificatesByPartOfName() {
 
+        List<GiftCertificate> certificateList = mock(ArrayList.class);
+        Mockito.when(certificateList.size()).thenReturn(5);
+        when(giftCertificateDao.getCertificatesByPartOfName(matches("name 2"))).thenReturn(certificateList);
+
+        assertEquals(5, giftCertificateService.getCertificatesByPartOfName("name 2").size());
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).getCertificatesByPartOfName("name 2");
     }
 
-
     @Test
-    void shouldGetCertificatesByTagName() {
-        String testTagName = "Tag 2";
-        List<GiftCertificate> certificates = certificateService.getCertificatesByTagName(testTagName);
-        int expectedListSize = 2;
-        assertEquals(expectedListSize, certificates.size());
+    void shouldThrowExceptionWhenCertificateByPartOfNameNotFound() {
+
         assertThrows(GiftCertificateNotFoundException.class, () -> {
-            certificateService.getCertificatesByTagName("Tag 123");
+            giftCertificateService.getCertificatesByPartOfName("name 2");
         });
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).getCertificatesByPartOfName("name 2");
     }
 
     @Test
-    void shouldGetCertificatesByPartOfName() {
-        String partOfName1 = "ficate 1";
-        String partOfName2 = "ficate";
-        List<GiftCertificate> certificates = certificateService.getCertificatesByPartOfName(partOfName1);
-        assertEquals(1, certificates.size());
+    void shouldFindCertificatesByPartOfDescription() {
 
-        List<GiftCertificate> certificates2 = certificateService.getCertificatesByPartOfName(partOfName2);
-        assertEquals(3, certificates2.size());
+        List<GiftCertificate> certificateList = mock(ArrayList.class);
+        Mockito.when(certificateList.size()).thenReturn(5);
+        when(giftCertificateDao.getCertificatesByPartOfDescription(matches("some description"))).thenReturn(certificateList);
 
+        assertEquals(5, giftCertificateService.getCertificatesByPartOfDescription("some description").size());
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).getCertificatesByPartOfDescription("some description");
     }
 
     @Test
-    void shouldGetCertificatesByPartOfDescription() {
-        String partOfDescription1 = "of certificate 1";
-        String partOfDescription2 = "Description";
-        List<GiftCertificate> certificates = certificateService.getCertificatesByPartOfDescription(partOfDescription1);
-        assertEquals(1, certificates.size());
+    void shouldThrowExceptionWhenCertificateByPrtOfDescriptionNotFound() {
 
-        List<GiftCertificate> certificates2 = certificateService.getCertificatesByPartOfDescription(partOfDescription2);
-        assertEquals(3, certificates2.size());
-    }
-
-    @Test
-    void addTagToCertificate() {
-        GiftCertificate certificate = certificateService.findCertificateById(1L);
-        List<Tag> tags = certificate.getTags();
-
-        tags.forEach(tag -> assertNotEquals(tag.getId(), 3L));
-        certificateService.addTagToCertificate(1L, 3L);
-
-        GiftCertificate updatedCertificate = certificateService.findCertificateById(1L);
-        List<Tag> updatedTags = updatedCertificate.getTags();
-        assertTrue(updatedTags.stream().anyMatch(tag -> tag.getId().equals(3L)));
-        certificateService.removeTagFromCertificate(1L, 3L);
-
-        certificate = certificateService.findCertificateById(1L);
-        tags = certificate.getTags();
-        tags.forEach(tag -> assertNotEquals(tag.getId(), 3L));
-
-    }
-
-
-    @Test
-    void sortCertificateByParameters() {
+        assertThrows(GiftCertificateNotFoundException.class, () -> {
+            giftCertificateService.getCertificatesByPartOfDescription("description");
+        });
+        Mockito.verify(giftCertificateDao, Mockito.times(1)).getCertificatesByPartOfDescription("description");
     }
 }

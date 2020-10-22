@@ -49,6 +49,10 @@ subprojects {
 
         implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
 
+        // https://mvnrepository.com/artifact/org.mockito/mockito-core
+        testCompile group: 'org.mockito', name: 'mockito-core', version: '3.5.15'
+
+
 
     }
 

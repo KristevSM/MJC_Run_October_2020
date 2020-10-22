@@ -1,11 +1,14 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
+import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +66,8 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void deleteTag(Long id) {
+        tagDao.find(id).orElseThrow(() ->
+                new TagNotFoundException(MessageFormat.format("Tag with id: {0} not found", id)));
         tagDao.delete(id);
     }
 
