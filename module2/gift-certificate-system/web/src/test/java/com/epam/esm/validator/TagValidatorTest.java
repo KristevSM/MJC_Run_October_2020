@@ -18,7 +18,8 @@ class TagValidatorTest {
     }
 
     @Test
-    void shouldValidateValidTag() {
+    void shouldThrowErrorForLongName() {
+
         Tag validTag = Tag.builder()
                 .name("Tag Name")
                 .build();
@@ -26,15 +27,11 @@ class TagValidatorTest {
         BindingResult result = new BeanPropertyBindingResult(validTag, "tag");
         validator.validate(validTag, result);
         System.out.println("Errors count: " + result.getAllErrors().size());
-    }
 
-    @Test
-    void shouldThrowErrorForLongTagName() {
         Tag inValidTag = Tag.builder()
                 .name("dlqbkmggdlgcekupeaoogaadudduwjdyxihdxzfpn")
                 .build();
 
-        BindingResult result = new BeanPropertyBindingResult(inValidTag, "tag");
         validator.validate(inValidTag, result);
         System.out.println("Errors count: " + result.getAllErrors().size());
         result.getAllErrors().forEach(System.out::println);
