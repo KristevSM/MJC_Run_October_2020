@@ -22,7 +22,7 @@ class GiftCertificateValidatorTest {
     }
 
     @Test
-    void shouldValidateValidCertificate(){
+    void shouldThrowErrorForInvalidCertificate() {
         GiftCertificate validCertificate = GiftCertificate.builder()
                 .name("New certificate")
                 .description("Some description")
@@ -37,10 +37,6 @@ class GiftCertificateValidatorTest {
         validator.validate(validCertificate, result);
         System.out.println("Errors count: " + result.getAllErrors().size());
         assertFalse(result.hasErrors());
-    }
-
-    @Test
-    void shouldThrowErrorForInvalidCertificate() {
 
         GiftCertificate inValidCertificate = GiftCertificate.builder()
                 .name("dlqbkmggdlgcekupeaoogaadudduwjdyxihdxzfpn")
@@ -54,7 +50,6 @@ class GiftCertificateValidatorTest {
                 .duration(-6)
                 .build();
 
-        BindingResult result = new BeanPropertyBindingResult(inValidCertificate, "giftCertificate");
         validator.validate(inValidCertificate, result);
         System.out.println("Errors count: " + result.getAllErrors().size());
         result.getAllErrors().forEach(System.out::println);
