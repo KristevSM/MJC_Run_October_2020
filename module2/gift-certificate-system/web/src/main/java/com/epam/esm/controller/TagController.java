@@ -1,5 +1,6 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -92,7 +92,9 @@ public class TagController {
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         Tag tag = tagService.findTagById(id);
         try {
-            List<GiftCertificate> certificates = certificateService.getCertificatesByTagName(tag.getName());
+            CertificateSearchQuery query = new CertificateSearchQuery();
+            query.setTagName(tag.getName());
+            List<GiftCertificate> certificates = certificateService.getCertificates(query);
             certificates.forEach(certificate -> certificateService.removeTagFromCertificate(certificate.getId(), id));
         } catch (GiftCertificateNotFoundException e) {
             //logging

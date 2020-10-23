@@ -1,8 +1,6 @@
 package dao;
 
-import com.epam.esm.dao.GiftCertificateDao;
-import com.epam.esm.dao.GiftCertificateDaoJdbc;
-import com.epam.esm.dao.TagDaoJdbc;
+import com.epam.esm.dao.*;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
@@ -112,25 +110,32 @@ class GiftCertificateDaoJdbcTest {
 
     @Test
     void shouldFindCertificateByTagName() {
-        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByTagName("Tag 3");
+        CertificateSearchQuery query = new CertificateSearchQuery();
+        query.setTagName("Tag 3");
+        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificates(query);
         assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
     }
 
     @Test
     void shouldFindCertificateByPartOfDescription() {
-        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByPartOfDescription("certificate 2");
+        CertificateSearchQuery query = new CertificateSearchQuery();
+        query.setPartOfDescription("ficate 2");
+        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificates(query);
         assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
     }
 
     @Test
     void shouldFindCertificateByPartOfName() {
-        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificatesByPartOfName("2");
+        CertificateSearchQuery query = new CertificateSearchQuery();
+        query.setPartOfName("2");
+        List<GiftCertificate> giftCertificates = certificateCrudDAO.getCertificates(query);
         assertEquals(giftCertificates.size(), 1);
         System.out.println(giftCertificates);
+        query.setPartOfName("2f");
         assertThrows(GiftCertificateNotFoundException.class, () -> {
-            certificateCrudDAO.getCertificatesByPartOfName("2f");
+            certificateCrudDAO.getCertificates(query);
         });
     }
 

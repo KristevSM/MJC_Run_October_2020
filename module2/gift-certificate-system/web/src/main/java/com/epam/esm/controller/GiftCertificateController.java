@@ -1,5 +1,6 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
@@ -109,34 +110,23 @@ public class GiftCertificateController {
         return giftCertificateService.findCertificateById(id);
     }
 
-    @GetMapping(value = "/certificates")
-    public List<GiftCertificate> findAllCertificates(@RequestParam(value = "sort_name") Optional<String> nameSortDirection,
-                                         @RequestParam(value = "sort_create_date") Optional<String> createDateDirection) {
-        List<GiftCertificate> certificates = giftCertificateService.findAllCertificates();
-        if (nameSortDirection.isPresent()) {
-            return giftCertificateService.sortCertificateByParameters("sort_name", nameSortDirection.get(), certificates);
-        } else if (createDateDirection.isPresent()) {
-            return giftCertificateService.sortCertificateByParameters("sort_create_date", createDateDirection.get(), certificates);
-        } else {
-            return certificates;
-        }
-    }
-
     @GetMapping(value = "/search")
-    public List<GiftCertificate> findCertificateByParameters(@RequestParam(value = "tag_name") Optional<String> tagName,
-                                                             @RequestParam(value = "part_of_name") Optional<String> partOfName,
-                                                             @RequestParam(value = "part_of_description") Optional<String> partOfDescription) {
+    public List<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
+                                                  @RequestParam(value = "part_of_name") Optional<String> partOfName,
+                                                  @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
+                                                  @RequestParam(value = "sort") Optional<String> sortParameter,
+                                                  @RequestParam(value = "sort_order") Optional<String> sortOrder) {
+        CertificateSearchQuery query = new CertificateSearchQuery();
 
-        if (tagName.isPresent()) {
-            return giftCertificateService.getCertificatesByTagName(tagName.get());
-        } else if (partOfName.isPresent()) {
-            return giftCertificateService.getCertificatesByPartOfName(partOfName.get());
-        } else if (partOfDescription.isPresent()) {
-            return giftCertificateService.getCertificatesByPartOfDescription(partOfDescription.get());
-        } else {
-            return giftCertificateService.findAllCertificates();
-        }
+        tagName.ifPresent(query::setTagName);
+        partOfName.ifPresent(query::setPartOfName);
+        partOfDescription.ifPresent(query::setPartOfDescription);
+        sortParameter.ifPresent(query::setSortParameter);
+        sortOrder.ifPresent(query::setSortOrder);
+
+        return giftCertificateService.getCertificates(query);
     }
+
 
     private GiftCertificate applyPatchToGiftCertificate(
             JsonPatch patch, GiftCertificate targetCertificate) throws JsonPatchException, JsonProcessingException {

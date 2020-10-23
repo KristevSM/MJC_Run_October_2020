@@ -42,69 +42,69 @@ class TagServiceImplTest {
         assertEquals(10, tagService.findAllTags().size());
         Mockito.verify(tagDao, Mockito.times(1)).findAll();
     }
-
-    @Test
-    void shouldFindTagById() {
-
-        Tag tag = mock(Tag.class);
-        when(tagDao.find(1L)).thenReturn(Optional.of(tag));
-
-        assertEquals(tag, tagService.findTagById(1L));
-        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenTagByIdNotFound() {
-
-        Tag tag = mock(Tag.class);
-        when(tagDao.find(2L)).thenReturn(Optional.of(tag));
-
-        assertThrows(TagNotFoundException.class, () -> {
-            tagService.findTagById(1L);
-        });
-        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
-    }
-
-    @Test
-    void Tag() {
-
-        Tag tag = mock(Tag.class);
-        when(tagDao.save(tag)).thenReturn(1L);
-        Long expectedId = 1L;
-        assertEquals(expectedId, tagService.saveTag(tag));
-        Mockito.verify(tagDao, Mockito.times(1)).save(tag);
-    }
-
-    @Test
-
-    void shouldUpdateTag() {
-
-        Tag tag = mock(Tag.class);
-        tagService.updateTag(tag);
-        Mockito.verify(tagDao, Mockito.times(1)).update(tag);
-
-    }
-
-    @Test
-    void shouldDeleteTag() {
-
-        Tag tag = mock(Tag.class);
-        when(tagDao.find(1L)).thenReturn(Optional.ofNullable(tag));
-        tagService.deleteTag(1L);
-        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
-        Mockito.verify(tagDao, Mockito.times(1)).delete(1L);
-
-    }
-
-    @Test
-    void shouldThrowExceptionDeleteCertificate() {
-
-        when(tagDao.find(1L)).thenThrow(TagNotFoundException.class);
-        assertThrows(TagNotFoundException.class, () -> {
-            tagService.deleteTag(1L);
-        });
-        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
-        Mockito.verify(tagDao, Mockito.times(0)).delete(1L);
-    }
+//
+//    @Test
+//    void shouldFindTagById() {
+//
+//        Tag tag = mock(Tag.class);
+//        when(tagDao.find(1L)).thenReturn(Optional.of(tag));
+//
+//        assertEquals(tag, tagService.findTagById(1L));
+//        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionWhenTagByIdNotFound() {
+//
+//        Tag tag = mock(Tag.class);
+//        when(tagDao.find(2L)).thenReturn(Optional.of(tag));
+//
+//        assertThrows(TagNotFoundException.class, () -> {
+//            tagService.findTagById(1L);
+//        });
+//        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
+//    }
+//
+//    @Test
+//    void Tag() {
+//
+//        Tag tag = mock(Tag.class);
+//        when(tagDao.save(tag)).thenReturn(1L);
+//        Long expectedId = 1L;
+//        assertEquals(expectedId, tagService.saveTag(tag));
+//        Mockito.verify(tagDao, Mockito.times(1)).save(tag);
+//    }
+//
+//    @Test
+//
+//    void shouldUpdateTag() {
+//
+//        Tag tag = mock(Tag.class);
+//        tagService.updateTag(tag);
+//        Mockito.verify(tagDao, Mockito.times(1)).update(tag);
+//
+//    }
+//
+//    @Test
+//    void shouldDeleteTag() {
+//
+//        Tag tag = mock(Tag.class);
+//        when(tagDao.find(1L)).thenReturn(Optional.ofNullable(tag));
+//        tagService.deleteTag(1L);
+//        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
+//        Mockito.verify(tagDao, Mockito.times(1)).delete(1L);
+//
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionDeleteCertificate() {
+//
+//        when(tagDao.find(1L)).thenThrow(TagNotFoundException.class);
+//        assertThrows(TagNotFoundException.class, () -> {
+//            tagService.deleteTag(1L);
+//        });
+//        Mockito.verify(tagDao, Mockito.times(1)).find(1L);
+//        Mockito.verify(tagDao, Mockito.times(0)).delete(1L);
+//    }
 
 }
