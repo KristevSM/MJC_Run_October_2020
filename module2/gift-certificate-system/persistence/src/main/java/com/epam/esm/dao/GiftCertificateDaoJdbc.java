@@ -22,7 +22,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
             "price, create_date, last_update_date, duration, tag.id as tag_id, tag.name as tag_name \n" +
             "FROM gift_certificate \n" +
             "left JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
-            "left JOIN tag on (tag.id=tag_has_gift_certificate.tag_id);";
+            "left JOIN tag on (tag.id=tag_has_gift_certificate.tag_id) WHERE 1=1 ";
     private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO gift_certificate (name, description, price, duration, create_date, last_update_date)" +
             " VALUES (:name, :description, :price, :duration, :createDate, :lastUpdateDate);";
     private static final String SQL_SELECT_BY_ID = "SELECT gift_certificate.id, gift_certificate.name, \n" +
@@ -34,26 +34,9 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     private static final String SQL_UPDATE_GIFT_CERTIFICATE = "UPDATE gift_certificate SET name = :name, description = :description," +
             " price = :price, create_date = :createDate, last_update_date = :lastUpdateDate WHERE (id = :id);";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM gift_certificate WHERE (id = :id);";
-    private static final String SQL_SELECT_CERTIFICATES_BY_TAG_NAME = "SELECT gift_certificate.id, gift_certificate.name, " +
-            "description, price, create_date, \n" +
-            "last_update_date, duration, tag.id as tag_id, tag.name as tag_name\n" +
-            "FROM gift_certificate \n" +
-            "JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
-            "JOIN tag on (tag.id=tag_has_gift_certificate.tag_id) WHERE tag.name = :tag_name;";
-    private static final String SQL_SELECT_CERTIFICATES_BY_PART_OF_NAME = "SELECT gift_certificate.id, gift_certificate.name, " +
-            "description, price, create_date, \n" +
-            "last_update_date, duration, tag.id as tag_id, tag.name as tag_name\n" +
-            "FROM gift_certificate \n" +
-            "JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
-            "JOIN tag on (tag.id=tag_has_gift_certificate.tag_id) WHERE gift_certificate.name like :part_name;";
-    private static final String SQL_SELECT_CERTIFICATES_BY_PART_OF_DESCRIPTION = "SELECT gift_certificate.id, gift_certificate.name, " +
-            "description, price, create_date, \n" +
-            "last_update_date, duration, tag.id as tag_id, tag.name as tag_name\n" +
-            "FROM gift_certificate \n" +
-            "JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
-            "JOIN tag on (tag.id=tag_has_gift_certificate.tag_id) WHERE description like :part_description;";
+
     private static final String SQL_ADD_TAG_TO_CERTIFICATE = "INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id)" +
-            " VALUES (:gift_certificate_id, :tag_id);" ;
+            " VALUES (:gift_certificate_id, :tag_id);";
     private static final String SQL_REMOVE_TAG_FROM_CERTIFICATE = "DELETE FROM tag_has_gift_certificate WHERE " +
             "(tag_id = :tag_id) and (gift_certificate_id = :gift_certificate_id);";
 
@@ -64,7 +47,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     }
 
     private final ResultSetExtractor<List<GiftCertificate>> resultSetExtractor = resultSet -> {
-        Map<Long, GiftCertificate> giftCertificateMap = new HashMap<>();
+        Map<Long, GiftCertificate> giftCertificateMap = new LinkedHashMap<>();
         Long id = 0L;
         while (resultSet.next()) {
             if (!giftCertificateMap.containsKey(resultSet.getLong("id"))) {
@@ -141,7 +124,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         namedParameterJdbcTemplate.update(SQL_UPDATE_GIFT_CERTIFICATE, params);
     }
 
-    //cascade deleting?
+
     @Override
     public void delete(Long id) {
         Map<String, Object> params = new HashMap<>();
@@ -155,27 +138,28 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> getCertificatesByTagName(String tagName) {
+    public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
         Map<String, Object> params = new HashMap<>();
-        params.put("tag_name", tagName);
-        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_TAG_NAME, params, resultSetExtractor);
-    }
-
-    @Override
-    public List<GiftCertificate> getCertificatesByPartOfName(String partOfName) {
-        Map<String, Object> params = new HashMap<>();
-        partOfName = "%" + partOfName + "%";
-        params.put("part_name", partOfName);
-        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_PART_OF_NAME, params, resultSetExtractor);
-    }
-
-    @Override
-    public List<GiftCertificate> getCertificatesByPartOfDescription(String partOfDescription) {
-        Map<String, Object> params = new HashMap<>();
-        partOfDescription = "%" + partOfDescription + "%";
-        params.put("part_description", partOfDescription);
-        return namedParameterJdbcTemplate.query(SQL_SELECT_CERTIFICATES_BY_PART_OF_DESCRIPTION, params, resultSetExtractor);
-
+        StringBuilder sql = new StringBuilder(SQL_SELECT_ALL_CERTIFICATES);
+        if (query.hasTagName()) {
+            sql.append(" AND tag.name = :tag_name");
+            params.put("tag_name", query.getTagName());
+        }
+        if (query.hasPartOfDescription()) {
+            sql.append(" AND description like :part_description");
+            params.put("part_description", "%" + query.getPartOfDescription() + "%");
+        }
+        if (query.hasPartOfName()) {
+            sql.append(" AND gift_certificate.name like :part_name");
+            params.put("part_name", "%" + query.getPartOfName() + "%");
+        }
+        if (query.hasSortParameter()) {
+            sql.append(" ORDER BY gift_certificate.").append(query.getSortParameter());
+            if (query.hasSortOrder()) {
+                sql.append(" ").append(query.getSortOrder());
+            }
+        }
+        return namedParameterJdbcTemplate.query(sql.toString(), params, resultSetExtractor);
     }
 
     @Override
@@ -184,7 +168,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         params.put("gift_certificate_id", certificateId);
         params.put("tag_id", tagId);
         namedParameterJdbcTemplate.update(SQL_ADD_TAG_TO_CERTIFICATE, params);
-   }
+    }
 
     @Override
     public void removeTagFromCertificate(Long certificateId, Long tagId) {

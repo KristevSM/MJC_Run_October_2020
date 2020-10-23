@@ -1,5 +1,6 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
@@ -28,15 +26,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         this.tagDao = tagDao;
     }
 
-    @Override
-    public List<GiftCertificate> findAllCertificates() {
-        List<GiftCertificate> certificateList = giftCertificateDao.findAll();
-        if (certificateList.isEmpty()) {
-            throw new GiftCertificateNotFoundException("Gift certificates were not found");
-        } else {
-            return certificateList;
-        }
-    }
 
     @Override
     public GiftCertificate findCertificateById(Long id) {
@@ -70,33 +59,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public List<GiftCertificate> getCertificatesByTagName(String tagName) {
-        List<GiftCertificate> certificateList = giftCertificateDao.getCertificatesByTagName(tagName);
+    public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
+        List<GiftCertificate> certificateList = giftCertificateDao.getCertificates(query);
         if (certificateList.isEmpty()) {
-            throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with tag name: {0} was not found", tagName));
-        } else {
-            return certificateList;
+            throw new GiftCertificateNotFoundException("Gift certificate was not found");
+        } else if (query.hasTagName()) {
+            List<GiftCertificate> listWithTags = new ArrayList<>();
+            certificateList.forEach(certificate -> listWithTags.add(findCertificateById(certificate.getId())));
+            return listWithTags;
         }
-    }
-
-    @Override
-    public List<GiftCertificate> getCertificatesByPartOfName(String partOfName) {
-        List<GiftCertificate> certificateList = giftCertificateDao.getCertificatesByPartOfName(partOfName);
-        if (certificateList.isEmpty()) {
-            throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate containing the name: {0} was not found", partOfName));
-        } else {
-            return certificateList;
-        }
-    }
-
-    @Override
-    public List<GiftCertificate> getCertificatesByPartOfDescription(String partOfDescription) {
-        List<GiftCertificate> certificateList = giftCertificateDao.getCertificatesByPartOfDescription(partOfDescription);
-        if (certificateList.isEmpty()) {
-            throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate containing the description: {0} was not found", partOfDescription));
-        } else {
-            return certificateList;
-        }
+        return certificateList;
     }
 
     @Override
@@ -117,17 +89,4 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
     }
 
-    @Override
-    public List<GiftCertificate> sortCertificateByParameters(String sortParameter, String direction, List<GiftCertificate> certificates) {
-
-        if ("sort_name".equals(sortParameter)) {
-            certificates.sort(Comparator.comparing(GiftCertificate::getName));
-        } else if ("sort_create_date".equals(sortParameter)) {
-            certificates.sort(Comparator.comparing(GiftCertificate::getCreateDate));
-        }
-        if ("DESC".equals(direction)) {
-            Collections.reverse(certificates);
-        }
-        return certificates;
-    }
 }
