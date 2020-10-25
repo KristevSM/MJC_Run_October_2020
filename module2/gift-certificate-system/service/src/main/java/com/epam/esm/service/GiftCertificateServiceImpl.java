@@ -9,6 +9,7 @@ import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
@@ -69,6 +70,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      *
      * @param giftCertificate GiftCertificate instance.
      */
+    @Transactional
     @Override
     public void updateCertificate(GiftCertificate giftCertificate) {
         List<Tag> tags = giftCertificate.getTags();
@@ -87,6 +89,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * @param id GiftCertificate id.
      * @throws TagNotFoundException Gift certificate with id: {0} not found.
      */
+    @Transactional
     @Override
     public void deleteCertificate(Long id) {
         Optional<GiftCertificate> certificate = giftCertificateDao.find(id);
@@ -108,6 +111,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * @param query CertificateSearchQuery
      * @return GiftCertificates list.
      */
+    @Transactional
     @Override
     public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
         List<GiftCertificate> certificateList = giftCertificateDao.getCertificates(query);
@@ -132,6 +136,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * @throws TagNotFoundException Tag with id: {0} was not found
      * @throws GiftCertificateNotFoundException Gift certificate with id: {0} was not found.
      */
+    @Transactional
     @Override
     public void addTagToCertificate(Long certificateId, Long tagId) {
         Optional<GiftCertificate> certificate = giftCertificateDao.find(certificateId);

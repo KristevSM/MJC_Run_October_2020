@@ -4,6 +4,9 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -13,6 +16,7 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages="com.epam.esm")
 @EnableWebMvc
+@EnableTransactionManagement
 public class SpringConfig extends WebMvcConfigurationSupport {
 
 
@@ -30,6 +34,11 @@ public class SpringConfig extends WebMvcConfigurationSupport {
         dataSource.setValidationQuery("SELECT 1");
 
         return dataSource;
+    }
+
+    @Bean
+    public PlatformTransactionManager txManager() {
+        return new DataSourceTransactionManager(getDataSource());
     }
 
     @Override
