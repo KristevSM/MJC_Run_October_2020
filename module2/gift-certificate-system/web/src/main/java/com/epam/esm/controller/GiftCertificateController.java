@@ -4,6 +4,7 @@ import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.model.Tag;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.GiftCertificateValidator;
@@ -73,10 +74,6 @@ public class GiftCertificateController {
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GiftCertificate> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate,
                                                               UriComponentsBuilder ucBuilder) {
-        if (giftCertificate.getTags() == null) {
-            giftCertificate.setTags(new ArrayList<>());
-        }
-
         giftCertificate.setCreateDate(ZonedDateTime.now());
         giftCertificate.setLastUpdateDate(ZonedDateTime.now());
 
@@ -86,7 +83,11 @@ public class GiftCertificateController {
             return new ResponseEntity(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         } else {
             Long certificateId = giftCertificateService.saveCertificate(giftCertificate);
-            tagService.assignDefaultTag("Main", certificateId);
+            if (giftCertificate.getTags() == null) {
+                giftCertificate.setTags(new ArrayList<>());
+                tagService.assignDefaultTag("Main", certificateId);
+            }
+            tagService.updateTagList(giftCertificate.getTags(), certificateId);
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificateId).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
