@@ -127,13 +127,11 @@ public class GiftCertificateController {
             }
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } catch (GiftCertificateNotFoundException | TagNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     /**
-     * Deletes gift certificate bu id.
+     * Deletes gift certificate by id.
      *
      * @param id GiftCertificate id.
      * @return ResponseEntity.
@@ -169,7 +167,7 @@ public class GiftCertificateController {
      * @param sortOrder         value of "sort_order"
      * @return GiftCertificates list.
      */
-    @GetMapping(value = "/search")
+    @GetMapping(value = "/certificates")
     public List<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
                                                   @RequestParam(value = "part_of_name") Optional<String> partOfName,
                                                   @RequestParam(value = "part_of_description") Optional<String> partOfDescription,

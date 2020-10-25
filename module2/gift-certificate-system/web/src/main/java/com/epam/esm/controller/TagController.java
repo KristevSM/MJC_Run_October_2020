@@ -2,6 +2,7 @@ package com.epam.esm.controller;
 
 import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
+import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.GiftCertificateService;
@@ -133,8 +134,6 @@ public class TagController {
             }
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
