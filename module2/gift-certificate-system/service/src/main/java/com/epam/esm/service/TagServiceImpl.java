@@ -5,6 +5,7 @@ import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -68,6 +69,7 @@ public class TagServiceImpl implements TagService {
      * @return Tag id.
      * @throws IllegalArgumentException Tag with name: {0} already exists.
      */
+    @Transactional
     @Override
     public Long saveTag(Tag tag) {
         Optional<Tag> tagOptional = tagDao.findByTagName(tag.getName());
@@ -112,6 +114,7 @@ public class TagServiceImpl implements TagService {
      * @param id Tag id.
      * @throws TagNotFoundException Tag with id: {0} not found
      */
+    @Transactional
     @Override
     public void deleteTag(Long id) {
         tagDao.find(id).orElseThrow(() ->
@@ -129,6 +132,7 @@ public class TagServiceImpl implements TagService {
      * @param certificateId Certificate id.
      * @throws TagNotFoundException The tag with tag name: {0} not found
      */
+    @Transactional
     @Override
     public void assignDefaultTag(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
@@ -150,6 +154,7 @@ public class TagServiceImpl implements TagService {
      * @param certificateId Certificate id.
      * @throws TagNotFoundException The tag with tag name: {0} not found
      */
+    @Transactional
     @Override
     public void addNewTagAndCertificate(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
