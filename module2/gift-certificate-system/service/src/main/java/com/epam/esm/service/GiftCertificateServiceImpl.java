@@ -14,30 +14,61 @@ import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+/**
+ * @author Sergei Kristev
+ *
+ * Service for managing GiftCertificate objects.
+ */
 @Service
 public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private final GiftCertificateDao giftCertificateDao;
     private final TagDao tagDao;
 
+    /**
+     * Constructor accepts GiftCertificateDao and TagDao objects.
+     *
+     * @param giftCertificateDao    GiftCertificateDao instance.
+     * @param tagDao                TagDao instance.
+     */
     @Autowired
     public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao) {
         this.giftCertificateDao = giftCertificateDao;
         this.tagDao = tagDao;
     }
 
-
+    /**
+     * Gets certificate by id.
+     *
+     * @param id   GiftCertificate id.
+     * @return GiftCertificate instance else throws GiftCertificateNotFoundException.
+     * @throws GiftCertificateNotFoundException Gift certificate with id: {0} not found.
+     */
     @Override
     public GiftCertificate findCertificateById(Long id) {
-        return giftCertificateDao.find(id).orElseThrow(GiftCertificateNotFoundException::new);
+        return giftCertificateDao.find(id).orElseThrow(()-> new GiftCertificateNotFoundException(MessageFormat
+                .format("Gift certificate with id: {0} not found", id)));
     }
 
+    /**
+     * Saves new certificate.
+     *
+     * @param giftCertificate   GiftCertificate instance.
+     * @return GiftCertificate's id.
+     */
     @Override
     public Long saveCertificate(GiftCertificate giftCertificate) {
-
         return giftCertificateDao.save(giftCertificate);
     }
 
+    /**
+     * Updates certificate.
+     *
+     * First, gets list of certificate's tags. Subsequently, assigns new tag to certificate through <i>tagDao</i>.
+     * After that updates certificate through <i>giftCertificateDao</i>
+     *
+     * @param giftCertificate GiftCertificate instance.
+     */
     @Override
     public void updateCertificate(GiftCertificate giftCertificate) {
         List<Tag> tags = giftCertificate.getTags();
@@ -46,6 +77,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDao.update(giftCertificate);
     }
 
+    /**
+     * Deletes certificate.
+     *
+     * First, finds a certificate by ID. Subsequently, if the certificate record is exists, method removes all tags
+     * from passed certificate through <i>tagDao</i>, else throw TagNotFoundException. After that deletes certificate
+     * through <i>giftCertificateDao</i>
+     *
+     * @param id GiftCertificate id.
+     * @throws TagNotFoundException Gift certificate with id: {0} not found.
+     */
     @Override
     public void deleteCertificate(Long id) {
         Optional<GiftCertificate> certificate = giftCertificateDao.find(id);
@@ -58,6 +99,15 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
     }
 
+    /**
+     * Searches gift certificates.
+     *
+     * First, finds certificates throw using CertificateSearchQuery. If list of certificates is empty,
+     * throws GiftCertificateNotFoundException, else certificate's list added with tags and returned.
+     *
+     * @param query CertificateSearchQuery
+     * @return GiftCertificates list.
+     */
     @Override
     public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
         List<GiftCertificate> certificateList = giftCertificateDao.getCertificates(query);
@@ -71,6 +121,17 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         return certificateList;
     }
 
+    /**
+     * Assigns new tag to certificate.
+     *
+     * First, finds a certificate by id. Subsequently, if the certificate record is exists, method finds tag by id and
+     * assigns passed tag to certificate.
+     *
+     * @param certificateId       GiftCertificate id.
+     * @param tagId               Tag id.
+     * @throws TagNotFoundException Tag with id: {0} was not found
+     * @throws GiftCertificateNotFoundException Gift certificate with id: {0} was not found.
+     */
     @Override
     public void addTagToCertificate(Long certificateId, Long tagId) {
         Optional<GiftCertificate> certificate = giftCertificateDao.find(certificateId);
@@ -84,6 +145,14 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
     }
 
+    /**
+     * Removes tag.
+     *
+     * Removes tag from certificate.
+     *
+     * @param certificateId       GiftCertificate id.
+     * @param tagId               Tag id.
+     */
     @Override
     public void removeTagFromCertificate(Long certificateId, Long tagId) {
         giftCertificateDao.removeTagFromCertificate(certificateId, tagId);

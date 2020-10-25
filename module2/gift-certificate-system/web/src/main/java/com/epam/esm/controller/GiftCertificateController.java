@@ -30,6 +30,11 @@ import javax.validation.Valid;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+/**
+ * @author Sergei Kristev
+ *
+ * Gets data from rest in JSON format on path "/gift-certificates".
+ */
 @RestController
 @RequestMapping("/gift-certificates")
 public class GiftCertificateController {
@@ -38,6 +43,13 @@ public class GiftCertificateController {
     private final GiftCertificateValidator certificateValidator;
     private final TagService tagService;
 
+    /**
+     * Constructor accepts service layer objects and certificate validator.
+     *
+     * @param giftCertificateService GiftCertificateService instance.
+     * @param certificateValidator   GiftCertificateValidator instance.
+     * @param tagService             TagService instance.
+     */
     @Autowired
     public GiftCertificateController(GiftCertificateService giftCertificateService, GiftCertificateValidator certificateValidator,
                                      TagService tagService) {
@@ -46,11 +58,21 @@ public class GiftCertificateController {
         this.tagService = tagService;
     }
 
-
+    /**
+     * Adds new gift certificate.
+     *
+     * The certificate object is being validated. The date of certificate creation and last update are set
+     * to the current time. If there are invalid fields, it is returned <i>ResponseEntity</i> with <i>HttpStatus.BAD_REQUEST</i>
+     * and error's data. If successful, the certificate is saved through the <i>giftCertificateService</i> and the
+     * default tag "Main" is set for the certificate. Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     *
+     * @param giftCertificate GiftCertificate instance.
+     * @param ucBuilder       UriComponentsBuilder instance.
+     * @return ResponseEntity.
+     */
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GiftCertificate> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate,
                                                               UriComponentsBuilder ucBuilder) {
-
         if (giftCertificate.getTags() == null) {
             giftCertificate.setTags(new ArrayList<>());
         }
@@ -71,11 +93,24 @@ public class GiftCertificateController {
         }
     }
 
+    /**
+     * Updates gift certificate.
+     *
+     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
+     * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
+     * The certificate object is being validated. If there are invalid fields, it is returned <i>ResponseEntity</i>
+     * with <i>HttpStatus.BAD_REQUEST</i> and error's data. If successful, the certificate is updated through
+     * the <i>giftCertificateService</i>. Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     *
+     * @param id        GiftCertificate id.
+     * @param patch     JsonPatch.
+     * @param ucBuilder UriComponentsBuilder instance.
+     * @return ResponseEntity.
+     */
     @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
                                                                  @RequestBody JsonPatch patch,
                                                                  UriComponentsBuilder ucBuilder) {
-
         try {
             GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
             GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
@@ -97,6 +132,12 @@ public class GiftCertificateController {
         }
     }
 
+    /**
+     * Deletes gift certificate bu id.
+     *
+     * @param id GiftCertificate id.
+     * @return ResponseEntity.
+     */
     @DeleteMapping(path = "certificates/{id}")
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
 
@@ -104,12 +145,30 @@ public class GiftCertificateController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    /**
+     * Gets gift certificate by id.
+     *
+     * @param id GiftCertificate id.
+     * @return GiftCertificate instance.
+     */
     @GetMapping(value = "certificates/{id}")
     public GiftCertificate findCertificateById(@PathVariable Long id) {
         return giftCertificateService.findCertificateById(id);
     }
 
+    /**
+     * Searches gift certificates.
+     *
+     * First, creates an instance of CertificateSearchQuery. Then method checks if the input parameters required for searching
+     * and sorting certificates are not empty, sets their values to the queue object, and passes it to the giftCertificateService.
+     *
+     * @param tagName           value of "tag_name"
+     * @param partOfName        value of "part_of_name"
+     * @param partOfDescription value of "part_of_description"
+     * @param sortParameter     value of "sort"
+     * @param sortOrder         value of "sort_order"
+     * @return GiftCertificates list.
+     */
     @GetMapping(value = "/search")
     public List<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
                                                   @RequestParam(value = "part_of_name") Optional<String> partOfName,
@@ -127,9 +186,17 @@ public class GiftCertificateController {
         return giftCertificateService.getCertificates(query);
     }
 
-
-    private GiftCertificate applyPatchToGiftCertificate(
-            JsonPatch patch, GiftCertificate targetCertificate) throws JsonPatchException, JsonProcessingException {
+    /**
+     * Applies JsonPatch to certificate.
+     *
+     * This method applies the JsonPatch to the certificate.
+     *
+     * @param patch             JsonPatch
+     * @param targetCertificate GiftCertificate instance
+     * @return patched GiftCertificate instance.
+     */
+    private GiftCertificate applyPatchToGiftCertificate(JsonPatch patch, GiftCertificate targetCertificate)
+            throws JsonPatchException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
