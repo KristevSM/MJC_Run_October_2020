@@ -1,7 +1,6 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,7 @@ public class TagServiceImpl implements TagService {
      */
     @Override
     public Tag findTagById(Long id) {
-        return tagDao.find(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
+        return tagDao.find(id).orElseThrow(() -> new TagNotFoundException(MessageFormat
                 .format("Tag with id: {0} not found", id)));
     }
 
@@ -87,6 +86,7 @@ public class TagServiceImpl implements TagService {
      */
     @Override
     public void updateTag(Tag tag) {
+
         tagDao.update(tag);
     }
 
