@@ -14,5 +14,6 @@ public interface TagService {
     void addNewTagAndCertificate(String tagName, Long certificateId);
     void assignTag(Long tagId, Long certificateId);
     Tag findTagByTagName(String tagName);
+    void updateTagList(List<Tag> tags, Long certificateId);
 
 }

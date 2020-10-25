@@ -1,6 +1,7 @@
 package com.epam.esm.validator;
 
 import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.validator.GiftCertificateValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -10,7 +11,8 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class GiftCertificateValidatorTest {
 

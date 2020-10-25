@@ -3,9 +3,12 @@ package com.epam.esm.service;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
+import com.epam.esm.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -181,6 +184,23 @@ public class TagServiceImpl implements TagService {
             throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
         } else {
             return tag.get();
+        }
+    }
+
+    @Override
+    public void updateTagList(List<Tag> tags, Long certificateId) {
+        for (Tag tag: tags) {
+            Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
+            if (currentTag.isPresent()) {
+                tagDao.addNewTagAndToCertificate(currentTag.get().getId(), certificateId);
+                //Replace validate
+            } else {
+                TagValidator validator = new TagValidator();
+                BindingResult result = new BeanPropertyBindingResult(tag, "tag");
+                validator.validate(tag, result);
+                Long tagId = tagDao.save(tag);
+                tagDao.addNewTagAndToCertificate(tagId,certificateId);
+            }
         }
     }
 }
