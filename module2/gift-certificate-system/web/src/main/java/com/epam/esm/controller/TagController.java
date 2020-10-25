@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * @author Sergei Kristev
+ *
+ * Gets data from rest in JSON format on path "/gift-certificates".
+ */
 @RestController
 @RequestMapping("/gift-certificates")
 public class TagController {
@@ -32,25 +38,55 @@ public class TagController {
     private final GiftCertificateService certificateService;
     private final TagValidator tagValidator;
 
+    /**
+     * Accepts service layer objects and tag validator.
+     *
+     * @param tagService            TagService instance.
+     * @param certificateService    GiftCertificateService instance.
+     * @param tagValidator          TagValidator instance.
+     */
+    @Autowired
     public TagController(TagService tagService, GiftCertificateService certificateService, TagValidator tagValidator) {
         this.tagService = tagService;
         this.certificateService = certificateService;
         this.tagValidator = tagValidator;
     }
 
+    /**
+     * Gets list of all tags.
+     *
+     * @return Tags list.
+     */
     @GetMapping(value = "/tags")
     public List<Tag> findAllTags() {
         return tagService.findAllTags();
     }
 
+    /**
+     * Gets tag by id.
+     *
+     * @param id Tag id.
+     * @return Tag instance.
+     */
     @GetMapping(value = "tags/{id}")
     public Tag findTagById(@PathVariable Long id) {
         return tagService.findTagById(id);
     }
 
+    /**
+     * Adds new tag.
+     *
+     * The tag object is being validated. If there are invalid fields, it is returned <i>ResponseEntity</i> with
+     * <i>HttpStatus.BAD_REQUEST</i> and error's data. If successful, the tag is saved through the <i>tagService</i>.
+     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     *
+     * @param tag             Tag instance.
+     * @param ucBuilder       UriComponentsBuilder instance.
+     * @return ResponseEntity.
+     */
     @PostMapping(path = "/tags", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Tag> addTag(@RequestBody @Valid Tag tag,
-                                                              UriComponentsBuilder ucBuilder) {
+                                      UriComponentsBuilder ucBuilder) {
 
         BindingResult result = new BeanPropertyBindingResult(tag, "tag");
         tagValidator.validate(tag, result);
@@ -64,10 +100,24 @@ public class TagController {
         }
     }
 
+    /**
+     * Updates tag.
+     *
+     * First, finds a tag by ID. Subsequently, if the tag record is found, invokes
+     * the applyPatchToTag(patch, tag) method. Then applies the JsonPatch to the tag.
+     * The tag object is being validated. If there are invalid fields, it is returned <i>ResponseEntity</i>
+     * with <i>HttpStatus.BAD_REQUEST</i> and error's data. If successful, the tag is updated through
+     * the <i>tagService</i>. Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     *
+     * @param id        Tag id.
+     * @param patch     JsonPatch.
+     * @param ucBuilder UriComponentsBuilder instance.
+     * @return ResponseEntity.
+     */
     @PatchMapping(path = "tags/{id}", consumes = "application/json-patch+json")
     public ResponseEntity<Tag> updateTag(@PathVariable Long id,
-                                                         @RequestBody JsonPatch patch,
-                                                         UriComponentsBuilder ucBuilder) {
+                                         @RequestBody JsonPatch patch,
+                                         UriComponentsBuilder ucBuilder) {
         try {
             Tag oldTag = tagService.findTagById(id);
             Tag tagPatched = applyPatchToTag(patch, oldTag);
@@ -88,6 +138,12 @@ public class TagController {
         }
     }
 
+    /**
+     * Deletes tag by id.
+     *
+     * @param id Tag id.
+     * @return ResponseEntity.
+     */
     @DeleteMapping(path = "tags/{id}")
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         Tag tag = tagService.findTagById(id);
@@ -103,6 +159,15 @@ public class TagController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Applies JsonPatch to tag.
+     *
+     * This method applies the JsonPatch to the tag.
+     *
+     * @param patch             JsonPatch
+     * @param targetTag         Tag instance
+     * @return patched Tag instance.
+     */
     private Tag applyPatchToTag(
             JsonPatch patch, Tag targetTag) throws JsonPatchException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();

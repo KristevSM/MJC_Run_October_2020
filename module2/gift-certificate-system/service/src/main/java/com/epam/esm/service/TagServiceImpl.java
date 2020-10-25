@@ -1,6 +1,7 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +11,31 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * @author Sergei Kristev
+ * <p>
+ * Service for managing Tag objects.
+ */
 @Service
 public class TagServiceImpl implements TagService {
 
     private final TagDao tagDao;
 
+    /**
+     * Constructor accepts TagDao object.
+     *
+     * @param tagDao TagDao instance.
+     */
     @Autowired
     public TagServiceImpl(TagDao tagDao) {
         this.tagDao = tagDao;
     }
 
+    /**
+     * Gets list of all tags from TagDao.
+     *
+     * @return Tags list.
+     */
     @Override
     public List<Tag> findAllTags() {
 
@@ -32,35 +47,71 @@ public class TagServiceImpl implements TagService {
         }
     }
 
+    /**
+     * Gets tag by id.
+     *
+     * @param id Tag id.
+     * @return Tag instance.
+     */
     @Override
     public Tag findTagById(Long id) {
-        Optional<Tag> tag = tagDao.find(id);
-        if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("Tag with id: {} not found", id));
-        } else {
-            return tag.get();
-        }
+        return tagDao.find(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
+                .format("Tag with id: {0} not found", id)));
     }
 
+    /**
+     * Saves new tag.
+     *
+     * First, finds a tag by tag name. Subsequently, if the tag record is not exists, method saves tag through <i>tagDao</i>, else
+     * throw IllegalArgumentException;
+     *
+     * @param tag Tag instance.
+     * @return Tag id.
+     * @throws IllegalArgumentException Tag with name: {0} already exists.
+     */
     @Override
     public Long saveTag(Tag tag) {
         Optional<Tag> tagOptional = tagDao.findByTagName(tag.getName());
         if (tagOptional.isPresent()) {
-            throw new IllegalArgumentException(MessageFormat.format("Tag with name: {} already exists", tag.getName()));
+            throw new IllegalArgumentException(MessageFormat.format("Tag with name: {0} already exists", tag.getName()));
         }
         return tagDao.save(tag);
     }
 
+    /**
+     * Updates tag.
+     *
+     * Updating tag through <i>tagDao</i>.
+     *
+     * @param tag Tag instance.
+     */
     @Override
     public void updateTag(Tag tag) {
         tagDao.update(tag);
     }
 
+    /**
+     * Assigns tag.
+     *
+     * Assigning tag to gift certificate through <i>tagDao</i>.
+     *
+     * @param tagId         Tag id.
+     * @param certificateId GiftCertificate id.
+     */
     @Override
     public void assignTag(Long tagId, Long certificateId) {
         tagDao.assignTag(tagId, certificateId);
     }
 
+    /**
+     * Deletes tag.
+     *
+     * First, finds a tag by ID. Subsequently, if the tag record is exists, method deletes tag through <i>tagDao</i>, else
+     * throw TagNotFoundException;
+     *
+     * @param id Tag id.
+     * @throws TagNotFoundException Tag with id: {0} not found
+     */
     @Override
     public void deleteTag(Long id) {
         tagDao.find(id).orElseThrow(() ->
@@ -68,33 +119,61 @@ public class TagServiceImpl implements TagService {
         tagDao.delete(id);
     }
 
+    /**
+     * Assigns default tag.
+     *
+     * First, finds a tag by tag name. Subsequently, if the tag record is exists, method assigns default tag
+     * through <i>tagDao</i>, else throw TagNotFoundException;
+     *
+     * @param tagName       Tag name.
+     * @param certificateId Certificate id.
+     * @throws TagNotFoundException The tag with tag name: {0} not found
+     */
     @Override
     public void assignDefaultTag(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {} not found", tagName));
+            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
         } else {
             Tag currentTag = tag.get();
             tagDao.assignTag(currentTag.getId(), certificateId);
         }
     }
 
+    /**
+     * Assigns new tag to certificate.
+     *
+     * First, finds a tag by tag name. Subsequently, if the tag record is exists, method assigns passed tag
+     * through <i>tagDao</i>, else throw TagNotFoundException;
+     *
+     * @param tagName       Tag name.
+     * @param certificateId Certificate id.
+     * @throws TagNotFoundException The tag with tag name: {0} not found
+     */
     @Override
     public void addNewTagAndCertificate(String tagName, Long certificateId) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {} not found", tagName));
+            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
         } else {
             Tag currentTag = tag.get();
             tagDao.addNewTagAndToCertificate(currentTag.getId(), certificateId);
         }
     }
 
+    /**
+     * Finds tag by tag name.
+     *
+     * Finds a tag by tag name, else throw TagNotFoundException;
+     *
+     * @param tagName Tag name.
+     * @throws TagNotFoundException The tag with tag name: {0} not found
+     */
     @Override
     public Tag findTagByTagName(String tagName) {
         Optional<Tag> tag = tagDao.findByTagName(tagName);
         if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {} not found", tagName));
+            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
         } else {
             return tag.get();
         }
