@@ -10,8 +10,6 @@ import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.GiftCertificateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -19,7 +17,9 @@ import org.springframework.validation.BindingResult;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sergei Kristev
@@ -147,7 +147,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * Searches gift certificates.
      *
      * First, finds certificates throw using CertificateSearchQuery. If list of certificates is empty,
-     * throws GiftCertificateNotFoundException, else certificate's list added with tags and returned.
+     * returns empty list, else certificate's list added with tags and returned.
      *
      * @param query CertificateSearchQuery
      * @return GiftCertificates list.
@@ -155,7 +155,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Transactional
     @Override
     public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
-        List<GiftCertificate> certificateList = giftCertificateDao.getCertificates(query);
+        List<GiftCertificate> certificateList = new ArrayList<>();
+        try {
+           certificateList = giftCertificateDao.getCertificates(query);
+        } catch (GiftCertificateNotFoundException e) {
+            return certificateList;
+        }
         if (query.hasTagName()) {
             List<GiftCertificate> listWithTags = new ArrayList<>();
             certificateList.forEach(certificate -> listWithTags.add(findCertificateById(certificate.getId())));

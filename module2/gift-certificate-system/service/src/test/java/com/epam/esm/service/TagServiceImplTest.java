@@ -5,6 +5,7 @@ import com.epam.esm.dao.TagDaoJdbc;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
+import com.epam.esm.validator.TagValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -23,13 +24,14 @@ class TagServiceImplTest {
 
     private TagService tagService;
 
-    @Mock
     private TagDao tagDao;
+    private TagValidator tagValidator;
 
     @BeforeEach
     void setUp() {
         this.tagDao = mock(TagDaoJdbc.class);
-        this.tagService = new TagServiceImpl(tagDao);
+        this.tagValidator = mock(TagValidator.class);
+        this.tagService = new TagServiceImpl(tagDao, tagValidator);
 
     }
 

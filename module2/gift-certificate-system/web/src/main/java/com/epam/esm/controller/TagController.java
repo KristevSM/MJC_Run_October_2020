@@ -2,7 +2,6 @@ package com.epam.esm.controller;
 
 import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
-import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.GiftCertificateService;
@@ -18,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,20 +34,17 @@ public class TagController {
 
     private final TagService tagService;
     private final GiftCertificateService certificateService;
-    private final TagValidator tagValidator;
 
     /**
      * Accepts service layer objects and tag validator.
      *
      * @param tagService            TagService instance.
      * @param certificateService    GiftCertificateService instance.
-     * @param tagValidator          TagValidator instance.
      */
     @Autowired
-    public TagController(TagService tagService, GiftCertificateService certificateService, TagValidator tagValidator) {
+    public TagController(TagService tagService, GiftCertificateService certificateService) {
         this.tagService = tagService;
         this.certificateService = certificateService;
-        this.tagValidator = tagValidator;
     }
 
     /**
@@ -77,8 +71,7 @@ public class TagController {
     /**
      * Adds new tag.
      *
-     * The tag object is being validated. If there are invalid fields, it is returned <i>ResponseEntity</i> with
-     * <i>HttpStatus.BAD_REQUEST</i> and error's data. If successful, the tag is saved through the <i>tagService</i>.
+     * The tag is saved through the <i>tagService</i>.
      * Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
      * @param tag             Tag instance.
@@ -89,16 +82,10 @@ public class TagController {
     public ResponseEntity<Tag> addTag(@RequestBody @Valid Tag tag,
                                       UriComponentsBuilder ucBuilder) {
 
-        BindingResult result = new BeanPropertyBindingResult(tag, "tag");
-        tagValidator.validate(tag, result);
-        if (result.hasErrors()) {
-            return new ResponseEntity(result.getAllErrors(), HttpStatus.BAD_REQUEST);
-        } else {
             Long tagId = tagService.saveTag(tag);
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(ucBuilder.path("/tags/{id}").buildAndExpand(tagId).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
-        }
     }
 
     /**
@@ -106,9 +93,7 @@ public class TagController {
      *
      * First, finds a tag by ID. Subsequently, if the tag record is found, invokes
      * the applyPatchToTag(patch, tag) method. Then applies the JsonPatch to the tag.
-     * The tag object is being validated. If there are invalid fields, it is returned <i>ResponseEntity</i>
-     * with <i>HttpStatus.BAD_REQUEST</i> and error's data. If successful, the tag is updated through
-     * the <i>tagService</i>. Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     * After that the tag is updated through the <i>tagService</i>. Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
      * @param id        Tag id.
      * @param patch     JsonPatch.
@@ -122,16 +107,12 @@ public class TagController {
         try {
             Tag oldTag = tagService.findTagById(id);
             Tag tagPatched = applyPatchToTag(patch, oldTag);
-            BindingResult result = new BeanPropertyBindingResult(tagPatched, "tagPatched");
-            tagValidator.validate(tagPatched, result);
-            if (result.hasErrors()) {
-                return new ResponseEntity(result.getAllErrors(), HttpStatus.BAD_REQUEST);
-            } else {
+
                 tagService.updateTag(tagPatched);
                 HttpHeaders headers = new HttpHeaders();
                 headers.setLocation(ucBuilder.path("/tags/{id}").buildAndExpand(tagPatched.getId()).toUri());
                 return new ResponseEntity<>(headers, HttpStatus.CREATED);
-            }
+
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
