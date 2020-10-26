@@ -14,4 +14,5 @@ public interface GiftCertificateService {
 
     void addTagToCertificate(Long certificateId, Long tagId);
     void removeTagFromCertificate(Long certificateId, Long tagId);
+    void patchTags(GiftCertificate oldCertificate, GiftCertificate certificatePatched);
 }

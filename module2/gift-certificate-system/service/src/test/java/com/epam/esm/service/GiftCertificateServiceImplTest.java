@@ -5,37 +5,35 @@ import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.GiftCertificateValidator;
+import com.epam.esm.validator.TagValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class GiftCertificateServiceImplTest {
 
     private GiftCertificateService giftCertificateService;
-
-    @Mock
-    GiftCertificateValidator giftCertificateValidator;
-    @Mock
+    private GiftCertificateValidator giftCertificateValidator;
+    private TagValidator tagValidator;
     private GiftCertificateDao giftCertificateDao;
-
-    @Mock
     private TagDao tagDao;
 
     @BeforeEach
     void setUp() {
         this.giftCertificateDao = mock(GiftCertificateDaoJdbc.class);
         this.tagDao = mock(TagDaoJdbc.class);
-        this.giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao, giftCertificateValidator);
+        this.giftCertificateValidator = mock(GiftCertificateValidator.class);
+        this.tagValidator = mock(TagValidator.class);
+        this.giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao,
+                giftCertificateValidator, tagValidator);
 
     }
 
@@ -135,11 +133,10 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenCertificateByTagNameNotFound() {
+    void shouldReturnEmptyListWhenCertificateByTagNameNotFound() {
         CertificateSearchQuery query = new CertificateSearchQuery();
-        assertThrows(GiftCertificateNotFoundException.class, () -> {
-            giftCertificateService.getCertificates(query);
-        });
+        List<GiftCertificate> certificates = giftCertificateService.getCertificates(query);
+        assertTrue(certificates.isEmpty());
         Mockito.verify(giftCertificateDao, Mockito.times(1)).getCertificates(query);
     }
 

@@ -95,7 +95,7 @@ public class GiftCertificateController {
         try {
             GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
             GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
-
+            giftCertificateService.patchTags(oldCertificate, certificatePatched);
             giftCertificateService.updateCertificate(certificatePatched);
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());

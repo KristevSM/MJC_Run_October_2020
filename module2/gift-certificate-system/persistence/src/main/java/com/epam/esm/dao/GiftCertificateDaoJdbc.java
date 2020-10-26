@@ -36,7 +36,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM gift_certificate WHERE (id = :id);";
 
     private static final String SQL_ADD_TAG_TO_CERTIFICATE = "INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id)" +
-            " VALUES (:gift_certificate_id, :tag_id);";
+            " VALUES (:tag_id, :gift_certificate_id);";
     private static final String SQL_REMOVE_TAG_FROM_CERTIFICATE = "DELETE FROM tag_has_gift_certificate WHERE " +
             "(tag_id = :tag_id) and (gift_certificate_id = :gift_certificate_id);";
 
