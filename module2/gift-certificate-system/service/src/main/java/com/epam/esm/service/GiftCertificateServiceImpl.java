@@ -115,9 +115,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
         List<GiftCertificate> certificateList = giftCertificateDao.getCertificates(query);
-        if (certificateList.isEmpty()) {
-            throw new GiftCertificateNotFoundException("Gift certificate was not found");
-        } else if (query.hasTagName()) {
+        if (query.hasTagName()) {
             List<GiftCertificate> listWithTags = new ArrayList<>();
             certificateList.forEach(certificate -> listWithTags.add(findCertificateById(certificate.getId())));
             return listWithTags;

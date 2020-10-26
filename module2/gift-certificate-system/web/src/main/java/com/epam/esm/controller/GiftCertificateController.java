@@ -190,13 +190,8 @@ public class GiftCertificateController {
         BindingResult result = new BeanPropertyBindingResult(query, "searchQuery");
         searchValidator.validate(query, result);
         if (result.hasErrors()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        try {
-            certificateList = giftCertificateService.getCertificates(query);
-        } catch (GiftCertificateNotFoundException e) {
-            return new ResponseEntity(certificateList, HttpStatus.OK);
-        } //finally?
         return new ResponseEntity(certificateList, HttpStatus.OK);
     }
 
