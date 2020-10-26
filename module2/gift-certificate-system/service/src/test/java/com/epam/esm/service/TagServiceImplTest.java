@@ -8,7 +8,6 @@ import com.epam.esm.model.Tag;
 import com.epam.esm.validator.TagValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -184,4 +183,22 @@ class TagServiceImplTest {
         Mockito.verify(tagDao, Mockito.times(1)).findByTagName("tag 2");
 
     }
+
+    @Test
+    void shouldThrowExceptionWhenTagNotFound() {
+
+        assertThrows(TagNotFoundException.class, () -> {
+            tagService.findTagByTagName("Tag");
+        });
+        Mockito.verify(tagDao, Mockito.times(1)).findByTagName("Tag");
+    }
+
+//    @Test
+//    void shouldUpdateTagList() {
+//
+//        Tag tag = new Tag();
+//
+//        Mockito.verify(tagDao, Mockito.times(1)).save(tag);
+//        Mockito.verify(tagDao, Mockito.times(1)).addNewTagAndToCertificate(tag.getId(), 1L);
+//    }
 }

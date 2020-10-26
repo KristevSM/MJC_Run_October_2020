@@ -9,6 +9,7 @@ import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.GiftCertificateValidator;
+import com.epam.esm.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +18,12 @@ import org.springframework.validation.BindingResult;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Sergei Kristev
- *
+ * <p>
  * Service for managing GiftCertificate objects.
  */
 @Service
@@ -32,39 +32,43 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateDao giftCertificateDao;
     private final TagDao tagDao;
     private final GiftCertificateValidator certificateValidator;
+    private final TagValidator tagValidator;
 
     /**
      * Constructor accepts GiftCertificateDao and TagDao objects.
      *
-     * @param giftCertificateDao    GiftCertificateDao instance.
-     * @param tagDao                TagDao instance.
-     * @param certificateValidator  GiftCertificateValidator instance.
+     * @param giftCertificateDao   GiftCertificateDao instance.
+     * @param tagDao               TagDao instance.
+     * @param certificateValidator GiftCertificateValidator instance.
+     * @param tagValidator         TagValidator instance.
      */
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao, GiftCertificateValidator certificateValidator) {
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao,
+                                      GiftCertificateValidator certificateValidator, TagValidator tagValidator) {
         this.giftCertificateDao = giftCertificateDao;
         this.tagDao = tagDao;
         this.certificateValidator = certificateValidator;
+        this.tagValidator = tagValidator;
     }
 
 
     /**
      * Gets certificate by id.
      *
-     * @param id   GiftCertificate id.
+     * @param id GiftCertificate id.
      * @return GiftCertificate instance else throws GiftCertificateNotFoundException.
      * @throws GiftCertificateNotFoundException Gift certificate with id: {0} not found.
      */
     @Override
     public GiftCertificate findCertificateById(Long id) {
-        return giftCertificateDao.find(id).orElseThrow(()-> new GiftCertificateNotFoundException(MessageFormat
+        return giftCertificateDao.find(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
                 .format("Gift certificate with id: {0} not found", id)));
     }
 
     /**
      * Saves new certificate.
      *
-     * @param giftCertificate   GiftCertificate instance.
+     * @param giftCertificate GiftCertificate instance.
      * @return GiftCertificate's id.
      */
     @Override
@@ -93,7 +97,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     /**
      * Updates certificate.
-     *
+     * <p>
      * First, gets list of certificate's tags. After that the certificate object is being validated.
      * If there are invalid fields, it is returned <i>InvalidInputDataException</i> If successful,assigns new tag
      * to certificate through <i>tagDao</i>. After that updates certificate through <i>giftCertificateDao</i>
@@ -122,7 +126,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     /**
      * Deletes certificate.
-     *
+     * <p>
      * First, finds a certificate by ID. Subsequently, if the certificate record is exists, method removes all tags
      * from passed certificate through <i>tagDao</i>, else throw TagNotFoundException. After that deletes certificate
      * through <i>giftCertificateDao</i>
@@ -145,7 +149,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     /**
      * Searches gift certificates.
-     *
+     * <p>
      * First, finds certificates throw using CertificateSearchQuery. If list of certificates is empty,
      * returns empty list, else certificate's list added with tags and returned.
      *
@@ -157,7 +161,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
         List<GiftCertificate> certificateList = new ArrayList<>();
         try {
-           certificateList = giftCertificateDao.getCertificates(query);
+            certificateList = giftCertificateDao.getCertificates(query);
         } catch (GiftCertificateNotFoundException e) {
             return certificateList;
         }
@@ -171,13 +175,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     /**
      * Assigns new tag to certificate.
-     *
+     * <p>
      * First, finds a certificate by id. Subsequently, if the certificate record is exists, method finds tag by id and
      * assigns passed tag to certificate.
      *
-     * @param certificateId       GiftCertificate id.
-     * @param tagId               Tag id.
-     * @throws TagNotFoundException Tag with id: {0} was not found
+     * @param certificateId GiftCertificate id.
+     * @param tagId         Tag id.
+     * @throws TagNotFoundException             Tag with id: {0} was not found
      * @throws GiftCertificateNotFoundException Gift certificate with id: {0} was not found.
      */
     @Transactional
@@ -196,15 +200,44 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     /**
      * Removes tag.
-     *
+     * <p>
      * Removes tag from certificate.
      *
-     * @param certificateId       GiftCertificate id.
-     * @param tagId               Tag id.
+     * @param certificateId GiftCertificate id.
+     * @param tagId         Tag id.
      */
     @Override
     public void removeTagFromCertificate(Long certificateId, Long tagId) {
         giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
+    }
+
+    @Transactional
+    @Override
+    public void patchTags(GiftCertificate oldCertificate, GiftCertificate certificatePatched) {
+
+        oldCertificate.getTags()
+                .forEach(tag -> giftCertificateDao.removeTagFromCertificate(oldCertificate.getId(), tag.getId()));
+
+        Set<String> tagSet = new HashSet<>();
+        List<Tag> listWithoutRepeatableTags = certificatePatched.getTags()
+                .stream().filter(e -> tagSet.add(e.getName())).collect(Collectors.toList());
+        certificatePatched.setTags(listWithoutRepeatableTags);
+
+        for (Tag tag : certificatePatched.getTags()) {
+
+            BindingResult result = new BeanPropertyBindingResult(tag, "tag");
+            tagValidator.validate(tag, result);
+            Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
+
+            if (currentTag.isPresent()) {
+                giftCertificateDao.addTagToCertificate(certificatePatched.getId(), currentTag.get().getId());
+            } else if (result.hasErrors()) {
+                throw new InvalidInputDataException(("Tag is not valid"));
+            } else {
+                Long tagId = tagDao.save(tag);
+                tagDao.addNewTagAndToCertificate(tagId, certificatePatched.getId());
+            }
+        }
     }
 
 }
