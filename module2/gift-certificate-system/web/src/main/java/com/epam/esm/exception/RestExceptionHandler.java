@@ -63,6 +63,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleGiftCertificateNotFound(GiftCertificateNotFoundException ex,
                                                                       WebRequest request) {
         ApiError apiError = new ApiError(NOT_FOUND, ex);
+        apiError.setMessage("GiftCertificateNotFoundException");
         apiError.setDebugMessage(ex.getMessage());
 
         return new ResponseEntity<>(apiError, NOT_FOUND);
@@ -72,9 +73,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleTagNotFound(TagNotFoundException ex,
                                                                    WebRequest request) {
         ApiError apiError = new ApiError(NOT_FOUND, ex);
+        apiError.setMessage("TagNotFoundException");
         apiError.setDebugMessage(ex.getMessage());
 
         return new ResponseEntity<>(apiError, NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidInputDataException.class)
+    protected ResponseEntity<Object> handleTagNotFound(InvalidInputDataException ex,
+                                                       WebRequest request) {
+        ApiError apiError = new ApiError(BAD_REQUEST, ex);
+        apiError.setMessage("InvalidInputDataException");
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 
 

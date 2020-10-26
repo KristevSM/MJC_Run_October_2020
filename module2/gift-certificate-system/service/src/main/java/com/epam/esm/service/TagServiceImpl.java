@@ -1,6 +1,7 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.TagValidator;
@@ -64,7 +65,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Saves new tag.
-     *
+     * <p>
      * First, finds a tag by tag name. Subsequently, if the tag record is not exists, method saves tag through <i>tagDao</i>, else
      * throw IllegalArgumentException;
      *
@@ -84,7 +85,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Updates tag.
-     *
+     * <p>
      * Updating tag through <i>tagDao</i>.
      *
      * @param tag Tag instance.
@@ -97,7 +98,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Assigns tag.
-     *
+     * <p>
      * Assigning tag to gift certificate through <i>tagDao</i>.
      *
      * @param tagId         Tag id.
@@ -110,7 +111,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Deletes tag.
-     *
+     * <p>
      * First, finds a tag by ID. Subsequently, if the tag record is exists, method deletes tag through <i>tagDao</i>, else
      * throw TagNotFoundException;
      *
@@ -127,7 +128,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Assigns default tag.
-     *
+     * <p>
      * First, finds a tag by tag name. Subsequently, if the tag record is exists, method assigns default tag
      * through <i>tagDao</i>, else throw TagNotFoundException;
      *
@@ -149,7 +150,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Assigns new tag to certificate.
-     *
+     * <p>
      * First, finds a tag by tag name. Subsequently, if the tag record is exists, method assigns passed tag
      * through <i>tagDao</i>, else throw TagNotFoundException;
      *
@@ -171,7 +172,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Finds tag by tag name.
-     *
+     * <p>
      * Finds a tag by tag name, else throw TagNotFoundException;
      *
      * @param tagName Tag name.
@@ -189,17 +190,23 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void updateTagList(List<Tag> tags, Long certificateId) {
-        for (Tag tag: tags) {
+
+        for (Tag tag : tags) {
+            BindingResult result = new BeanPropertyBindingResult(tag, "tag");
+            TagValidator validator = new TagValidator();
+            validator.validate(tag, result);
+            if (result.hasErrors()) {
+                StringBuilder brackenFields = new StringBuilder();
+                result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
+                throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''giftCertificate''" +
+                        " on field: {0}", brackenFields.toString()));
+            }
             Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
             if (currentTag.isPresent()) {
                 tagDao.addNewTagAndToCertificate(currentTag.get().getId(), certificateId);
-                //Replace validate
             } else {
-                TagValidator validator = new TagValidator();
-                BindingResult result = new BeanPropertyBindingResult(tag, "tag");
-                validator.validate(tag, result);
                 Long tagId = tagDao.save(tag);
-                tagDao.addNewTagAndToCertificate(tagId,certificateId);
+                tagDao.addNewTagAndToCertificate(tagId, certificateId);
             }
         }
     }
