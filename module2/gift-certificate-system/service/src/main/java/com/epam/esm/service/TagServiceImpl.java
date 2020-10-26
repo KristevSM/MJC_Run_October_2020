@@ -6,6 +6,8 @@ import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -24,15 +26,18 @@ import java.util.Optional;
 public class TagServiceImpl implements TagService {
 
     private final TagDao tagDao;
+    private final TagValidator tagValidator;
 
     /**
      * Constructor accepts TagDao object.
      *
-     * @param tagDao TagDao instance.
+     * @param tagDao        TagDao instance.
+     * @param tagValidator  TagValidator instance.
      */
     @Autowired
-    public TagServiceImpl(TagDao tagDao) {
+    public TagServiceImpl(TagDao tagDao, TagValidator tagValidator) {
         this.tagDao = tagDao;
+        this.tagValidator = tagValidator;
     }
 
     /**
@@ -65,7 +70,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Saves new tag.
-     * <p>
+     *
      * First, finds a tag by tag name. Subsequently, if the tag record is not exists, method saves tag through <i>tagDao</i>, else
      * throw IllegalArgumentException;
      *
@@ -80,6 +85,14 @@ public class TagServiceImpl implements TagService {
         if (tagOptional.isPresent()) {
             throw new IllegalArgumentException(MessageFormat.format("Tag with name: {0} already exists", tag.getName()));
         }
+        BindingResult result = new BeanPropertyBindingResult(tag, "tag");
+        tagValidator.validate(tag, result);
+        if (result.hasErrors()) {
+            StringBuilder brackenFields = new StringBuilder();
+            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
+            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''tag''" +
+                    " on field: {0}", brackenFields.toString()));
+        }
         return tagDao.save(tag);
     }
 
@@ -92,8 +105,16 @@ public class TagServiceImpl implements TagService {
      */
     @Override
     public void updateTag(Tag tag) {
-
-        tagDao.update(tag);
+        BindingResult result = new BeanPropertyBindingResult(tag, "tag");
+        tagValidator.validate(tag, result);
+        if (result.hasErrors()) {
+            StringBuilder brackenFields = new StringBuilder();
+            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
+            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''tag''" +
+                    " on field: {0}", brackenFields.toString()));
+        } else {
+            tagDao.update(tag);
+        }
     }
 
     /**

@@ -30,11 +30,11 @@ public class CertificateSearchValidator implements Validator {
             errors.rejectValue("tagName", "tagName.maxSize");
         }
         if (StringUtils.hasLength(query.getSortParameter()) && (!"name".equals(query.getSortParameter())
-                ||(!"create_date".equals(query.getSortParameter())))) {
+                && (!"create_date".equals(query.getSortParameter())))) {
             errors.rejectValue("sortParameter", "sortParameter.value");
         }
         if (StringUtils.hasLength(query.getSortOrder()) && (!"ASC".equals(query.getSortOrder())
-                ||(!"DESC".equals(query.getSortOrder())))) {
+                && (!"DESC".equals(query.getSortOrder())))) {
             errors.rejectValue("sortOrder", "sortOrder.value");
         }
 

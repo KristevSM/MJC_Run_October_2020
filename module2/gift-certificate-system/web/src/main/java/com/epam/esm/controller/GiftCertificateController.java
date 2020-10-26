@@ -5,7 +5,6 @@ import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.CertificateSearchValidator;
-import com.epam.esm.validator.GiftCertificateValidator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,22 +36,20 @@ import java.util.Optional;
 public class GiftCertificateController {
 
     private final GiftCertificateService giftCertificateService;
-    private final GiftCertificateValidator certificateValidator;
     private final CertificateSearchValidator searchValidator;
     private final TagService tagService;
 
     /**
      * Constructor accepts service layer objects and certificate validator.
      *
-     * @param giftCertificateService GiftCertificateService instance.
-     * @param certificateValidator   GiftCertificateValidator instance.
-     * @param tagService             TagService instance.
+     * @param giftCertificateService    GiftCertificateService instance.
+     * @param searchValidator           CertificateSearchValidator instance.
+     * @param tagService                TagService instance.
      */
     @Autowired
-    public GiftCertificateController(GiftCertificateService giftCertificateService, GiftCertificateValidator certificateValidator,
+    public GiftCertificateController(GiftCertificateService giftCertificateService,
                                      CertificateSearchValidator searchValidator, TagService tagService) {
         this.giftCertificateService = giftCertificateService;
-        this.certificateValidator = certificateValidator;
         this.searchValidator = searchValidator;
         this.tagService = tagService;
     }
@@ -61,10 +57,9 @@ public class GiftCertificateController {
     /**
      * Adds new gift certificate.
      * <p>
-     * The certificate object is being validated. The date of certificate creation and last update are set
-     * to the current time. If there are invalid fields, it is returned <i>ResponseEntity</i> with <i>HttpStatus.BAD_REQUEST</i>
-     * and error's data. If successful, the certificate is saved through the <i>giftCertificateService</i> and the
-     * default tag "Main" is set for the certificate. Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     * The certificate saved from <i>giftCertificateService</i>. Default tag "Main" is set for the certificate.
+     * If new tags are passed during creation certificate, they saved throw <i>tagService</i>Is returning
+     * <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
      * @param giftCertificate GiftCertificate instance.
      * @param ucBuilder       UriComponentsBuilder instance.
@@ -136,7 +131,7 @@ public class GiftCertificateController {
 
     /**
      * Searches gift certificates.
-     * <p>
+     *
      * First, creates an instance of CertificateSearchQuery. Then method checks if the input parameters required for searching
      * and sorting certificates are not empty, sets their values to the queue object, and passes it to the giftCertificateService.
      *
@@ -153,7 +148,7 @@ public class GiftCertificateController {
                                                             @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
                                                             @RequestParam(value = "sort") Optional<String> sortParameter,
                                                             @RequestParam(value = "sort_order") Optional<String> sortOrder) {
-        List<GiftCertificate> certificateList = new ArrayList<>();
+        List<GiftCertificate> certificateList;
 
         CertificateSearchQuery query = new CertificateSearchQuery();
         tagName.ifPresent(query::setTagName);
@@ -167,6 +162,7 @@ public class GiftCertificateController {
         if (result.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+        certificateList = giftCertificateService.getCertificates(query);
         return new ResponseEntity(certificateList, HttpStatus.OK);
     }
 
