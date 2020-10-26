@@ -4,12 +4,18 @@ import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
+import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
+import com.epam.esm.validator.GiftCertificateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
@@ -25,18 +31,22 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private final GiftCertificateDao giftCertificateDao;
     private final TagDao tagDao;
+    private final GiftCertificateValidator certificateValidator;
 
     /**
      * Constructor accepts GiftCertificateDao and TagDao objects.
      *
      * @param giftCertificateDao    GiftCertificateDao instance.
      * @param tagDao                TagDao instance.
+     * @param certificateValidator  GiftCertificateValidator instance.
      */
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao) {
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao, GiftCertificateValidator certificateValidator) {
         this.giftCertificateDao = giftCertificateDao;
         this.tagDao = tagDao;
+        this.certificateValidator = certificateValidator;
     }
+
 
     /**
      * Gets certificate by id.
@@ -59,24 +69,55 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      */
     @Override
     public Long saveCertificate(GiftCertificate giftCertificate) {
-        return giftCertificateDao.save(giftCertificate);
+
+        giftCertificate.setCreateDate(ZonedDateTime.now());
+        giftCertificate.setLastUpdateDate(ZonedDateTime.now());
+        if (giftCertificate.getTags() == null) {
+            giftCertificate.setTags(new ArrayList<>());
+        }
+        BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
+        certificateValidator.validate(giftCertificate, result);
+        if (result.hasErrors()) {
+            StringBuilder brackenFields = new StringBuilder();
+            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
+            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''giftCertificate''" +
+                    " on field: {0}", brackenFields.toString()));
+        } else {
+            Long certificateId = giftCertificateDao.save(giftCertificate);
+            if (giftCertificate.getTags() == null) {
+                giftCertificate.setTags(new ArrayList<>());
+            }
+            return certificateId;
+        }
     }
 
     /**
      * Updates certificate.
      *
-     * First, gets list of certificate's tags. Subsequently, assigns new tag to certificate through <i>tagDao</i>.
-     * After that updates certificate through <i>giftCertificateDao</i>
+     * First, gets list of certificate's tags. After that the certificate object is being validated.
+     * If there are invalid fields, it is returned <i>InvalidInputDataException</i> If successful,assigns new tag
+     * to certificate through <i>tagDao</i>. After that updates certificate through <i>giftCertificateDao</i>
      *
      * @param giftCertificate GiftCertificate instance.
+     * @throws InvalidInputDataException
      */
     @Transactional
     @Override
     public void updateCertificate(GiftCertificate giftCertificate) {
-        List<Tag> tags = giftCertificate.getTags();
-        tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
-        giftCertificate.setLastUpdateDate(ZonedDateTime.now());
-        giftCertificateDao.update(giftCertificate);
+
+        BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
+        certificateValidator.validate(giftCertificate, result);
+        if (result.hasErrors()) {
+            StringBuilder brackenFields = new StringBuilder();
+            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
+            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''giftCertificate''" +
+                    " on field: {0}", brackenFields.toString()));
+        } else {
+            List<Tag> tags = giftCertificate.getTags();
+            tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
+            giftCertificate.setLastUpdateDate(ZonedDateTime.now());
+            giftCertificateDao.update(giftCertificate);
+        }
     }
 
     /**

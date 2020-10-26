@@ -1,18 +1,15 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dao.CertificateSearchQuery;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
-import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.Tag;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.CertificateSearchValidator;
 import com.epam.esm.validator.GiftCertificateValidator;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.fge.jsonpatch.JsonPatch;
@@ -27,11 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-
-
-import java.text.MessageFormat;
-import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sergei Kristev
@@ -78,24 +73,12 @@ public class GiftCertificateController {
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GiftCertificate> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate,
                                                               UriComponentsBuilder ucBuilder) {
-        giftCertificate.setCreateDate(ZonedDateTime.now());
-        giftCertificate.setLastUpdateDate(ZonedDateTime.now());
-
-        BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
-        certificateValidator.validate(giftCertificate, result);
-        if (result.hasErrors()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        } else {
-            Long certificateId = giftCertificateService.saveCertificate(giftCertificate);
-            if (giftCertificate.getTags() == null) {
-                giftCertificate.setTags(new ArrayList<>());
-                tagService.assignDefaultTag("Main", certificateId);
-            }
-            tagService.updateTagList(giftCertificate.getTags(), certificateId);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificateId).toUri());
-            return new ResponseEntity<>(headers, HttpStatus.CREATED);
-        }
+        Long certificateId = giftCertificateService.saveCertificate(giftCertificate);
+        tagService.assignDefaultTag("Main", certificateId);
+        tagService.updateTagList(giftCertificate.getTags(), certificateId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificateId).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     /**
@@ -103,9 +86,7 @@ public class GiftCertificateController {
      * <p>
      * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
      * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
-     * The certificate object is being validated. If there are invalid fields, it is returned <i>ResponseEntity</i>
-     * with <i>HttpStatus.BAD_REQUEST</i> and error's data. If successful, the certificate is updated through
-     * the <i>giftCertificateService</i>. Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
      * @param id        GiftCertificate id.
      * @param patch     JsonPatch.
@@ -120,16 +101,11 @@ public class GiftCertificateController {
             GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
             GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
 
-            BindingResult result = new BeanPropertyBindingResult(certificatePatched, "giftCertificate");
-            certificateValidator.validate(certificatePatched, result);
-            if (result.hasErrors()) {
-                return new ResponseEntity(HttpStatus.NOT_FOUND);
-            } else {
-                giftCertificateService.updateCertificate(certificatePatched);
-                HttpHeaders headers = new HttpHeaders();
-                headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
-                return new ResponseEntity<>(headers, HttpStatus.CREATED);
-            }
+            giftCertificateService.updateCertificate(certificatePatched);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
+            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -143,7 +119,6 @@ public class GiftCertificateController {
      */
     @DeleteMapping(path = "certificates/{id}")
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
-
         giftCertificateService.deleteCertificate(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

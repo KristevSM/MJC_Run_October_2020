@@ -4,6 +4,7 @@ import com.epam.esm.dao.*;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
+import com.epam.esm.validator.GiftCertificateValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -23,6 +24,8 @@ class GiftCertificateServiceImplTest {
     private GiftCertificateService giftCertificateService;
 
     @Mock
+    GiftCertificateValidator giftCertificateValidator;
+    @Mock
     private GiftCertificateDao giftCertificateDao;
 
     @Mock
@@ -32,7 +35,7 @@ class GiftCertificateServiceImplTest {
     void setUp() {
         this.giftCertificateDao = mock(GiftCertificateDaoJdbc.class);
         this.tagDao = mock(TagDaoJdbc.class);
-        this.giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao);
+        this.giftCertificateService = new GiftCertificateServiceImpl(giftCertificateDao, tagDao, giftCertificateValidator);
 
     }
 
