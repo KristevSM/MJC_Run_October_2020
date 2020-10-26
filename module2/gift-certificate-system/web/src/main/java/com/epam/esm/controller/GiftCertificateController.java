@@ -7,6 +7,7 @@ import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
+import com.epam.esm.validator.CertificateSearchValidator;
 import com.epam.esm.validator.GiftCertificateValidator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,12 +29,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 
 
+import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
  * @author Sergei Kristev
- *
+ * <p>
  * Gets data from rest in JSON format on path "/gift-certificates".
  */
 @RestController
@@ -42,6 +44,7 @@ public class GiftCertificateController {
 
     private final GiftCertificateService giftCertificateService;
     private final GiftCertificateValidator certificateValidator;
+    private final CertificateSearchValidator searchValidator;
     private final TagService tagService;
 
     /**
@@ -53,15 +56,16 @@ public class GiftCertificateController {
      */
     @Autowired
     public GiftCertificateController(GiftCertificateService giftCertificateService, GiftCertificateValidator certificateValidator,
-                                     TagService tagService) {
+                                     CertificateSearchValidator searchValidator, TagService tagService) {
         this.giftCertificateService = giftCertificateService;
         this.certificateValidator = certificateValidator;
+        this.searchValidator = searchValidator;
         this.tagService = tagService;
     }
 
     /**
      * Adds new gift certificate.
-     *
+     * <p>
      * The certificate object is being validated. The date of certificate creation and last update are set
      * to the current time. If there are invalid fields, it is returned <i>ResponseEntity</i> with <i>HttpStatus.BAD_REQUEST</i>
      * and error's data. If successful, the certificate is saved through the <i>giftCertificateService</i> and the
@@ -80,7 +84,7 @@ public class GiftCertificateController {
         BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
         certificateValidator.validate(giftCertificate, result);
         if (result.hasErrors()) {
-            return new ResponseEntity(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             Long certificateId = giftCertificateService.saveCertificate(giftCertificate);
             if (giftCertificate.getTags() == null) {
@@ -96,7 +100,7 @@ public class GiftCertificateController {
 
     /**
      * Updates gift certificate.
-     *
+     * <p>
      * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
      * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
      * The certificate object is being validated. If there are invalid fields, it is returned <i>ResponseEntity</i>
@@ -119,7 +123,7 @@ public class GiftCertificateController {
             BindingResult result = new BeanPropertyBindingResult(certificatePatched, "giftCertificate");
             certificateValidator.validate(certificatePatched, result);
             if (result.hasErrors()) {
-                return new ResponseEntity(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
             } else {
                 giftCertificateService.updateCertificate(certificatePatched);
                 HttpHeaders headers = new HttpHeaders();
@@ -157,7 +161,7 @@ public class GiftCertificateController {
 
     /**
      * Searches gift certificates.
-     *
+     * <p>
      * First, creates an instance of CertificateSearchQuery. Then method checks if the input parameters required for searching
      * and sorting certificates are not empty, sets their values to the queue object, and passes it to the giftCertificateService.
      *
@@ -169,25 +173,36 @@ public class GiftCertificateController {
      * @return GiftCertificates list.
      */
     @GetMapping(value = "/certificates")
-    public List<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
-                                                  @RequestParam(value = "part_of_name") Optional<String> partOfName,
-                                                  @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
-                                                  @RequestParam(value = "sort") Optional<String> sortParameter,
-                                                  @RequestParam(value = "sort_order") Optional<String> sortOrder) {
-        CertificateSearchQuery query = new CertificateSearchQuery();
+    public ResponseEntity<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
+                                                            @RequestParam(value = "part_of_name") Optional<String> partOfName,
+                                                            @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
+                                                            @RequestParam(value = "sort") Optional<String> sortParameter,
+                                                            @RequestParam(value = "sort_order") Optional<String> sortOrder) {
+        List<GiftCertificate> certificateList = new ArrayList<>();
 
+        CertificateSearchQuery query = new CertificateSearchQuery();
         tagName.ifPresent(query::setTagName);
         partOfName.ifPresent(query::setPartOfName);
         partOfDescription.ifPresent(query::setPartOfDescription);
         sortParameter.ifPresent(query::setSortParameter);
         sortOrder.ifPresent(query::setSortOrder);
 
-        return giftCertificateService.getCertificates(query);
+        BindingResult result = new BeanPropertyBindingResult(query, "searchQuery");
+        searchValidator.validate(query, result);
+        if (result.hasErrors()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        try {
+            certificateList = giftCertificateService.getCertificates(query);
+        } catch (GiftCertificateNotFoundException e) {
+            return new ResponseEntity(certificateList, HttpStatus.OK);
+        } //finally?
+        return new ResponseEntity(certificateList, HttpStatus.OK);
     }
 
     /**
      * Applies JsonPatch to certificate.
-     *
+     * <p>
      * This method applies the JsonPatch to the certificate.
      *
      * @param patch             JsonPatch

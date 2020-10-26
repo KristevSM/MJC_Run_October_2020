@@ -46,7 +46,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(status, "method arg not valid", ex);
         apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
 
-        return new ResponseEntity<Object>(apiError, BAD_REQUEST);
+        return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
