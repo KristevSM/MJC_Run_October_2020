@@ -82,10 +82,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
         certificateValidator.validate(giftCertificate, result);
         if (result.hasErrors()) {
-            StringBuilder brackenFields = new StringBuilder();
-            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
-            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''giftCertificate''" +
-                    " on field: {0}", brackenFields.toString()));
+            String brokenField = result.getFieldErrors().get(0).getField();
+            String errorCode = result.getFieldErrors().get(0).getCode();
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
+                    brokenField, errorCode));
         } else {
             Long certificateId = giftCertificateDao.save(giftCertificate);
             if (giftCertificate.getTags() == null) {
@@ -112,10 +112,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
         certificateValidator.validate(giftCertificate, result);
         if (result.hasErrors()) {
-            StringBuilder brackenFields = new StringBuilder();
-            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
-            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''giftCertificate''" +
-                    " on field: {0}", brackenFields.toString()));
+            String brokenField = result.getFieldErrors().get(0).getField();
+            String errorCode = result.getFieldErrors().get(0).getCode();
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
+                    brokenField, errorCode));
         } else {
             List<Tag> tags = giftCertificate.getTags();
             tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
@@ -242,7 +242,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             if (currentTag.isPresent()) {
                 tagDao.addNewTagToCertificate(currentTag.get().getId(), certificatePatched.getId());
             } else if (result.hasErrors()) {
-                throw new InvalidInputDataException(("Tag is not valid"));
+                String brokenField = result.getFieldErrors().get(0).getField();
+                String errorCode = result.getFieldErrors().get(0).getCode();
+                throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+                        brokenField, errorCode));
             } else {
                 Long tagId = tagDao.save(tag);
                 tagDao.addNewTagToCertificate(tagId, certificatePatched.getId());

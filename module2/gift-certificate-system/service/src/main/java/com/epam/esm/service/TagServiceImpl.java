@@ -86,10 +86,10 @@ public class TagServiceImpl implements TagService {
         BindingResult result = new BeanPropertyBindingResult(tag, "tag");
         tagValidator.validate(tag, result);
         if (result.hasErrors()) {
-            StringBuilder brackenFields = new StringBuilder();
-            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
-            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''tag''" +
-                    " on field: {0}", brackenFields.toString()));
+            String brokenField = result.getFieldErrors().get(0).getField();
+            String errorCode = result.getFieldErrors().get(0).getCode();
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+                    brokenField, errorCode));
         }
         return tagDao.save(tag);
     }
@@ -107,10 +107,10 @@ public class TagServiceImpl implements TagService {
         BindingResult result = new BeanPropertyBindingResult(tag, "tag");
         tagValidator.validate(tag, result);
         if (result.hasErrors()) {
-            StringBuilder brackenFields = new StringBuilder();
-            result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
-            throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''tag''" +
-                    " on field: {0}", brackenFields.toString()));
+            String brokenField = result.getFieldErrors().get(0).getField();
+            String errorCode = result.getFieldErrors().get(0).getCode();
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+                    brokenField, errorCode));
         } else {
             tagDao.update(tag);
         }
@@ -226,10 +226,10 @@ public class TagServiceImpl implements TagService {
             TagValidator validator = new TagValidator();
             validator.validate(tag, result);
             if (result.hasErrors()) {
-                StringBuilder brackenFields = new StringBuilder();
-                result.getFieldErrors().forEach(error -> brackenFields.append(error.getField()).append("; "));
-                throw new InvalidInputDataException(MessageFormat.format("Field errors in object ''giftCertificate''" +
-                        " on field: {0}", brackenFields.toString()));
+                String brokenField = result.getFieldErrors().get(0).getField();
+                String errorCode = result.getFieldErrors().get(0).getCode();
+                throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+                        brokenField, errorCode));
             }
             Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
             if (currentTag.isPresent()) {
