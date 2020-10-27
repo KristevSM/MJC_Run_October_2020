@@ -31,11 +31,11 @@ public class CertificateSearchValidator implements Validator {
         }
         if (StringUtils.hasLength(query.getSortParameter()) && (!"name".equals(query.getSortParameter())
                 && (!"create_date".equals(query.getSortParameter())))) {
-            errors.rejectValue("sortParameter", "sortParameter.value");
+            errors.rejectValue("sortParameter", "sortParameter.invalidValue");
         }
         if (StringUtils.hasLength(query.getSortOrder()) && (!"ASC".equals(query.getSortOrder())
                 && (!"DESC".equals(query.getSortOrder())))) {
-            errors.rejectValue("sortOrder", "sortOrder.value");
+            errors.rejectValue("sortOrder", "sortOrder.invalidValue");
         }
 
     }

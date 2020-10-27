@@ -1,6 +1,7 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dao.CertificateSearchQuery;
+import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -160,7 +162,10 @@ public class GiftCertificateController {
         BindingResult result = new BeanPropertyBindingResult(query, "searchQuery");
         searchValidator.validate(query, result);
         if (result.hasErrors()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            String brokenField = result.getFieldErrors().get(0).getField();
+            String errorCode = result.getFieldErrors().get(0).getCode();
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+                    brokenField, errorCode));
         }
         certificateList = giftCertificateService.getCertificates(query);
         return new ResponseEntity(certificateList, HttpStatus.OK);
