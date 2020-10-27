@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -193,12 +194,17 @@ class TagServiceImplTest {
         Mockito.verify(tagDao, Mockito.times(1)).findByTagName("Tag");
     }
 
-//    @Test
-//    void shouldUpdateTagList() {
-//
-//        Tag tag = new Tag();
-//
-//        Mockito.verify(tagDao, Mockito.times(1)).save(tag);
-//        Mockito.verify(tagDao, Mockito.times(1)).addNewTagAndToCertificate(tag.getId(), 1L);
-//    }
+    @Test
+    void shouldUpdateTagList() {
+
+        Tag tag1 = new Tag(1L, "tag 1");
+        Tag tag2 = new Tag(1L, "tag new");
+        List<Tag> tags = new ArrayList<>();
+        tags.add(tag1);
+        tags.add(tag2);
+        when(tagDao.findByTagName("tag 1")).thenReturn(Optional.of(tag1));
+        tagService.updateTagList(tags, 1L);
+        Mockito.verify(tagDao, Mockito.times(1)).save(tag2);
+        Mockito.verify(tagDao, Mockito.times(2)).addNewTagToCertificate(anyLong(), anyLong());
+    }
 }

@@ -115,7 +115,7 @@ public class GiftCertificateController {
     @DeleteMapping(path = "certificates/{id}")
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
         giftCertificateService.deleteCertificate(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -133,7 +133,7 @@ public class GiftCertificateController {
      * Searches gift certificates.
      *
      * First, creates an instance of CertificateSearchQuery. Then method checks if the input parameters required for searching
-     * and sorting certificates are not empty, sets their values to the queue object, and passes it to the giftCertificateService.
+     * and sorting certificates are not empty, sets their values to the queue object, validates and passes it to the giftCertificateService.
      *
      * @param tagName           value of "tag_name"
      * @param partOfName        value of "part_of_name"

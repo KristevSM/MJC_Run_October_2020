@@ -6,8 +6,6 @@ import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -103,6 +101,7 @@ public class TagServiceImpl implements TagService {
      *
      * @param tag Tag instance.
      */
+    @Transactional
     @Override
     public void updateTag(Tag tag) {
         BindingResult result = new BeanPropertyBindingResult(tag, "tag");
@@ -187,7 +186,7 @@ public class TagServiceImpl implements TagService {
             throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
         } else {
             Tag currentTag = tag.get();
-            tagDao.addNewTagAndToCertificate(currentTag.getId(), certificateId);
+            tagDao.addNewTagToCertificate(currentTag.getId(), certificateId);
         }
     }
 
@@ -209,6 +208,16 @@ public class TagServiceImpl implements TagService {
         }
     }
 
+    /**
+     * Updates tag list.
+     * <p>
+     * The method accepts list with tags and certificate's ID. After then every tag validates, a tag-certificate
+     * relationship is assigned. If the passed tag is not present in the DB, we create it.
+     *
+     * @param tags              List with tags.
+     * @param certificateId     GiftCertificate's ID.
+     */
+    @Transactional
     @Override
     public void updateTagList(List<Tag> tags, Long certificateId) {
 
@@ -224,10 +233,10 @@ public class TagServiceImpl implements TagService {
             }
             Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
             if (currentTag.isPresent()) {
-                tagDao.addNewTagAndToCertificate(currentTag.get().getId(), certificateId);
+                tagDao.addNewTagToCertificate(currentTag.get().getId(), certificateId);
             } else {
                 Long tagId = tagDao.save(tag);
-                tagDao.addNewTagAndToCertificate(tagId, certificateId);
+                tagDao.addNewTagToCertificate(tagId, certificateId);
             }
         }
     }

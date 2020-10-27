@@ -125,7 +125,7 @@ public class TagDaoJdbc implements TagDao {
     }
 
     @Override
-    public void addNewTagAndToCertificate(Long tagId, Long certificateId) {
+    public void addNewTagToCertificate(Long tagId, Long certificateId) {
         Map<String, Object> params = new HashMap<>();
         params.put("tag_id", tagId);
         params.put("gift_certificate_id", certificateId);

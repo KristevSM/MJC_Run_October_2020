@@ -103,7 +103,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * to certificate through <i>tagDao</i>. After that updates certificate through <i>giftCertificateDao</i>
      *
      * @param giftCertificate GiftCertificate instance.
-     * @throws InvalidInputDataException
+     * @throws InvalidInputDataException Field errors in object ''giftCertificate'' on field: {0}"
      */
     @Transactional
     @Override
@@ -194,7 +194,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         } else if (!tag.isPresent()) {
             throw new TagNotFoundException(MessageFormat.format("Tag with id: {0} was not found", tagId));
         } else {
-            tagDao.addNewTagAndToCertificate(tagId, certificateId);
+            tagDao.addNewTagToCertificate(tagId, certificateId);
         }
     }
 
@@ -211,6 +211,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
     }
 
+    /**
+     * Patches tag list.
+     * <p>
+     * The method accepts old and patched certificates, and we get a list of tags from each certificate object.
+     * First, we remove all old certificate-tag links from the DAO. Then we assign a tag to the certificate.
+     * If the passed tag is not present in the DB, we create it.
+     *
+     * @param oldCertificate        GiftCertificate with previous tag list.
+     * @param certificatePatched    GiftCertificate with patched tag list.
+     */
     @Transactional
     @Override
     public void patchTags(GiftCertificate oldCertificate, GiftCertificate certificatePatched) {
@@ -230,12 +240,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
 
             if (currentTag.isPresent()) {
-                giftCertificateDao.addTagToCertificate(certificatePatched.getId(), currentTag.get().getId());
+                tagDao.addNewTagToCertificate(currentTag.get().getId(), certificatePatched.getId());
             } else if (result.hasErrors()) {
                 throw new InvalidInputDataException(("Tag is not valid"));
             } else {
                 Long tagId = tagDao.save(tag);
-                tagDao.addNewTagAndToCertificate(tagId, certificatePatched.getId());
+                tagDao.addNewTagToCertificate(tagId, certificatePatched.getId());
             }
         }
     }
