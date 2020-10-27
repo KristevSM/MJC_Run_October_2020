@@ -17,6 +17,7 @@ import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -44,9 +45,9 @@ public class GiftCertificateController {
     /**
      * Constructor accepts service layer objects and certificate validator.
      *
-     * @param giftCertificateService    GiftCertificateService instance.
-     * @param searchValidator           CertificateSearchValidator instance.
-     * @param tagService                TagService instance.
+     * @param giftCertificateService GiftCertificateService instance.
+     * @param searchValidator        CertificateSearchValidator instance.
+     * @param tagService             TagService instance.
      */
     @Autowired
     public GiftCertificateController(GiftCertificateService giftCertificateService,
@@ -78,34 +79,58 @@ public class GiftCertificateController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
+//    /**
+//     * Updates gift certificate.
+//     * <p>
+//     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
+//     * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
+//     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
+//     *
+//     * @param id        GiftCertificate id.
+//     * @param patch     JsonPatch.
+//     * @param ucBuilder UriComponentsBuilder instance.
+//     * @return ResponseEntity.
+//     */
+//    @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
+//    public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
+//                                                                 @RequestBody JsonPatch patch,
+//                                                                 UriComponentsBuilder ucBuilder) {
+//        try {
+//            GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
+//            GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
+//            giftCertificateService.patchTags(oldCertificate, certificatePatched);
+//            giftCertificateService.updateCertificate(certificatePatched);
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
+//            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+//
+//        } catch (JsonPatchException | JsonProcessingException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
+
     /**
      * Updates gift certificate.
      * <p>
      * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
-     * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
-     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
+     * the patchTags(oldCertificate, certificatePatched) method. Then the certificate updates throw <i>giftCertificateService</i>.
+     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
      *
-     * @param id        GiftCertificate id.
-     * @param patch     JsonPatch.
-     * @param ucBuilder UriComponentsBuilder instance.
+     * @param id                        GiftCertificate id.
+     * @param certificatePatched        GiftCertificate instance.
+     * @param ucBuilder                 UriComponentsBuilder instance.
      * @return ResponseEntity.
      */
-    @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
+    @PatchMapping(path = "certificates/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
-                                                                 @RequestBody JsonPatch patch,
+                                                                 @RequestBody @Valid GiftCertificate certificatePatched,
                                                                  UriComponentsBuilder ucBuilder) {
-        try {
-            GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
-            GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
-            giftCertificateService.patchTags(oldCertificate, certificatePatched);
-            giftCertificateService.updateCertificate(certificatePatched);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
-            return new ResponseEntity<>(headers, HttpStatus.CREATED);
-
-        } catch (JsonPatchException | JsonProcessingException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
+        giftCertificateService.patchTags(oldCertificate, certificatePatched);
+        giftCertificateService.updateCertificate(certificatePatched);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -117,7 +142,7 @@ public class GiftCertificateController {
     @DeleteMapping(path = "certificates/{id}")
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
         giftCertificateService.deleteCertificate(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
@@ -133,7 +158,7 @@ public class GiftCertificateController {
 
     /**
      * Searches gift certificates.
-     *
+     * <p>
      * First, creates an instance of CertificateSearchQuery. Then method checks if the input parameters required for searching
      * and sorting certificates are not empty, sets their values to the queue object, validates and passes it to the giftCertificateService.
      *

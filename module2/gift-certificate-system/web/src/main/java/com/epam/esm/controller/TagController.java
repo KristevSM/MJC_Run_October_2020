@@ -135,7 +135,7 @@ public class TagController {
             //logging
         }
         tagService.deleteTag(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
