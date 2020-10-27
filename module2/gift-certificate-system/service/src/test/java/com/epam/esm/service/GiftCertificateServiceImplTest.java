@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -151,5 +153,24 @@ class GiftCertificateServiceImplTest {
         Mockito.verify(giftCertificateDao, Mockito.times(1))
                 .removeTagFromCertificate(certificate.getId(), tag.getId());
 
+    }
+
+    @Test
+    void shouldPatchesTagList(){
+        Tag tag1 = new Tag(1L, "tag 1");
+        Tag tag2 = new Tag(2L, "tag new");
+        List<Tag> oldTags = new ArrayList<>();
+        List<Tag> patchedTags = new ArrayList<>();
+        oldTags.add(tag1);
+        patchedTags.add(tag1);
+        patchedTags.add(tag2);
+        GiftCertificate oldCertificate = GiftCertificate.builder().id(1L).tags(oldTags).build();
+        GiftCertificate patchedCertificate = GiftCertificate.builder().id(2L).tags(patchedTags).build();
+
+        when(tagDao.findByTagName("tag 1")).thenReturn(Optional.of(tag1));
+        when(tagDao.findByTagName("tag new")).thenReturn(Optional.empty());
+        giftCertificateService.patchTags(oldCertificate, patchedCertificate);
+        Mockito.verify(tagDao, Mockito.times(1)).save(tag2);
+        Mockito.verify(tagDao, Mockito.times(2)).addNewTagToCertificate(anyLong(), eq(patchedCertificate.getId()));
     }
 }
