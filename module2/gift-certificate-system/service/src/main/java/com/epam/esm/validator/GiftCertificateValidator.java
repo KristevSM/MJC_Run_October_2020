@@ -18,11 +18,11 @@ public class GiftCertificateValidator implements Validator {
     public void validate(Object target, Errors errors) {
 
         GiftCertificate giftCertificate = (GiftCertificate) target;
-        if (StringUtils.hasLength(giftCertificate.getName())
+        if (giftCertificate.getName() == null || StringUtils.hasLength(giftCertificate.getName())
                 && giftCertificate.getName().length() > 40) {
             errors.rejectValue("name", "giftCertificateName.maxSize");
         }
-        if (StringUtils.hasLength(giftCertificate.getName())
+        if (giftCertificate.getName() == null || StringUtils.hasLength(giftCertificate.getDescription())
                 && giftCertificate.getDescription().length() > 250) {
             errors.rejectValue("description", "giftCertificateDescription.maxSize");
         }

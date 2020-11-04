@@ -224,7 +224,14 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Transactional
     @Override
     public void patchTags(GiftCertificate oldCertificate, GiftCertificate certificatePatched) {
-
+        BindingResult resultCertificate = new BeanPropertyBindingResult(certificatePatched, "giftCertificate");
+        certificateValidator.validate(certificatePatched, resultCertificate);
+        if (resultCertificate.hasErrors()) {
+            String brokenField = resultCertificate.getFieldErrors().get(0).getField();
+            String errorCode = resultCertificate.getFieldErrors().get(0).getCode();
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
+                    brokenField, errorCode));
+        }
         oldCertificate.getTags()
                 .forEach(tag -> giftCertificateDao.removeTagFromCertificate(oldCertificate.getId(), tag.getId()));
 
@@ -233,8 +240,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 .stream().filter(e -> tagSet.add(e.getName())).collect(Collectors.toList());
         certificatePatched.setTags(listWithoutRepeatableTags);
 
-        for (Tag tag : certificatePatched.getTags()) {
-
+        List<Tag> tags = certificatePatched.getTags();
+        if (tags.isEmpty()) {
+            Tag defaultTag = Tag.builder().name("Main").build();
+            tags.add(defaultTag);
+        }
+        for (Tag tag : tags) {
             BindingResult result = new BeanPropertyBindingResult(tag, "tag");
             tagValidator.validate(tag, result);
             Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
