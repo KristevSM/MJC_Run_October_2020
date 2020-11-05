@@ -20,26 +20,26 @@ import javax.sql.DataSource;
 public class SpringConfig extends WebMvcConfigurationSupport {
 
 
-//    @Bean
-//    public DataSource getDataSource() {
-//
-//        BasicDataSource dataSource = new BasicDataSource();
-//        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-//        dataSource.setUrl("jdbc:mysql://localhost:3306/gift_certificate_service");
-//        dataSource.setUsername("gift_service_admin");
-//        dataSource.setPassword("gift");
-//        dataSource.setMaxActive(10);
-//        dataSource.setMaxIdle(5);
-//        dataSource.setInitialSize(5);
-//        dataSource.setValidationQuery("SELECT 1");
-//
-//        return dataSource;
-//    }
+    @Bean
+    public DataSource getDataSource() {
 
-//    @Bean
-//    public PlatformTransactionManager txManager() {
-//        return new DataSourceTransactionManager(getDataSource());
-//    }
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/gift_certificate_service");
+        dataSource.setUsername("gift_service_admin");
+        dataSource.setPassword("gift");
+        dataSource.setMaxActive(10);
+        dataSource.setMaxIdle(5);
+        dataSource.setInitialSize(5);
+        dataSource.setValidationQuery("SELECT 1");
+
+        return dataSource;
+    }
+
+    @Bean
+    public PlatformTransactionManager txManager() {
+        return new DataSourceTransactionManager(getDataSource());
+    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
