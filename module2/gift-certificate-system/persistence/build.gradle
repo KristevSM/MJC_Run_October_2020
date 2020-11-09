@@ -34,8 +34,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.11.3'
 
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
     // https://mvnrepository.com/artifact/com.h2database/h2
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
+
 
 //    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
 //    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'

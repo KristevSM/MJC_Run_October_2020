@@ -1,4 +1,4 @@
-package dao;
+package com.epam.esm.dao;
 
 import com.epam.esm.dao.TagDao;
 import com.epam.esm.dao.TagDaoJdbc;
