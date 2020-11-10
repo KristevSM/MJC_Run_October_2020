@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -29,9 +27,9 @@ public class Order implements Serializable{
         @JoinColumn(name = "user_id", nullable=false)
         private User user;
 
-//        @ManyToOne
-//        @JoinColumn(name = "giftCertificate_id")
-//        private GiftCertificate giftCertificate;
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "certificate_id")
+        private GiftCertificate giftCertificate;
 
         @Column(name = "order_date")
         private ZonedDateTime orderDate;

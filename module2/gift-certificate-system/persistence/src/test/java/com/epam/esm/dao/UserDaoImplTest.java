@@ -1,8 +1,11 @@
 package com.epam.esm.dao;
 
+import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Order;
+import com.epam.esm.model.Tag;
 import com.epam.esm.model.User;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.junit.*;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -68,12 +71,25 @@ public class UserDaoImplTest {
         session.close();
 
         session = HibernateAnnotationUtil.getSessionFactory().openSession();
+        String sql = "SELECT * FROM GIFT_CERTIFICATE where CERTIFICATE_ID = 15";
+        GiftCertificate certificate = (GiftCertificate) session.createNativeQuery(sql).addEntity(GiftCertificate.class).getSingleResult();
+        order1.setGiftCertificate(certificate);
+        session.update(order1);
+
+        session.close();
+
+        session = HibernateAnnotationUtil.getSessionFactory().openSession();
+
+        String sql3 = "SELECT * FROM ORDERS where ORDER_ID = 1";
+        Order order = (Order) session.createNativeQuery(sql3).addEntity(Order.class).getSingleResult();
+
         List<User> userList = userDao.getAllUsers();
         for (User u : userList) {
             System.out.println(u);
         }
-        assertEquals(4L, userList.size());
-        session.close();
+//        System.out.println(userList.get(3).getOrders().get(0).getGiftCertificate());
+//        assertEquals(4L, userList.size());
+//        session.close();
 
 
     }

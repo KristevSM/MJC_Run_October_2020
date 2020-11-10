@@ -1,5 +1,6 @@
 package com.epam.esm.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,22 +21,20 @@ public class Tag implements Serializable {
     private static final long serialVersionUID = -1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tag_id")
     private Long id;
+    @Column(name = "name")
     private String name;
 
-//    @Builder.Default
-//    private List<GiftCertificate> certificates = new ArrayList<>();
-//
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "tag_has_gift_certificate",
-//            //foreign key for Tag in tag_has_gift_certificate table
-//            joinColumns = @JoinColumn(name = "tag_id"),
-//            //foreign key for other side - TAg in tag_has_gift_certificate table
-//            inverseJoinColumns = @JoinColumn(name = "gift_certificate_id"))
-//    public List<GiftCertificate> getCertificates(){
-//        return certificates;
-//    }
-//    public void setCertificates(List<GiftCertificate> certificates){
-//        this.certificates = certificates;
-//    }
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags")
+    private List<GiftCertificate> certificates;
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

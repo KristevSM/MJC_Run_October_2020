@@ -18,22 +18,22 @@ import java.util.*;
 @Repository
 public class GiftCertificateDaoJdbc implements GiftCertificateDao {
 
-    private static final String SQL_SELECT_ALL_CERTIFICATES = "SELECT gift_certificate.id, gift_certificate.name, description, \n" +
-            "price, create_date, last_update_date, duration, tag.id as tag_id, tag.name as tag_name \n" +
+    private static final String SQL_SELECT_ALL_CERTIFICATES = "SELECT certificate_id, gift_certificate.name, description, \n" +
+            "price, create_date, last_update_date, duration, tag.tag_id, tag.name as tag_name \n" +
             "FROM gift_certificate \n" +
-            "left JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
-            "left JOIN tag on (tag.id=tag_has_gift_certificate.tag_id) WHERE 1=1 ";
+            "left JOIN tag_has_gift_certificate on (certificate_id=tag_has_gift_certificate.gift_certificate_id)\n" +
+            "left JOIN tag on (tag.tag_id=tag_has_gift_certificate.tag_id) WHERE 1=1 ";
     private static final String SQL_INSERT_GIFT_CERTIFICATE = "INSERT INTO gift_certificate (name, description, price, duration, create_date, last_update_date)" +
             " VALUES (:name, :description, :price, :duration, :createDate, :lastUpdateDate);";
-    private static final String SQL_SELECT_BY_ID = "SELECT gift_certificate.id, gift_certificate.name, \n" +
+    private static final String SQL_SELECT_BY_ID = "SELECT certificate_id, gift_certificate.name, \n" +
             "            description, price, create_date, \n" +
-            "            last_update_date, duration, tag.id as tag_id, tag.name as tag_name\n" +
+            "            last_update_date, duration, tag.tag_id, tag.name as tag_name\n" +
             "            FROM gift_certificate \n" +
-            "            JOIN tag_has_gift_certificate on (gift_certificate.id=tag_has_gift_certificate.gift_certificate_id)\n" +
-            "            JOIN tag on (tag.id=tag_has_gift_certificate.tag_id) where gift_certificate.id = :id;";
+            "            JOIN tag_has_gift_certificate on (certificate_id=tag_has_gift_certificate.gift_certificate_id)\n" +
+            "            JOIN tag on (tag.tag_id=tag_has_gift_certificate.tag_id) where certificate_id = :id;";
     private static final String SQL_UPDATE_GIFT_CERTIFICATE = "UPDATE gift_certificate SET name = :name, description = :description," +
-            " price = :price, create_date = :createDate, last_update_date = :lastUpdateDate WHERE (id = :id);";
-    private static final String SQL_DELETE_BY_ID = "DELETE FROM gift_certificate WHERE (id = :id);";
+            " price = :price, create_date = :createDate, last_update_date = :lastUpdateDate WHERE (certificate_id = :id);";
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM gift_certificate WHERE (certificate_id = :id);";
 
     private static final String SQL_ADD_TAG_TO_CERTIFICATE = "INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id)" +
             " VALUES (:tag_id, :gift_certificate_id);";
@@ -50,10 +50,10 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         Map<Long, GiftCertificate> giftCertificateMap = new LinkedHashMap<>();
         Long id = 0L;
         while (resultSet.next()) {
-            if (!giftCertificateMap.containsKey(resultSet.getLong("id"))) {
-                id = resultSet.getLong("id");
+            if (!giftCertificateMap.containsKey(resultSet.getLong("certificate_id"))) {
+                id = resultSet.getLong("certificate_id");
                 GiftCertificate certificate = GiftCertificate.builder()
-                        .id(resultSet.getLong("id"))
+                        .id(resultSet.getLong("certificate_id"))
                         .name(resultSet.getString("name"))
                         .description(resultSet.getString("description"))
                         .price(resultSet.getBigDecimal("price"))
