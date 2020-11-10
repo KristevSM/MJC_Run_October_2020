@@ -77,10 +77,10 @@ public class UserDaoImplTest {
         String sql3 = "SELECT * FROM ORDERS where ORDER_ID = 1";
         Order order = (Order) session.createNativeQuery(sql3).addEntity(Order.class).getSingleResult();
 
-        List<User> userList = userDao.getAllUsers();
-        for (User u : userList) {
-            System.out.println(u);
-        }
+//        List<User> userList = userDao.getAllUsers();
+//        for (User u : userList) {
+//            System.out.println(u);
+//        }
 //        System.out.println(userList.get(3).getOrders().get(0).getGiftCertificate());
 //        assertEquals(4L, userList.size());
 //        session.close();
@@ -91,7 +91,7 @@ public class UserDaoImplTest {
     @Test
     public void shouldGetUsersList() {
 
-        List<User> userList = userDao.getAllUsers();
+        List<User> userList = userDao.getAllUsers(0, 20);
         for (User u : userList){
             System.out.println(u);
         }

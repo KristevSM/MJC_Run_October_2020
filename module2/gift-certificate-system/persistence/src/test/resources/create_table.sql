@@ -6,8 +6,8 @@ CREATE TABLE tag (
 
 CREATE TABLE gift_certificate (
                                   id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
-                                  name varchar(40) NOT NULL,
-                                  description varchar(250) NOT NULL,
+                                  name varchar(40) NOT NULL UNIQUE,
+                                  description varchar(500) NOT NULL,
                                   price DECIMAL(12,2) NOT NULL,
                                   create_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                   last_update_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -37,7 +37,6 @@ CREATE TABLE users (
 
 CREATE TABLE orders (
                                   order_id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
-                                  first_name varchar(40) NOT NULL,
                                   order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                   FOREIGN KEY (`order_id`) REFERENCES `Users` (`user_id`),
                                   PRIMARY KEY (order_id));

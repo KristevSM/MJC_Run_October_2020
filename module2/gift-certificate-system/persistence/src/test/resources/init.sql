@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS orders (
                                   order_id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
-                                  first_name varchar(40) NOT NULL,
                                   order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 --                                   FOREIGN KEY (order_id) REFERENCES Users (user_id),
                                   PRIMARY KEY (order_id));
