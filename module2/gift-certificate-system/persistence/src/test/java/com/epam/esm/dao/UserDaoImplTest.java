@@ -53,11 +53,13 @@ public class UserDaoImplTest {
         List<Order> orders = new ArrayList<>();
         Order order1 = Order.builder().user(user1).orderDate(ZonedDateTime.now()).build();
         Order order2 = Order.builder().user(user1).orderDate(ZonedDateTime.now()).build();
+        String sql = "SELECT * FROM GIFT_CERTIFICATE where CERTIFICATE_ID = 15";
+        GiftCertificate certificate = (GiftCertificate) session.createNativeQuery(sql).addEntity(GiftCertificate.class).getSingleResult();
+        order1.setGiftCertificate(certificate);
         orders.add(order1);
         orders.add(order2);
         user1.setOrders(orders);
         user1.setOrders(orders);
-
         session.update(user1);
 
         User userFromDb = (User) session.get(User.class, 3L);
@@ -68,14 +70,6 @@ public class UserDaoImplTest {
         assertEquals(2, orderList.size());
         System.out.println(orderList);
         session.getTransaction().commit();
-        session.close();
-
-        session = HibernateAnnotationUtil.getSessionFactory().openSession();
-        String sql = "SELECT * FROM GIFT_CERTIFICATE where CERTIFICATE_ID = 15";
-        GiftCertificate certificate = (GiftCertificate) session.createNativeQuery(sql).addEntity(GiftCertificate.class).getSingleResult();
-        order1.setGiftCertificate(certificate);
-        session.update(order1);
-
         session.close();
 
         session = HibernateAnnotationUtil.getSessionFactory().openSession();
