@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+//@SpringBootTest
 class TagValidatorTest {
 
     private TagValidator validator;
