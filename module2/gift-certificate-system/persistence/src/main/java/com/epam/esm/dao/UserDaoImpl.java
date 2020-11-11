@@ -34,17 +34,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Long save(User model) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void update(User model) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void delete(Long id) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override

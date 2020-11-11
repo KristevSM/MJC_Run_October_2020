@@ -54,12 +54,12 @@ public class OrderDaoImpl implements OrderDao{
 
     @Override
     public void update(Order model) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void delete(Long id) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
