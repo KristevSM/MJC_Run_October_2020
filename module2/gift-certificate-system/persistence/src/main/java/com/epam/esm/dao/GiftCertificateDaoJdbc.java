@@ -133,7 +133,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findAll() {
+    public List<GiftCertificate> findAll(int from, int pageSize) {
         return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_CERTIFICATES, resultSetExtractor);
     }
 

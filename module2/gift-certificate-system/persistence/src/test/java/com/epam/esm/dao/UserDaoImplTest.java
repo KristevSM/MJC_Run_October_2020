@@ -62,6 +62,12 @@ public class UserDaoImplTest {
         user1.setOrders(orders);
         session.update(user1);
 
+
+        //
+//        String hql = "FROM User u";
+//        Query query = session.createQuery(hql);
+//        List results = query.list();
+
         User userFromDb = (User) session.get(User.class, 3L);
         System.out.println(userFromDb);
         assertNotNull(userFromDb);

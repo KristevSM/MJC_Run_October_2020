@@ -52,8 +52,8 @@ public class TagController {
      * @return Tags list.
      */
     @GetMapping(value = "/tags")
-    public List<Tag> findAllTags() {
-        return tagService.findAllTags();
+    public List<Tag> findAllTags(int from, int pageSize) {
+        return tagService.findAllTags(from, pageSize);
     }
 
     /**

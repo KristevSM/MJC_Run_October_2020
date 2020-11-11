@@ -31,7 +31,7 @@ public class OrderDaoImpl implements OrderDao{
     }
 
     @Override
-    public List<Order> findAll() {
+    public List<Order> findAll(int from, int pageSize) {
         return null;
     }
 }

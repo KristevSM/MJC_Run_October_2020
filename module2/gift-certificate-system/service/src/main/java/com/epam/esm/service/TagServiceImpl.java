@@ -44,9 +44,9 @@ public class TagServiceImpl implements TagService {
      * @return Tags list.
      */
     @Override
-    public List<Tag> findAllTags() {
+    public List<Tag> findAllTags(int from, int pageSize) {
 
-        List<Tag> tags = tagDao.findAll();
+        List<Tag> tags = tagDao.findAll(from, pageSize);
         if (tags.isEmpty()) {
             throw new TagNotFoundException("Tags were not found");
         } else {

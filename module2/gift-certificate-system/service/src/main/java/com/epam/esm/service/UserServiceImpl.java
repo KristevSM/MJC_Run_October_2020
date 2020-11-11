@@ -20,6 +20,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getAllUsers(int from, int pageSize) {
         //validate
-        return userDao.getAllUsers(from, pageSize);
+        return userDao.findAll(from, pageSize);
     }
 }

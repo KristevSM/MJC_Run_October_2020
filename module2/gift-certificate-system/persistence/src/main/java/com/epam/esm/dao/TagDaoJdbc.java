@@ -84,7 +84,7 @@ public class TagDaoJdbc implements TagDao {
     }
 
     @Override
-    public List<Tag> findAll() {
+    public List<Tag> findAll(int from, int pageSize) {
         return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_TAGS, tagRowMapper);
     }
 

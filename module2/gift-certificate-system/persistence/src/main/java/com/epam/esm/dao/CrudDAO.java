@@ -10,5 +10,5 @@ public interface CrudDAO<T> {
     void update(T model);
     void delete(Long id);
 
-    List<T> findAll();
+    List<T> findAll(int from, int pageSize);
 }
