@@ -12,8 +12,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -77,6 +76,36 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setDebugMessage(ex.getMessage());
 
         return new ResponseEntity<>(apiError, NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    protected ResponseEntity<Object> handleOrderNotFound(OrderNotFoundException ex,
+                                                       WebRequest request) {
+        ApiError apiError = new ApiError(NOT_FOUND, ex);
+        apiError.setMessage("OrderNotFoundException");
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    protected ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex,
+                                                         WebRequest request) {
+        ApiError apiError = new ApiError(NOT_FOUND, ex);
+        apiError.setMessage("UserNotFoundException");
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, NOT_FOUND);
+    }
+
+    @ExceptionHandler(DaoException.class)
+    protected ResponseEntity<Object> handleDaoException(DaoException ex,
+                                                        WebRequest request) {
+        ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR, ex);
+        apiError.setMessage("DaoException");
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(InvalidInputDataException.class)
