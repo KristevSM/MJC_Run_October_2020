@@ -20,7 +20,7 @@ USE `gift_certificate_service` ;
 -- -----------------------------------------------------
 -- Table `gift_certificate_service`.`tag`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tag` (
+CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`tag` (
   `tag_id` BIGINT(10) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`tag_id`),
@@ -32,7 +32,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `gift_certificate_service`.`gift_certificate`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `gift_certificate` (
+CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`gift_certificate` (
   `certificate_id` BIGINT(10) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(500) NOT NULL,
@@ -49,7 +49,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `gift_certificate_service`.`tag_has_gift_certificate`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tag_has_gift_certificate` (
+CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`tag_has_gift_certificate` (
   `tag_id` BIGINT(10) NOT NULL,
   `gift_certificate_id` BIGINT(10) NOT NULL,
   PRIMARY KEY (`tag_id`, `gift_certificate_id`),
@@ -71,7 +71,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `gift_certificate_service`.`orders`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `orders` (
+CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`orders` (
   `order_id` BIGINT(10) NOT NULL AUTO_INCREMENT,
   `order_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `certificate_id` BIGINT(10) NOT NULL,
@@ -89,7 +89,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `gift_certificate_service`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`users` (
   `user_id` BIGINT(10) NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(40) NOT NULL,
   `last_name` VARCHAR(40) NOT NULL,

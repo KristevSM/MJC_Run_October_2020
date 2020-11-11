@@ -2,6 +2,7 @@ package com.epam.esm.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,7 +49,7 @@ public class GiftCertificate implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "giftCertificate")
-    private Order order;
+    @JsonIgnoreProperties("orders")
+    @OneToMany(mappedBy = "giftCertificate")
+    private List<Order> orders;
 }

@@ -4,8 +4,7 @@ import com.epam.esm.exception.DaoException;
 import com.epam.esm.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.text.MessageFormat;
@@ -18,7 +17,19 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> find(Long id) {
-        return Optional.empty();
+        Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
+        Optional<User> user;
+        try {
+            String hql = "FROM User u WHERE u.id = :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("id", id);
+            user = query.uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DaoException(MessageFormat.format("Unable to get a user: {0}", e.getMessage()));
+        } finally {
+            session.close();
+        }
+        return user;
     }
 
     @Override

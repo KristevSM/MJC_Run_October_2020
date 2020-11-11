@@ -1,6 +1,10 @@
 package com.epam.esm.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,15 +27,18 @@ public class Order implements Serializable{
         @Column(name = "order_id", unique = true, nullable = false)
         private Long id;
 
+        @JsonIgnoreProperties("orders")
         @ManyToOne
         @JoinColumn(name = "user_id", nullable=false)
         private User user;
 
-        @OneToOne(cascade = CascadeType.ALL)
+        @JsonIgnoreProperties("orders")
+        @ManyToOne
         @JoinColumn(name = "certificate_id")
         private GiftCertificate giftCertificate;
 
         @Column(name = "order_date")
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
         private ZonedDateTime orderDate;
 
         @Override

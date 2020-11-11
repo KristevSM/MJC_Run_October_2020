@@ -94,17 +94,17 @@ public class UserDaoImplTest {
 
     }
 
-    @Test
-    public void shouldGetUsersList() {
-
-        List<User> userList = userDao.getAllUsers(0, 20);
-        for (User u : userList){
-            System.out.println(u);
-        }
-
-        assertEquals(2L, userList.size());
-
-    }
+//    @Test
+//    public void shouldGetUsersList() {
+//
+//        List<User> userList = userDao.getAllUsers(0, 20);
+//        for (User u : userList){
+//            System.out.println(u);
+//        }
+//
+//        assertEquals(2L, userList.size());
+//
+//    }
 
     @AfterClass
     public static void afterTests() {
