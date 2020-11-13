@@ -9,5 +9,6 @@ public interface OrderService {
     List<Order> getAllOrders(int from, int pageSize);
     Order getOrderById(Long id);
     void makeOrder(Long userId, Long certificateId);
+    void removeOrder(Long orderId);
 
 }

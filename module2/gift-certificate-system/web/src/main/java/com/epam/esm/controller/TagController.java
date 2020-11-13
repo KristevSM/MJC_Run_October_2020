@@ -1,10 +1,6 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.dao.CertificateSearchQuery;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
-import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
-import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -21,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sergei Kristev
@@ -32,18 +29,15 @@ import java.util.List;
 public class TagController {
 
     private final TagService tagService;
-    private final GiftCertificateService certificateService;
 
     /**
      * Accepts service layer objects and tag validator.
      *
      * @param tagService            TagService instance.
-     * @param certificateService    GiftCertificateService instance.
      */
     @Autowired
-    public TagController(TagService tagService, GiftCertificateService certificateService) {
+    public TagController(TagService tagService) {
         this.tagService = tagService;
-        this.certificateService = certificateService;
     }
 
     /**
@@ -52,8 +46,11 @@ public class TagController {
      * @return Tags list.
      */
     @GetMapping(value = "/tags")
-    public List<Tag> findAllTags(int from, int pageSize) {
-        return tagService.findAllTags(from, pageSize);
+    public List<Tag> findAllTags(@RequestParam(value = "from") Optional<Integer> from,
+                                 @RequestParam(value = "page_size") Optional<Integer> pages) {
+        int fromTag = from.orElse(0);
+        int pageSize = pages.orElse(20);
+        return tagService.findAllTags(fromTag, pageSize);
     }
 
     /**
@@ -125,15 +122,6 @@ public class TagController {
      */
     @DeleteMapping(path = "tags/{id}")
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
-        Tag tag = tagService.findTagById(id);
-        try {
-            CertificateSearchQuery query = new CertificateSearchQuery();
-            query.setTagName(tag.getName());
-            List<GiftCertificate> certificates = certificateService.getCertificates(query);
-            certificates.forEach(certificate -> certificateService.removeTagFromCertificate(certificate.getId(), id));
-        } catch (GiftCertificateNotFoundException e) {
-            //logging
-        }
         tagService.deleteTag(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

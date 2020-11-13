@@ -1,12 +1,14 @@
 package com.epam.esm.service;
 
-import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.dao.GiftCertificateDao;
+import com.epam.esm.dao.OrderDao;
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.dao.jdbc.CertificateSearchQuery;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.model.Order;
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.GiftCertificateValidator;
 import com.epam.esm.validator.TagValidator;
@@ -18,8 +20,9 @@ import org.springframework.validation.BindingResult;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sergei Kristev
@@ -31,6 +34,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private final GiftCertificateDao giftCertificateDao;
     private final TagDao tagDao;
+    private final OrderDao orderDao;
     private final GiftCertificateValidator certificateValidator;
     private final TagValidator tagValidator;
 
@@ -43,10 +47,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * @param tagValidator         TagValidator instance.
      */
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao,
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao,OrderDao orderDao,
                                       GiftCertificateValidator certificateValidator, TagValidator tagValidator) {
         this.giftCertificateDao = giftCertificateDao;
         this.tagDao = tagDao;
+        this.orderDao = orderDao;
         this.certificateValidator = certificateValidator;
         this.tagValidator = tagValidator;
     }
@@ -71,6 +76,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * @param giftCertificate GiftCertificate instance.
      * @return GiftCertificate's id.
      */
+    @Transactional
     @Override
     public Long saveCertificate(GiftCertificate giftCertificate) {
 
@@ -87,10 +93,31 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         } else {
-            Long certificateId = giftCertificateDao.save(giftCertificate);
-            if (giftCertificate.getTags() == null) {
-                giftCertificate.setTags(new ArrayList<>());
+            List<Tag> oldTags = giftCertificate.getTags();
+            List<Tag> newTags = new ArrayList<>();
+            for (Tag tag : oldTags) {
+                BindingResult resultTagValidation = new BeanPropertyBindingResult(tag, "tag");
+                tagValidator.validate(tag, result);
+                Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
+                if (currentTag.isPresent()) {
+                    tagDao.update(tag);
+                    tag.setId(currentTag.get().getId());
+                } else if (resultTagValidation.hasErrors()) {
+                    String brokenField = result.getFieldErrors().get(0).getField();
+                    String errorCode = result.getFieldErrors().get(0).getCode();
+                    throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+                            brokenField, errorCode));
+                } else {
+                    Long id = tagDao.save(tag);
+                    tag.setId(id);
+                }
+                newTags.add(tag);
             }
+            giftCertificate.setTags(new ArrayList<>());
+            Long certificateId = giftCertificateDao.save(giftCertificate);
+            giftCertificate.setTags(newTags);
+            giftCertificateDao.update(giftCertificate);
+
             return certificateId;
         }
     }
@@ -108,20 +135,20 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Transactional
     @Override
     public void updateCertificate(GiftCertificate giftCertificate) {
-
-        BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
-        certificateValidator.validate(giftCertificate, result);
-        if (result.hasErrors()) {
-            String brokenField = result.getFieldErrors().get(0).getField();
-            String errorCode = result.getFieldErrors().get(0).getCode();
-            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
-                    brokenField, errorCode));
-        } else {
-            List<Tag> tags = giftCertificate.getTags();
-            tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
-            giftCertificate.setLastUpdateDate(ZonedDateTime.now());
-            giftCertificateDao.update(giftCertificate);
-        }
+//
+//        BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
+//        certificateValidator.validate(giftCertificate, result);
+//        if (result.hasErrors()) {
+//            String brokenField = result.getFieldErrors().get(0).getField();
+//            String errorCode = result.getFieldErrors().get(0).getCode();
+//            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
+//                    brokenField, errorCode));
+//        } else {
+//            List<Tag> tags = giftCertificate.getTags();
+//            tags.forEach(tag -> tagDao.assignNewTagToCertificate(tag.getId(), giftCertificate.getId()));
+//            giftCertificate.setLastUpdateDate(ZonedDateTime.now());
+//            giftCertificateDao.update(giftCertificate);
+//        }
     }
 
     /**
@@ -139,8 +166,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public void deleteCertificate(Long id) {
         Optional<GiftCertificate> certificate = giftCertificateDao.find(id);
         if (certificate.isPresent()) {
-            GiftCertificate giftCertificate = certificate.get();
-            giftCertificate.getTags().forEach(tag -> tagDao.removeTagAndCertificate(tag.getId(), id));
+            List<Order> orders = certificate.get().getOrders();
+            for (Order order : orders) {
+                order.setGiftCertificate(null);
+                orderDao.update(order);
+            }
             giftCertificateDao.delete(id);
         } else {
             throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} not found", id));
@@ -173,95 +203,57 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         return certificateList;
     }
 
-    /**
-     * Assigns new tag to certificate.
-     * <p>
-     * First, finds a certificate by id. Subsequently, if the certificate record is exists, method finds tag by id and
-     * assigns passed tag to certificate.
-     *
-     * @param certificateId GiftCertificate id.
-     * @param tagId         Tag id.
-     * @throws TagNotFoundException             Tag with id: {0} was not found
-     * @throws GiftCertificateNotFoundException Gift certificate with id: {0} was not found.
-     */
-    @Transactional
-    @Override
-    public void addTagToCertificate(Long certificateId, Long tagId) {
-        Optional<GiftCertificate> certificate = giftCertificateDao.find(certificateId);
-        Optional<Tag> tag = tagDao.find(tagId);
-        if (!certificate.isPresent()) {
-            throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} was not found", certificateId));
-        } else if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("Tag with id: {0} was not found", tagId));
-        } else {
-            tagDao.addNewTagToCertificate(tagId, certificateId);
-        }
-    }
-
-    /**
-     * Removes tag.
-     * <p>
-     * Removes tag from certificate.
-     *
-     * @param certificateId GiftCertificate id.
-     * @param tagId         Tag id.
-     */
-    @Override
-    public void removeTagFromCertificate(Long certificateId, Long tagId) {
-        giftCertificateDao.removeTagFromCertificate(certificateId, tagId);
-    }
-
-    /**
-     * Patches tag list.
-     * <p>
-     * The method accepts old and patched certificates, and we get a list of tags from each certificate object.
-     * First, we remove all old certificate-tag links from the DAO. Then we assign a tag to the certificate.
-     * If the passed tag is not present in the DB, we create it.
-     *
-     * @param oldCertificate        GiftCertificate with previous tag list.
-     * @param certificatePatched    GiftCertificate with patched tag list.
-     */
-    @Transactional
-    @Override
-    public void patchTags(GiftCertificate oldCertificate, GiftCertificate certificatePatched) {
-        BindingResult resultCertificate = new BeanPropertyBindingResult(certificatePatched, "giftCertificate");
-        certificateValidator.validate(certificatePatched, resultCertificate);
-        if (resultCertificate.hasErrors()) {
-            String brokenField = resultCertificate.getFieldErrors().get(0).getField();
-            String errorCode = resultCertificate.getFieldErrors().get(0).getCode();
-            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
-                    brokenField, errorCode));
-        }
-        oldCertificate.getTags()
-                .forEach(tag -> giftCertificateDao.removeTagFromCertificate(oldCertificate.getId(), tag.getId()));
-
-        Set<String> tagSet = new HashSet<>();
-        List<Tag> listWithoutRepeatableTags = certificatePatched.getTags()
-                .stream().filter(e -> tagSet.add(e.getName())).collect(Collectors.toList());
-        certificatePatched.setTags(listWithoutRepeatableTags);
-
-        List<Tag> tags = certificatePatched.getTags();
-        if (tags.isEmpty()) {
-            Tag defaultTag = Tag.builder().name("Main").build();
-            tags.add(defaultTag);
-        }
-        for (Tag tag : tags) {
-            BindingResult result = new BeanPropertyBindingResult(tag, "tag");
-            tagValidator.validate(tag, result);
-            Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
-
-            if (currentTag.isPresent()) {
-                tagDao.addNewTagToCertificate(currentTag.get().getId(), certificatePatched.getId());
-            } else if (result.hasErrors()) {
-                String brokenField = result.getFieldErrors().get(0).getField();
-                String errorCode = result.getFieldErrors().get(0).getCode();
-                throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
-                        brokenField, errorCode));
-            } else {
-                Long tagId = tagDao.save(tag);
-                tagDao.addNewTagToCertificate(tagId, certificatePatched.getId());
-            }
-        }
-    }
+//    /**
+//     * Patches tag list.
+//     * <p>
+//     * The method accepts old and patched certificates, and we get a list of tags from each certificate object.
+//     * First, we remove all old certificate-tag links from the DAO. Then we assign a tag to the certificate.
+//     * If the passed tag is not present in the DB, we create it.
+//     *
+//     * @param oldCertificate        GiftCertificate with previous tag list.
+//     * @param certificatePatched    GiftCertificate with patched tag list.
+//     */
+//    @Transactional
+//    @Override
+//    public void patchTags(GiftCertificate oldCertificate, GiftCertificate certificatePatched) {
+//        BindingResult resultCertificate = new BeanPropertyBindingResult(certificatePatched, "giftCertificate");
+//        certificateValidator.validate(certificatePatched, resultCertificate);
+//        if (resultCertificate.hasErrors()) {
+//            String brokenField = resultCertificate.getFieldErrors().get(0).getField();
+//            String errorCode = resultCertificate.getFieldErrors().get(0).getCode();
+//            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
+//                    brokenField, errorCode));
+//        }
+//        oldCertificate.getTags()
+//                .forEach(tag -> giftCertificateDao.removeTagFromCertificate(oldCertificate.getId(), tag.getId()));
+//
+//        Set<String> tagSet = new HashSet<>();
+//        List<Tag> listWithoutRepeatableTags = certificatePatched.getTags()
+//                .stream().filter(e -> tagSet.add(e.getName())).collect(Collectors.toList());
+//        certificatePatched.setTags(listWithoutRepeatableTags);
+//
+//        List<Tag> tags = certificatePatched.getTags();
+//        if (tags.isEmpty()) {
+//            Tag defaultTag = Tag.builder().name("Main").build();
+//            tags.add(defaultTag);
+//        }
+//        for (Tag tag : tags) {
+//            BindingResult result = new BeanPropertyBindingResult(tag, "tag");
+//            tagValidator.validate(tag, result);
+//            Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
+//
+//            if (currentTag.isPresent()) {
+//                tagDao.addNewTagToCertificate(currentTag.get().getId(), certificatePatched.getId());
+//            } else if (result.hasErrors()) {
+//                String brokenField = result.getFieldErrors().get(0).getField();
+//                String errorCode = result.getFieldErrors().get(0).getCode();
+//                throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+//                        brokenField, errorCode));
+//            } else {
+//                Long tagId = tagDao.save(tag);
+//                tagDao.addNewTagToCertificate(tagId, certificatePatched.getId());
+//            }
+//        }
+//    }
 
 }

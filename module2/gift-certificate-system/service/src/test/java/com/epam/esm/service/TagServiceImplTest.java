@@ -1,26 +1,11 @@
 package com.epam.esm.service;
 
-import com.epam.esm.dao.TagDao;
-import com.epam.esm.dao.TagDaoJdbc;
-import com.epam.esm.exception.TagNotFoundException;
-import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.Tag;
-import com.epam.esm.validator.TagValidator;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @SpringBootConfiguration

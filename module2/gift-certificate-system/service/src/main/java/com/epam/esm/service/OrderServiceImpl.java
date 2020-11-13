@@ -5,7 +5,6 @@ import com.epam.esm.dao.OrderDao;
 import com.epam.esm.dao.UserDao;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.OrderNotFoundException;
-import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.exception.UserNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Order;
@@ -57,5 +56,12 @@ public class OrderServiceImpl implements OrderService {
     public Order getOrderById(Long id) {
         return orderDao.find(id).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                 .format("Order with id: {0} not found", id)));
+    }
+
+    @Override
+    public void removeOrder(Long orderId) {
+        orderDao.find(orderId).orElseThrow(() -> new OrderNotFoundException(MessageFormat
+                .format("Order with id: {0} not found", orderId)));
+        orderDao.delete(orderId);
     }
 }

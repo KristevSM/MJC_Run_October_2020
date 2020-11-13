@@ -1,11 +1,13 @@
 package com.epam.esm.dao;
 
+import com.epam.esm.dao.jdbc.CertificateSearchQuery;
 import com.epam.esm.exception.DaoException;
-import com.epam.esm.exception.OrderNotFoundException;
-import com.epam.esm.model.Order;
+import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.text.MessageFormat;
@@ -14,55 +16,60 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class OrderDaoImpl implements OrderDao {
+@Primary
+public class GiftCertificateDaoHibernateImpl implements GiftCertificateDao {
     @Override
-    public Optional<Order> find(Long id) {
+    public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
+        return null;
+    }
+
+    @Override
+    public Optional<GiftCertificate> find(Long id) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
-        Optional<Order> order;
+        Optional<GiftCertificate> giftCertificate;
         try {
-            String hql = "FROM Order o WHERE o.id = :id";
+            String hql = "FROM GiftCertificate c WHERE c.id = :id";
             Query query = session.createQuery(hql);
             query.setParameter("id", id);
-            order = query.uniqueResultOptional();
+            giftCertificate = query.uniqueResultOptional();
         } catch (Exception e) {
-            throw new OrderNotFoundException(MessageFormat.format("Unable to get a order: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable to get a certificate: {0}", e.getMessage()));
         } finally {
             session.close();
         }
-        return order;
+        return giftCertificate;
     }
 
     @Override
-    public Long save(Order order) {
-
+    public Long save(GiftCertificate certificate) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            session.saveOrUpdate(order);
+            session.persist(certificate);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
-            throw new DaoException(MessageFormat.format("Unable make order: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable save certificate: {0}", e.getMessage()));
         } finally {
             session.close();
         }
-        return order.getId();
+        return certificate.getId();
     }
 
     @Override
-    public void update(Order order) {
+    public void update(GiftCertificate certificate) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            session.update(order);
+            session.update(certificate);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
-            throw new DaoException(MessageFormat.format("Unable update order: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable update certificate: {0}", e.getMessage()));
         } finally {
             session.close();
         }
@@ -73,27 +80,31 @@ public class OrderDaoImpl implements OrderDao {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            session.delete(session.get(Order.class, id));
-            session.getTransaction().commit();
+            String hql = "DELETE GiftCertificate c WHERE c.id = :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("id", id);
+            query.executeUpdate();
         } catch (Exception e) {
-            throw new DaoException(MessageFormat.format("Unable delete a order: {0}", e.getMessage()));
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            throw new DaoException(MessageFormat.format("Unable delete certificate: {0}", e.getMessage()));
         } finally {
             session.close();
         }
     }
 
     @Override
-    public List<Order> findAll(int from, int pageSize) {
-
+    public List<GiftCertificate> findAll(int from, int pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
-        List<Order> firstPage = new ArrayList<>();
+        List<GiftCertificate> firstPage = new ArrayList<>();
         try {
-            Criteria criteria = session.createCriteria(Order.class);
+            Criteria criteria = session.createCriteria(User.class);
             criteria.setFirstResult(from);
             criteria.setMaxResults(pageSize);
             firstPage = criteria.list();
         } catch (Exception e) {
-            throw new DaoException(MessageFormat.format("Unable to get a list of orders: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable to get a list of certificates: {0}", e.getMessage()));
         } finally {
             session.close();
         }

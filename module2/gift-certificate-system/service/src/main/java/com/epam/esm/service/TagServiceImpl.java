@@ -117,19 +117,6 @@ public class TagServiceImpl implements TagService {
     }
 
     /**
-     * Assigns tag.
-     * <p>
-     * Assigning tag to gift certificate through <i>tagDao</i>.
-     *
-     * @param tagId         Tag id.
-     * @param certificateId GiftCertificate id.
-     */
-    @Override
-    public void assignTag(Long tagId, Long certificateId) {
-        tagDao.assignTag(tagId, certificateId);
-    }
-
-    /**
      * Deletes tag.
      * <p>
      * First, finds a tag by ID. Subsequently, if the tag record is exists, method deletes tag through <i>tagDao</i>, else
@@ -144,100 +131,5 @@ public class TagServiceImpl implements TagService {
         tagDao.find(id).orElseThrow(() ->
                 new TagNotFoundException(MessageFormat.format("Tag with id: {0} not found", id)));
         tagDao.delete(id);
-    }
-
-    /**
-     * Assigns default tag.
-     * <p>
-     * First, finds a tag by tag name. Subsequently, if the tag record is exists, method assigns default tag
-     * through <i>tagDao</i>, else throw TagNotFoundException;
-     *
-     * @param tagName       Tag name.
-     * @param certificateId Certificate id.
-     * @throws TagNotFoundException The tag with tag name: {0} not found
-     */
-    @Transactional
-    @Override
-    public void assignDefaultTag(String tagName, Long certificateId) {
-        Optional<Tag> tag = tagDao.findByTagName(tagName);
-        if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
-        } else {
-            Tag currentTag = tag.get();
-            tagDao.assignTag(currentTag.getId(), certificateId);
-        }
-    }
-
-    /**
-     * Assigns new tag to certificate.
-     * <p>
-     * First, finds a tag by tag name. Subsequently, if the tag record is exists, method assigns passed tag
-     * through <i>tagDao</i>, else throw TagNotFoundException;
-     *
-     * @param tagName       Tag name.
-     * @param certificateId Certificate id.
-     * @throws TagNotFoundException The tag with tag name: {0} not found
-     */
-    @Transactional
-    @Override
-    public void addNewTagAndCertificate(String tagName, Long certificateId) {
-        Optional<Tag> tag = tagDao.findByTagName(tagName);
-        if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
-        } else {
-            Tag currentTag = tag.get();
-            tagDao.addNewTagToCertificate(currentTag.getId(), certificateId);
-        }
-    }
-
-    /**
-     * Finds tag by tag name.
-     * <p>
-     * Finds a tag by tag name, else throw TagNotFoundException;
-     *
-     * @param tagName Tag name.
-     * @throws TagNotFoundException The tag with tag name: {0} not found
-     */
-    @Override
-    public Tag findTagByTagName(String tagName) {
-        Optional<Tag> tag = tagDao.findByTagName(tagName);
-        if (!tag.isPresent()) {
-            throw new TagNotFoundException(MessageFormat.format("The tag with tag name: {0} not found", tagName));
-        } else {
-            return tag.get();
-        }
-    }
-
-    /**
-     * Updates tag list.
-     * <p>
-     * The method accepts list with tags and certificate's ID. After then every tag validates, a tag-certificate
-     * relationship is assigned. If the passed tag is not present in the DB, we create it.
-     *
-     * @param tags              List with tags.
-     * @param certificateId     GiftCertificate's ID.
-     */
-    @Transactional
-    @Override
-    public void updateTagList(List<Tag> tags, Long certificateId) {
-
-        for (Tag tag : tags) {
-            BindingResult result = new BeanPropertyBindingResult(tag, "tag");
-            TagValidator validator = new TagValidator();
-            validator.validate(tag, result);
-            if (result.hasErrors()) {
-                String brokenField = result.getFieldErrors().get(0).getField();
-                String errorCode = result.getFieldErrors().get(0).getCode();
-                throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
-                        brokenField, errorCode));
-            }
-            Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
-            if (currentTag.isPresent()) {
-                tagDao.addNewTagToCertificate(currentTag.get().getId(), certificateId);
-            } else {
-                Long tagId = tagDao.save(tag);
-                tagDao.addNewTagToCertificate(tagId, certificateId);
-            }
-        }
     }
 }

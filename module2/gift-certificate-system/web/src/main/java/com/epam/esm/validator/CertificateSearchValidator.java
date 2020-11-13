@@ -1,6 +1,6 @@
 package com.epam.esm.validator;
 
-import com.epam.esm.dao.CertificateSearchQuery;
+import com.epam.esm.dao.jdbc.CertificateSearchQuery;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;

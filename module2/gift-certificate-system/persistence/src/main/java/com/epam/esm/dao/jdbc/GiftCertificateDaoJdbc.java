@@ -1,5 +1,6 @@
-package com.epam.esm.dao;
+package com.epam.esm.dao.jdbc;
 
+import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
@@ -162,21 +163,21 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         return namedParameterJdbcTemplate.query(sql.toString(), params, resultSetExtractor);
     }
 
-    @Override
-    public void addTagToCertificate(Long certificateId, Long tagId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("gift_certificate_id", certificateId);
-        params.put("tag_id", tagId);
-        namedParameterJdbcTemplate.update(SQL_ADD_TAG_TO_CERTIFICATE, params);
-    }
-
-    @Override
-    public void removeTagFromCertificate(Long certificateId, Long tagId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("gift_certificate_id", certificateId);
-        params.put("tag_id", tagId);
-        namedParameterJdbcTemplate.update(SQL_REMOVE_TAG_FROM_CERTIFICATE, params);
-    }
+//    @Override
+//    public void addTagToCertificate(Long certificateId, Long tagId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("gift_certificate_id", certificateId);
+//        params.put("tag_id", tagId);
+//        namedParameterJdbcTemplate.update(SQL_ADD_TAG_TO_CERTIFICATE, params);
+//    }
+//
+//    @Override
+//    public void removeTagFromCertificate(Long certificateId, Long tagId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("gift_certificate_id", certificateId);
+//        params.put("tag_id", tagId);
+//        namedParameterJdbcTemplate.update(SQL_REMOVE_TAG_FROM_CERTIFICATE, params);
+//    }
 
 
 }

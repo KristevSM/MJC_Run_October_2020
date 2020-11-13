@@ -1,30 +1,12 @@
 package com.epam.esm.dao;
 
-import com.epam.esm.dao.*;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
-import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.Order;
-import com.epam.esm.model.Tag;
-import com.epam.esm.model.User;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.epam.esm.dao.jdbc.TagDaoJdbc;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class GiftCertificateDaoJdbcTest {

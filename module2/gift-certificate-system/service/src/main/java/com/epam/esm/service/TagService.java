@@ -10,10 +10,4 @@ public interface TagService {
     Long saveTag(Tag tag);
     void updateTag(Tag tag);
     void deleteTag(Long id);
-    void assignDefaultTag(String tagName, Long certificateId);
-    void addNewTagAndCertificate(String tagName, Long certificateId);
-    void assignTag(Long tagId, Long certificateId);
-    Tag findTagByTagName(String tagName);
-    void updateTagList(List<Tag> tags, Long certificateId);
-
 }

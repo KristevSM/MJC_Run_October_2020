@@ -1,6 +1,6 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.dao.CertificateSearchQuery;
+import com.epam.esm.dao.jdbc.CertificateSearchQuery;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
@@ -72,8 +72,6 @@ public class GiftCertificateController {
     public ResponseEntity<GiftCertificate> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate,
                                                               UriComponentsBuilder ucBuilder) {
         Long certificateId = giftCertificateService.saveCertificate(giftCertificate);
-        tagService.assignDefaultTag("Main", certificateId);
-        tagService.updateTagList(giftCertificate.getTags(), certificateId);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificateId).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);

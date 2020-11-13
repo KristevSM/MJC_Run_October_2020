@@ -49,7 +49,7 @@ public class GiftCertificate implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
-    @JsonIgnoreProperties("orders")
+    @JsonIgnore
     @OneToMany(mappedBy = "giftCertificate")
     private List<Order> orders;
 }
