@@ -1,6 +1,6 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.dao.jdbc.CertificateSearchQuery;
+import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.service.GiftCertificateService;
@@ -107,24 +107,23 @@ public class GiftCertificateController {
 //        }
 //    }
 
-    /**
-     * Updates gift certificate.
-     * <p>
-     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
-     * the patchTags(oldCertificate, certificatePatched) method. Then the certificate updates throw <i>giftCertificateService</i>.
-     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
-     *
-     * @param id                        GiftCertificate id.
-     * @param certificatePatched        GiftCertificate instance.
-     * @param ucBuilder                 UriComponentsBuilder instance.
-     * @return ResponseEntity.
-     */
+//    /**
+//     * Updates gift certificate.
+//     * <p>
+//     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
+//     * the patchTags(oldCertificate, certificatePatched) method. Then the certificate updates throw <i>giftCertificateService</i>.
+//     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
+//     *
+//     * @param id                        GiftCertificate id.
+//     * @param certificatePatched        GiftCertificate instance.
+//     * @param ucBuilder                 UriComponentsBuilder instance.
+//     * @return ResponseEntity.
+//     */
     @PatchMapping(path = "certificates/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
                                                                  @RequestBody @Valid GiftCertificate certificatePatched,
                                                                  UriComponentsBuilder ucBuilder) {
-        GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
-        giftCertificateService.patchTags(oldCertificate, certificatePatched);
+        giftCertificateService.findCertificateById(id);
         giftCertificateService.updateCertificate(certificatePatched);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
@@ -172,7 +171,13 @@ public class GiftCertificateController {
                                                             @RequestParam(value = "part_of_name") Optional<String> partOfName,
                                                             @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
                                                             @RequestParam(value = "sort") Optional<String> sortParameter,
-                                                            @RequestParam(value = "sort_order") Optional<String> sortOrder) {
+                                                            @RequestParam(value = "sort_order") Optional<String> sortOrder,
+                                                            @RequestParam(value = "from") Optional<Integer> from,
+                                                            @RequestParam(value = "page_size") Optional<Integer> pages
+    ) {
+        int fromCertificate = from.orElse(0);
+        int pageSize = pages.orElse(20);
+
         List<GiftCertificate> certificateList;
 
         CertificateSearchQuery query = new CertificateSearchQuery();
@@ -187,10 +192,10 @@ public class GiftCertificateController {
         if (result.hasErrors()) {
             String brokenField = result.getFieldErrors().get(0).getField();
             String errorCode = result.getFieldErrors().get(0).getCode();
-            throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         }
-        certificateList = giftCertificateService.getCertificates(query);
+        certificateList = giftCertificateService.getCertificates(query, fromCertificate, pageSize);
         return new ResponseEntity(certificateList, HttpStatus.OK);
     }
 

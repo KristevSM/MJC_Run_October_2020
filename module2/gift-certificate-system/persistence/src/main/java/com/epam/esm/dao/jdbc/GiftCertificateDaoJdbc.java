@@ -1,5 +1,6 @@
 package com.epam.esm.dao.jdbc;
 
+import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
@@ -139,7 +140,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
+    public List<GiftCertificate> getCertificates(CertificateSearchQuery query, int from, int pageSize) {
         Map<String, Object> params = new HashMap<>();
         StringBuilder sql = new StringBuilder(SQL_SELECT_ALL_CERTIFICATES);
         if (query.hasTagName()) {

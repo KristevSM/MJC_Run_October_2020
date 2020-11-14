@@ -1,9 +1,8 @@
 package com.epam.esm.dao;
 
-import com.epam.esm.dao.jdbc.CertificateSearchQuery;
 import com.epam.esm.exception.DaoException;
-import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.User;
+import com.epam.esm.exception.OrderNotFoundException;
+import com.epam.esm.model.Tag;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -17,59 +16,69 @@ import java.util.Optional;
 
 @Repository
 @Primary
-public class GiftCertificateDaoHibernateImpl implements GiftCertificateDao {
+public class TagDaoImpl implements TagDao {
     @Override
-    public List<GiftCertificate> getCertificates(CertificateSearchQuery query) {
-        return null;
+    public Optional<Tag> findByTagName(String tagName) {
+        Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
+        Optional<Tag> tag;
+        try {
+            String hql = "FROM Tag t WHERE t.name = :name";
+            Query query = session.createQuery(hql);
+            query.setParameter("name", tagName);
+            tag = query.uniqueResultOptional();
+        } catch (Exception e) {
+            throw new OrderNotFoundException(MessageFormat.format("Unable to get a tag: {0}", e.getMessage()));
+        } finally {
+            session.close();
+        }
+        return tag;
     }
 
     @Override
-    public Optional<GiftCertificate> find(Long id) {
+    public Optional<Tag> find(Long id) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
-        Optional<GiftCertificate> giftCertificate;
+        Optional<Tag> tag;
         try {
-            String hql = "FROM GiftCertificate c WHERE c.id = :id";
+            String hql = "FROM Tag t WHERE t.id = :id";
             Query query = session.createQuery(hql);
             query.setParameter("id", id);
-            giftCertificate = query.uniqueResultOptional();
+            tag = query.uniqueResultOptional();
         } catch (Exception e) {
-            throw new DaoException(MessageFormat.format("Unable to get a certificate: {0}", e.getMessage()));
+            throw new OrderNotFoundException(MessageFormat.format("Unable to get a tag: {0}", e.getMessage()));
         } finally {
             session.close();
         }
-        return giftCertificate;
-    }
+        return tag;    }
 
     @Override
-    public Long save(GiftCertificate certificate) {
+    public Long save(Tag tag) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            session.persist(certificate);
+            session.save(tag);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
-            throw new DaoException(MessageFormat.format("Unable save certificate: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable save tag: {0}", e.getMessage()));
         } finally {
             session.close();
         }
-        return certificate.getId();
-    }
+        return tag.getId();    }
 
     @Override
-    public void update(GiftCertificate certificate) {
+    public void update(Tag tag) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            session.update(certificate);
+            session.update(tag);
             session.getTransaction().commit();
         } catch (Exception e) {
             if (session.getTransaction() != null) {
                 session.getTransaction().rollback();
             }
-            throw new DaoException(MessageFormat.format("Unable update certificate: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable update tag: {0}", e.getMessage()));
         } finally {
             session.close();
         }
@@ -80,34 +89,28 @@ public class GiftCertificateDaoHibernateImpl implements GiftCertificateDao {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
-            String hql = "DELETE GiftCertificate c WHERE c.id = :id";
-            Query query = session.createQuery(hql);
-            query.setParameter("id", id);
-            query.executeUpdate();
+            session.delete(session.get(Tag.class, id));
+            session.getTransaction().commit();
         } catch (Exception e) {
-            if (session.getTransaction() != null) {
-                session.getTransaction().rollback();
-            }
-            throw new DaoException(MessageFormat.format("Unable delete certificate: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable delete a tag: {0}", e.getMessage()));
         } finally {
             session.close();
         }
     }
 
     @Override
-    public List<GiftCertificate> findAll(int from, int pageSize) {
+    public List<Tag> findAll(int from, int pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
-        List<GiftCertificate> firstPage = new ArrayList<>();
+        List<Tag> firstPage = new ArrayList<>();
         try {
-            Criteria criteria = session.createCriteria(User.class);
+            Criteria criteria = session.createCriteria(Tag.class);
             criteria.setFirstResult(from);
             criteria.setMaxResults(pageSize);
             firstPage = criteria.list();
         } catch (Exception e) {
-            throw new DaoException(MessageFormat.format("Unable to get a list of certificates: {0}", e.getMessage()));
+            throw new DaoException(MessageFormat.format("Unable to get a list of tags: {0}", e.getMessage()));
         } finally {
             session.close();
         }
-        return firstPage;
-    }
+        return firstPage;    }
 }

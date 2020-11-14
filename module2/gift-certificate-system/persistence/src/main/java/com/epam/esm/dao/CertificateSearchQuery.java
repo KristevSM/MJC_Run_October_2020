@@ -1,4 +1,4 @@
-package com.epam.esm.dao.jdbc;
+package com.epam.esm.dao;
 
 public class CertificateSearchQuery {
 

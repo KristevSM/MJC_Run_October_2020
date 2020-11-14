@@ -3,7 +3,10 @@ buildscript {
     repositories { mavenCentral() }
 }
 
-plugins { id "io.spring.dependency-management" version "1.0.4.RELEASE" }
+plugins {
+    id "io.spring.dependency-management" version "1.0.4.RELEASE"
+    id "at.comm_unity.gradle.plugins.jpamodelgen" version "1.1.4"
+}
 
 ext { springBootVersion = '2.3.5.RELEASE' }
 
@@ -17,7 +20,12 @@ jar {
 
 sourceCompatibility = 1.8
 
-repositories { mavenCentral() }
+repositories {
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
@@ -48,6 +56,14 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.14'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
+}
+
+jpaModelgen{
+    jpaModelgenSourcesDir = 'src/generated/java'
+}
+
+compileJpaModelgen {
+    includes += ['**/entities/*.java', '**/entity/*.java']
 }
 
     test {
