@@ -1,5 +1,6 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dto.OrderDto;
 import com.epam.esm.model.Order;
 import com.epam.esm.model.User;
 
@@ -10,5 +11,7 @@ public interface OrderService {
     Order getOrderById(Long id);
     void makeOrder(Long userId, Long certificateId);
     void removeOrder(Long orderId);
+    OrderDto getOrderDetails(Long userId, Long orderId);
+    List<OrderDto> getUserOrders(Long userId, int from, int pageSize);
 
 }

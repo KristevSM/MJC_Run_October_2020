@@ -3,6 +3,7 @@ package com.epam.esm.service;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.OrderDao;
 import com.epam.esm.dao.UserDao;
+import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.exception.UserNotFoundException;
@@ -64,4 +65,15 @@ public class OrderServiceImpl implements OrderService {
                 .format("Order with id: {0} not found", orderId)));
         orderDao.delete(orderId);
     }
+
+    @Override
+    public OrderDto getOrderDetails(Long userId, Long orderId) {
+        return orderDao.getOrderDetails(userId, orderId).orElseThrow(() -> new OrderNotFoundException(MessageFormat
+                .format("Order with id {0} on user with id {1}: not found", orderId, userId)));    }
+
+    @Override
+    public List<OrderDto> getUserOrders(Long userId, int from, int pageSize) {
+        userDao.find(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                .format("User with id: {0} not found", userId)));
+        return orderDao.getUserOrders(userId,from, pageSize);   }
 }
