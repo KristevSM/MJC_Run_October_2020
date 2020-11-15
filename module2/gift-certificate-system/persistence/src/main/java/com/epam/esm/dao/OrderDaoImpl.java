@@ -118,9 +118,7 @@ public class OrderDaoImpl implements OrderDao {
             Order orderFromDto = order.get();
             orderDto = OrderDto.builder()
                     .id(orderFromDto.getId())
-                    .userName(orderFromDto.getUser().getFirstName() + " " + orderFromDto.getUser().getLastName())
-                    .certificateName(orderFromDto.getGiftCertificate().getName())
-                    .purchaseCost(orderFromDto.getGiftCertificate().getPrice())
+                    .purchaseCost(orderFromDto.getCost())
                     .purchaseTime(orderFromDto.getOrderDate())
                     .build();
         } catch (Exception e) {
@@ -144,13 +142,9 @@ public class OrderDaoImpl implements OrderDao {
             for (Order order : orders) {
                 OrderDto orderDto = OrderDto.builder()
                         .id(order.getId())
-                        .userName(order.getUser().getFirstName() + " " + order.getUser().getLastName())
                         .purchaseTime(order.getOrderDate())
+                        .purchaseCost(order.getCost())
                         .build();
-                if (order.getGiftCertificate() != null) {
-                    orderDto.setCertificateName(order.getGiftCertificate().getName());
-                    orderDto.setPurchaseCost(order.getGiftCertificate().getPrice());
-                }
                 firstPageDto.add(orderDto);
             }
 

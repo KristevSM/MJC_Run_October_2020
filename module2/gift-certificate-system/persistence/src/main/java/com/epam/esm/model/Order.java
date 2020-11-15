@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 @Data
@@ -36,6 +37,9 @@ public class Order implements Serializable{
         @ManyToOne
         @JoinColumn(name = "certificate_id")
         private GiftCertificate giftCertificate;
+
+        @Column(name = "cost")
+        private BigDecimal cost;
 
         @Column(name = "order_date")
         @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = JsonFormat.DEFAULT_TIMEZONE)

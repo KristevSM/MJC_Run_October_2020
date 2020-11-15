@@ -47,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
                 .format("User with id: {0} not found", userId)));
         Order order = Order.builder()
                 .giftCertificate(certificate)
+                .cost(certificate.getPrice())
                 .user(user)
                 .orderDate(ZonedDateTime.now())
                 .build();

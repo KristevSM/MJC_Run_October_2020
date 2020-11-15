@@ -75,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`orders` (
   `order_id` BIGINT(10) NOT NULL AUTO_INCREMENT,
   `order_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `certificate_id` BIGINT(10),
+  `cost` DECIMAL(12,2) NOT NULL,
   PRIMARY KEY (`order_id`),
   UNIQUE INDEX `order_id_UNIQUE` (`order_id` ASC) VISIBLE,
   INDEX `fk_orders_gift_certificate1_idx` (`certificate_id` ASC) VISIBLE,
