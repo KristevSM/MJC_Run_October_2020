@@ -20,7 +20,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -29,7 +28,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,21 +46,18 @@ public class GiftCertificateController {
 
     private final GiftCertificateService giftCertificateService;
     private final CertificateSearchValidator searchValidator;
-    private final TagService tagService;
 
     /**
      * Constructor accepts service layer objects and certificate validator.
      *
      * @param giftCertificateService GiftCertificateService instance.
      * @param searchValidator        CertificateSearchValidator instance.
-     * @param tagService             TagService instance.
      */
     @Autowired
     public GiftCertificateController(GiftCertificateService giftCertificateService,
-                                     CertificateSearchValidator searchValidator, TagService tagService) {
+                                     CertificateSearchValidator searchValidator) {
         this.giftCertificateService = giftCertificateService;
         this.searchValidator = searchValidator;
-        this.tagService = tagService;
     }
 
     /**
@@ -143,7 +138,7 @@ public class GiftCertificateController {
      * @param id GiftCertificate id.
      * @return ResponseEntity.
      */
-    @DeleteMapping(path = "certificates/{id}")
+    @DeleteMapping(path = "certificates/{id}", produces = {"application/hal+json"})
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
         giftCertificateService.deleteCertificate(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -155,7 +150,7 @@ public class GiftCertificateController {
      * @param id GiftCertificate id.
      * @return GiftCertificate instance.
      */
-    @GetMapping(value = "certificates/{id}")
+    @GetMapping(value = "certificates/{id}", produces = {"application/hal+json"})
     public GiftCertificate findCertificateById(@PathVariable Long id) {
         GiftCertificate certificate = giftCertificateService.findCertificateById(id);
         List<Tag> tags = certificate.getTags();
@@ -185,7 +180,7 @@ public class GiftCertificateController {
      * @param pages             page size
      * @return GiftCertificates list.
      */
-    @GetMapping(value = "/certificates")
+    @GetMapping(value = "/certificates", produces = {"application/hal+json"})
     @ResponseStatus(HttpStatus.OK)
     public CollectionModel<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
                                                              @RequestParam(value = "part_of_name") Optional<String> partOfName,

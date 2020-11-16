@@ -54,22 +54,18 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/orders/details")
-    public OrderDto getOrderDetails(@RequestParam(value = "userId") Optional<Long> userId,
-                                                 @RequestParam(value = "orderId") Optional<Long> orderId) {
-
-        Long userIdFromRequest = userId.orElseThrow(() -> new InvalidInputDataException("Missing value for the userId parameter"));
-        Long certificateIdFromRequest = orderId.orElseThrow(() -> new InvalidInputDataException("Missing value for the orderId parameter"));
-        OrderDto order = orderService.getOrderDetails(userIdFromRequest, certificateIdFromRequest);
-
+    @GetMapping(value = "/users/{userId}/orders/{orderId}")
+    public OrderDto getUsersOrderDetails(@PathVariable(value = "userId") Long userId,
+                                         @PathVariable(value = "orderId") Long orderId) {
+        OrderDto order = orderService.getOrderDetails(userId, orderId);
         return order;
     }
 
-    @GetMapping(value = "/orders/details/{id}")
+    @GetMapping(value = "/users/{id}/orders")
     public List<OrderDto> getUserOrders(@PathVariable Long id,
                                         @RequestParam(value = "from") Optional<Integer> from,
                                         @RequestParam(value = "page_size") Optional<Integer> pages
-                                        ) {
+    ) {
         int fromOrder = from.orElse(0);
         int pageSize = pages.orElse(20);
         return orderService.getUserOrders(id, fromOrder, pageSize);
