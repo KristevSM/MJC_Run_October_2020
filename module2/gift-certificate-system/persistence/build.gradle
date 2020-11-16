@@ -45,6 +45,10 @@ dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
 
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-hateoas
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '2.3.5.RELEASE'
+
+
     annotationProcessor('org.hibernate:hibernate-jpamodelgen')
 
 

@@ -125,7 +125,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
             if (query.hasTagName()) {
                 criteria.createAlias("tags", "tag");
-                criteria.add(Restrictions.like("tag.name", "%" + query.getTagName() + "%"));
+                criteria.add(Restrictions.eq("tag.name", query.getTagName()));
                 criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
             }

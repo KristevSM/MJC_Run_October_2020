@@ -85,6 +85,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (giftCertificate.getTags() == null) {
             giftCertificate.setTags(new ArrayList<>());
         }
+        //todo check certificate by name
         BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
         certificateValidator.validate(giftCertificate, result);
         if (result.hasErrors()) {
@@ -100,7 +101,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 tagValidator.validate(tag, result);
                 Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
                 if (currentTag.isPresent()) {
-                    tagDao.update(tag);
                     tag.setId(currentTag.get().getId());
                 } else checkTag(result, tag, resultTagValidation);
                 newTags.add(tag);

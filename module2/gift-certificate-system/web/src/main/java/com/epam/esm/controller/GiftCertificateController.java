@@ -3,6 +3,7 @@ package com.epam.esm.controller;
 import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.model.Tag;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.CertificateSearchValidator;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,8 +29,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.epam.esm.constants.AppConstants.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * @author Sergei Kristev
@@ -77,7 +85,7 @@ public class GiftCertificateController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-        /**
+    /**
      * Updates gift certificate.
      * <p>
      * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
@@ -149,7 +157,17 @@ public class GiftCertificateController {
      */
     @GetMapping(value = "certificates/{id}")
     public GiftCertificate findCertificateById(@PathVariable Long id) {
-        return giftCertificateService.findCertificateById(id);
+        GiftCertificate certificate = giftCertificateService.findCertificateById(id);
+        List<Tag> tags = certificate.getTags();
+        tags.forEach(tag -> {
+            Link selfLink = linkTo(methodOn(TagController.class)
+                    .findTagById(tag.getId())).withSelfRel();
+            tag.add(selfLink);
+        });
+        Link selfLink = linkTo(methodOn(GiftCertificateController.class)
+                .findCertificateById(certificate.getId())).withSelfRel();
+        certificate.add(selfLink);
+        return certificate;
     }
 
     /**
@@ -163,19 +181,22 @@ public class GiftCertificateController {
      * @param partOfDescription value of "part_of_description"
      * @param sortParameter     value of "sort"
      * @param sortOrder         value of "sort_order"
+     * @param from              first element for presentation
+     * @param pages             page size
      * @return GiftCertificates list.
      */
     @GetMapping(value = "/certificates")
-    public ResponseEntity<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
-                                                            @RequestParam(value = "part_of_name") Optional<String> partOfName,
-                                                            @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
-                                                            @RequestParam(value = "sort") Optional<String> sortParameter,
-                                                            @RequestParam(value = "sort_order") Optional<String> sortOrder,
-                                                            @RequestParam(value = "from") Optional<Integer> from,
-                                                            @RequestParam(value = "page_size") Optional<Integer> pages
+    @ResponseStatus(HttpStatus.OK)
+    public CollectionModel<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
+                                                             @RequestParam(value = "part_of_name") Optional<String> partOfName,
+                                                             @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
+                                                             @RequestParam(value = "sort") Optional<String> sortParameter,
+                                                             @RequestParam(value = "sort_order") Optional<String> sortOrder,
+                                                             @RequestParam(value = "from") Optional<Integer> from,
+                                                             @RequestParam(value = "page_size") Optional<Integer> pages
     ) {
-        int fromCertificate = from.orElse(0);
-        int pageSize = pages.orElse(20);
+        int fromCertificate = from.orElse(DEFAULT_FROM_ELEMENT);
+        int pageSize = pages.orElse(DEFAULT_PAGE_SIZE);
 
         List<GiftCertificate> certificateList;
 
@@ -195,7 +216,21 @@ public class GiftCertificateController {
                     brokenField, errorCode));
         }
         certificateList = giftCertificateService.getCertificates(query, fromCertificate, pageSize);
-        return new ResponseEntity(certificateList, HttpStatus.OK);
+
+        List<Tag> tags;
+        for (final GiftCertificate certificate : certificateList) {
+            tags = certificate.getTags();
+            tags.forEach(tag -> {
+                Link selfLink = linkTo(methodOn(TagController.class)
+                        .findTagById(tag.getId())).withSelfRel();
+                tag.add(selfLink);
+            });
+            Link selfLink = linkTo(methodOn(GiftCertificateController.class)
+                    .findCertificateById(certificate.getId())).withSelfRel();
+            certificate.add(selfLink);
+        }
+        Link link = linkTo(GiftCertificateController.class).slash("certificates").withSelfRel();
+        return new CollectionModel<>(certificateList, link);
     }
 
     /**
@@ -217,15 +252,41 @@ public class GiftCertificateController {
         return objectMapper.treeToValue(patched, GiftCertificate.class);
     }
 
-    @GetMapping(value = "/certificates/search")
-    public List<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") List<String> tagNames,
-                                                  @RequestParam(value = "from") Optional<Integer> from,
-                                                  @RequestParam(value = "page_size") Optional<Integer> pages
-    ) {
-        int fromCertificate = from.orElse(0);
-        int pageSize = pages.orElse(20);
 
-        return giftCertificateService.findCertificatesByTags(tagNames, fromCertificate, pageSize);
+    /**
+     * Searches gift certificates by several tags.
+     * <p>
+     * Searches gift certificates by several tags.
+     *
+     * @param tagNames list of tag names
+     * @param from     first element for presentation
+     * @param pages    page size
+     * @return GiftCertificates list.
+     */
+    @GetMapping(value = "/certificates/search", produces = {"application/hal+json"})
+    @ResponseStatus(HttpStatus.OK)
+    public CollectionModel<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") List<String> tagNames,
+                                                             @RequestParam(value = "from") Optional<Integer> from,
+                                                             @RequestParam(value = "page_size") Optional<Integer> pages
+    ) {
+        int fromCertificate = from.orElse(DEFAULT_FROM_ELEMENT);
+        int pageSize = pages.orElse(DEFAULT_PAGE_SIZE);
+
+        List<GiftCertificate> certificates = giftCertificateService.findCertificatesByTags(tagNames, fromCertificate, pageSize);
+        List<Tag> tags;
+        for (final GiftCertificate certificate : certificates) {
+            tags = certificate.getTags();
+            for (Tag tag : tags) {
+                Link selfLink = linkTo(methodOn(TagController.class)
+                        .findTagById(tag.getId())).withSelfRel();
+                tag.add(selfLink);
+            }
+            Link selfLink = linkTo(methodOn(GiftCertificateController.class)
+                    .findCertificateById(certificate.getId())).withSelfRel();
+            certificate.add(selfLink);
+        }
+        Link link = linkTo(GiftCertificateController.class).slash("certificates").withSelfRel();
+        return new CollectionModel<>(certificates, link);
     }
 
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "users")
-public class User implements Serializable {
+public class User extends RepresentationModel<User> implements Serializable {
 
     private static final long serialVersionUID = -1L;
     @Id

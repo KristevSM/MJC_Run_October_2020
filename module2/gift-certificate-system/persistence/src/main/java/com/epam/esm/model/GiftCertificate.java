@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "gift_certificate")
-public class GiftCertificate implements Serializable {
+public class GiftCertificate extends RepresentationModel<GiftCertificate> implements Serializable {
 
     private static final long serialVersionUID = -1L;
     @Id
