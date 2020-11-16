@@ -1,16 +1,26 @@
 package com.epam.esm.dao;
 
 import com.epam.esm.exception.DaoException;
-import com.epam.esm.model.User;
+import com.epam.esm.exception.OrderNotFoundException;
+import com.epam.esm.model.*;
+import com.epam.esm.model.Order;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Parameter;
+import javax.persistence.criteria.*;
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.graalvm.compiler.options.OptionType.User;
 
 @Repository
 public class UserDaoImpl implements UserDao {

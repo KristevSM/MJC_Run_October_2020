@@ -77,37 +77,36 @@ public class GiftCertificateController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-//    /**
-//     * Updates gift certificate.
-//     * <p>
-//     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
-//     * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
-//     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
-//     *
-//     * @param id        GiftCertificate id.
-//     * @param patch     JsonPatch.
-//     * @param ucBuilder UriComponentsBuilder instance.
-//     * @return ResponseEntity.
-//     */
-//    @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
-//    public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
-//                                                                 @RequestBody JsonPatch patch,
-//                                                                 UriComponentsBuilder ucBuilder) {
-//        try {
-//            GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
-//            GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
-//            giftCertificateService.patchTags(oldCertificate, certificatePatched);
-//            giftCertificateService.updateCertificate(certificatePatched);
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
-//            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
-//
-//        } catch (JsonPatchException | JsonProcessingException e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+        /**
+     * Updates gift certificate.
+     * <p>
+     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
+     * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
+     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
+     *
+     * @param id        GiftCertificate id.
+     * @param patch     JsonPatch.
+     * @param ucBuilder UriComponentsBuilder instance.
+     * @return ResponseEntity.
+     */
+    @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
+    public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
+                                                                 @RequestBody JsonPatch patch,
+                                                                 UriComponentsBuilder ucBuilder) {
+        try {
+            GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
+            GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
+            giftCertificateService.updateCertificate(certificatePatched);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
 
-//    /**
+        } catch (JsonPatchException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //    /**
 //     * Updates gift certificate.
 //     * <p>
 //     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
@@ -119,16 +118,16 @@ public class GiftCertificateController {
 //     * @param ucBuilder                 UriComponentsBuilder instance.
 //     * @return ResponseEntity.
 //     */
-    @PatchMapping(path = "certificates/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
-                                                                 @RequestBody @Valid GiftCertificate certificatePatched,
-                                                                 UriComponentsBuilder ucBuilder) {
-        giftCertificateService.findCertificateById(id);
-        giftCertificateService.updateCertificate(certificatePatched);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
-    }
+//    @PatchMapping(path = "certificates/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
+//                                                                 @RequestBody @Valid GiftCertificate certificatePatched,
+//                                                                 UriComponentsBuilder ucBuilder) {
+//        giftCertificateService.findCertificateById(id);
+//        giftCertificateService.updateCertificate(certificatePatched);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
+//        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+//    }
 
     /**
      * Deletes gift certificate by id.
@@ -216,6 +215,17 @@ public class GiftCertificateController {
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         JsonNode patched = patch.apply(objectMapper.convertValue(targetCertificate, JsonNode.class));
         return objectMapper.treeToValue(patched, GiftCertificate.class);
+    }
+
+    @GetMapping(value = "/certificates/search")
+    public List<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") List<String> tagNames,
+                                                  @RequestParam(value = "from") Optional<Integer> from,
+                                                  @RequestParam(value = "page_size") Optional<Integer> pages
+    ) {
+        int fromCertificate = from.orElse(0);
+        int pageSize = pages.orElse(20);
+
+        return giftCertificateService.findCertificatesByTags(tagNames, fromCertificate, pageSize);
     }
 
 }

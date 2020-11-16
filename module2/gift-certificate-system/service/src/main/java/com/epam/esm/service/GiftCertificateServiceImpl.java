@@ -218,4 +218,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         return certificateList;
     }
 
+    @Override
+    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, int fromCertificate, int pageSize) {
+        return giftCertificateDao.findCertificatesByTags(tagNames, fromCertificate, pageSize);
+    }
 }

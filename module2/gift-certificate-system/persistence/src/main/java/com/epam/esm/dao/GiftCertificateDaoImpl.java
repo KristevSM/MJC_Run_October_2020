@@ -1,11 +1,8 @@
 package com.epam.esm.dao;
 
 import com.epam.esm.exception.DaoException;
-import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.Tag;
-import com.epam.esm.model.User;
+import com.epam.esm.model.*;
 import org.hibernate.Criteria;
-import org.hibernate.Metamodel;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
@@ -13,11 +10,14 @@ import org.hibernate.query.Query;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Primary
@@ -130,14 +130,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
             }
             if (query.hasPartOfDescription()) {
-//                criteriaQuery.select(certificateRoot)
-//                        .where(criteriaBuilder.like(certificateRoot.get("description").as(String.class), "%" + query.getPartOfDescription() + "%"));
                 criteria.add(Restrictions.like("description", "%" + query.getPartOfDescription() + "%"));
 
             }
             if (query.hasPartOfName()) {
-//                criteriaQuery.select(certificateRoot)
-//                        .where(criteriaBuilder.like(certificateRoot.get("name").as(String.class), "%" + query.getPartOfName() + "%"));
                 criteria.add(Restrictions.like("name", "%" + query.getPartOfName() + "%"));
             }
             if (query.hasSortParameter()) {
@@ -147,7 +143,6 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
                     criteria.addOrder(org.hibernate.criterion.Order.asc(query.getSortParameter()));
                 }
             }
-//            TypedQuery<GiftCertificate> typedQuery = session.createQuery(criteriaQuery);
             criteria.setFirstResult(from);
             criteria.setMaxResults(pageSize);
             firstPage = criteria.list();
@@ -159,5 +154,30 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         return firstPage;
     }
 
+    @Override
+    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, int from, int pageSize) {
+        Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        List<GiftCertificate> firstPage = new ArrayList<>();
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<GiftCertificate> criteriaQuery = criteriaBuilder.createQuery(GiftCertificate.class);
+            Root<GiftCertificate> certificateRoot = criteriaQuery.from(GiftCertificate.class);
+            Join<GiftCertificate, Tag> tagsJoin = certificateRoot.join(GiftCertificate_.tags);
+            criteriaQuery.where(tagsJoin.get(Tag_.NAME).in(tagNames));
+            criteriaQuery.select(certificateRoot).distinct(true);
+            firstPage = session.createQuery(criteriaQuery)
+                    .setFirstResult(from)
+                    .setMaxResults(pageSize)
+                    .getResultList();
 
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new DaoException(MessageFormat.format("Unable to get a list of certificates: {0}", e.getMessage()));
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+        return firstPage;
+    }
 }

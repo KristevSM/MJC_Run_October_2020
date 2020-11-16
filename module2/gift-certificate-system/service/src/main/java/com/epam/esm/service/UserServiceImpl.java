@@ -4,12 +4,14 @@ import com.epam.esm.dao.UserDao;
 import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.exception.UserNotFoundException;
 import com.epam.esm.model.Order;
+import com.epam.esm.model.Tag;
 import com.epam.esm.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -31,4 +33,5 @@ public class UserServiceImpl implements UserService{
         return userDao.find(id).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", id)));
     }
+
 }

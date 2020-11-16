@@ -112,6 +112,10 @@ public class TagServiceImpl implements TagService {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         } else {
+            Optional<Tag> tagFromDao = tagDao.findByTagName(tag.getName());
+            if (tagFromDao.isPresent()) {
+                throw new InvalidInputDataException(MessageFormat.format("Tag with name: {0} already exists", tag.getName()));
+            }
             tagDao.update(tag);
         }
     }
@@ -132,4 +136,10 @@ public class TagServiceImpl implements TagService {
                 new TagNotFoundException(MessageFormat.format("Tag with id: {0} not found", id)));
         tagDao.delete(id);
     }
+
+    @Override
+    public Tag getUsersMostWidelyUsedTag() {
+        return tagDao.getUsersMostWidelyUsedTag().orElseThrow(() ->
+                new TagNotFoundException("Tag not found"));  }
+
 }

@@ -101,7 +101,11 @@ public class TagDaoJdbc implements TagDao {
         return Optional.of(result.get(0));
     }
 
-//    @Override
+    @Override
+    public Optional<Tag> getUsersMostWidelyUsedTag() {
+        return Optional.empty();
+    }
+    //    @Override
 //    public void assignTag(Long tagId, Long certificateId) {
 //        Map<String, Object> params = new HashMap<>();
 //        params.put("tag_id", tagId);

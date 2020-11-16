@@ -164,6 +164,11 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         return namedParameterJdbcTemplate.query(sql.toString(), params, resultSetExtractor);
     }
 
+    @Override
+    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, int from, int pageSize) {
+        return null;
+    }
+
 //    @Override
 //    public void addTagToCertificate(Long certificateId, Long tagId) {
 //        Map<String, Object> params = new HashMap<>();

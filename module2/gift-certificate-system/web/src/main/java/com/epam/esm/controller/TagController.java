@@ -1,5 +1,6 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.TagService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -142,5 +143,10 @@ public class TagController {
 
         JsonNode patched = patch.apply(objectMapper.convertValue(targetTag, JsonNode.class));
         return objectMapper.treeToValue(patched, Tag.class);
+    }
+
+    @GetMapping(value = "/tags/popular")
+    public Tag getUsersMostWidelyUsedTag() {
+        return tagService.getUsersMostWidelyUsedTag();
     }
 }

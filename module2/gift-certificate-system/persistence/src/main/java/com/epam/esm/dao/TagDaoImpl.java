@@ -48,7 +48,8 @@ public class TagDaoImpl implements TagDao {
         } finally {
             session.close();
         }
-        return tag;    }
+        return tag;
+    }
 
     @Override
     public Long save(Tag tag) {
@@ -113,4 +114,30 @@ public class TagDaoImpl implements TagDao {
             session.close();
         }
         return firstPage;    }
+
+    @Override
+    public Optional<Tag> getUsersMostWidelyUsedTag() {
+        Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Optional tag;
+        try {
+            String sql = "SELECT tag.tag_id, tag.name, sum(orders.cost) as totalSum from orders\n" +
+                    "inner join users u on u.user_id = orders.user_id\n" +
+                    "inner join tag_has_gift_certificate on (orders.certificate_id=tag_has_gift_certificate.gift_certificate_id)\n" +
+                    "inner join tag on (tag.tag_id=tag_has_gift_certificate.tag_id)  \n" +
+                    "group by tag.name\n" +
+                    "ORDER BY totalSum DESC\n" +
+                    "LIMIT 1";
+            Query query = session.createSQLQuery(sql).addEntity(Tag.class);
+            tag = query.uniqueResultOptional();
+
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new OrderNotFoundException(MessageFormat.format("Unable to get a tag: {0}", e.getMessage()));
+        } finally {
+            session.getTransaction().commit();
+            session.close();
+        }
+        return tag;
+    }
 }
