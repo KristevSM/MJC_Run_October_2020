@@ -18,9 +18,8 @@ public class TagValidator implements Validator {
     public void validate(Object target, Errors errors) {
 
         Tag tag = (Tag) target;
-        if (StringUtils.hasLength(tag.getName())
-                && tag.getName().length() > 40) {
-            errors.rejectValue("name", "tag.maxSize");
+        if (tag.getName() == null || tag.getName().length() > 40 || tag.getName().length() < 1) {
+            errors.rejectValue("name", "tag.size");
         }
     }
 }

@@ -47,7 +47,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      * @param tagValidator         TagValidator instance.
      */
     @Autowired
-    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao,OrderDao orderDao,
+    public GiftCertificateServiceImpl(GiftCertificateDao giftCertificateDao, TagDao tagDao, OrderDao orderDao,
                                       GiftCertificateValidator certificateValidator, TagValidator tagValidator) {
         this.giftCertificateDao = giftCertificateDao;
         this.tagDao = tagDao;
@@ -93,28 +93,30 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             String errorCode = result.getFieldErrors().get(0).getCode();
             throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
                     brokenField, errorCode));
-        } else {
-            List<Tag> oldTags = giftCertificate.getTags();
-            List<Tag> newTags = new ArrayList<>();
-            for (Tag tag : oldTags) {
-                BindingResult resultTagValidation = new BeanPropertyBindingResult(tag, "tag");
-                tagValidator.validate(tag, result);
-                Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
-                if (currentTag.isPresent()) {
-                    tag.setId(currentTag.get().getId());
-                } else checkTag(result, tag, resultTagValidation);
-                newTags.add(tag);
-            }
-            giftCertificate.setTags(new ArrayList<>());
-            Long certificateId = giftCertificateDao.save(giftCertificate);
-            giftCertificate.setTags(newTags);
-            giftCertificateDao.update(giftCertificate);
-
-            return certificateId;
         }
+        if (giftCertificateDao.getCertificateByName(giftCertificate.getName()).isPresent()) {
+            throw new IllegalArgumentException(MessageFormat.format("Certificate with name: {0} already exists", giftCertificate.getName()));
+        }
+        List<Tag> oldTags = giftCertificate.getTags();
+        List<Tag> newTags = new ArrayList<>();
+        for (Tag tag : oldTags) {
+            BindingResult resultTagValidation = new BeanPropertyBindingResult(tag, "tag");
+            tagValidator.validate(tag, result);
+            Optional<Tag> currentTag = tagDao.findByTagName(tag.getName());
+            if (currentTag.isPresent()) {
+                tag.setId(currentTag.get().getId());
+            } else checkTag(result, tag, resultTagValidation);
+            newTags.add(tag);
+        }
+        giftCertificate.setTags(new ArrayList<>());
+        Long certificateId = giftCertificateDao.save(giftCertificate);
+        giftCertificate.setTags(newTags);
+        giftCertificateDao.update(giftCertificate);
+
+        return certificateId;
     }
 
-//    /**
+    //    /**
 //     * Updates certificate.
 //     * <p>
 //     * First, gets list of certificate's tags. After that the certificate object is being validated.

@@ -169,6 +169,11 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
         return null;
     }
 
+    @Override
+    public Optional<GiftCertificate> getCertificateByName(String name) {
+        return Optional.empty();
+    }
+
 //    @Override
 //    public void addTagToCertificate(Long certificateId, Long tagId) {
 //        Map<String, Object> params = new HashMap<>();

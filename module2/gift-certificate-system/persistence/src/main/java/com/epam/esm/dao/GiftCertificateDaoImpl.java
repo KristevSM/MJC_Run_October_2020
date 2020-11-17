@@ -182,4 +182,20 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         }
         return firstPage;
     }
+
+    @Override
+    public Optional<GiftCertificate> getCertificateByName(String name) {
+        Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
+        Optional<GiftCertificate> giftCertificate;
+        try {
+            String hql = "FROM GiftCertificate c WHERE c.name = :name";
+            Query query = session.createQuery(hql);
+            query.setParameter("name", name);
+            giftCertificate = query.uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DaoException(MessageFormat.format("Unable to get a certificate: {0}", e.getMessage()));
+        } finally {
+            session.close();
+        }
+        return giftCertificate;    }
 }
