@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    List<User> getAllUsers(int from, int pageSize);
+    List<User> getAllUsers(Long page, Long pageSize);
     User getUserById(Long id);
 }

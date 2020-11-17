@@ -5,6 +5,7 @@ import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.model.Tag;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
@@ -100,13 +102,13 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public List<Tag> findAll(int from, int pageSize) {
+    public List<Tag> findAll(Long page, Long pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         List<Tag> firstPage = new ArrayList<>();
         try {
             Criteria criteria = session.createCriteria(Tag.class);
-            criteria.setFirstResult(from);
-            criteria.setMaxResults(pageSize);
+            criteria.setFirstResult(Math.toIntExact((page - 1) * pageSize));
+            criteria.setMaxResults(Math.toIntExact(pageSize));
             firstPage = criteria.list();
         } catch (Exception e) {
             throw new DaoException(MessageFormat.format("Unable to get a list of tags: {0}", e.getMessage()));

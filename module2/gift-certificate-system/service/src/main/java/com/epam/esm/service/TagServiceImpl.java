@@ -29,8 +29,8 @@ public class TagServiceImpl implements TagService {
     /**
      * Constructor accepts TagDao object.
      *
-     * @param tagDao        TagDao instance.
-     * @param tagValidator  TagValidator instance.
+     * @param tagDao       TagDao instance.
+     * @param tagValidator TagValidator instance.
      */
     @Autowired
     public TagServiceImpl(TagDao tagDao, TagValidator tagValidator) {
@@ -44,14 +44,8 @@ public class TagServiceImpl implements TagService {
      * @return Tags list.
      */
     @Override
-    public List<Tag> findAllTags(int from, int pageSize) {
-
-        List<Tag> tags = tagDao.findAll(from, pageSize);
-        if (tags.isEmpty()) {
-            throw new TagNotFoundException("Tags were not found");
-        } else {
-            return tags;
-        }
+    public List<Tag> findAllTags(Long page, Long pageSize) {
+        return tagDao.findAll(page, pageSize);
     }
 
     /**
@@ -68,7 +62,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * Saves new tag.
-     *
+     * <p>
      * First, finds a tag by tag name. Subsequently, if the tag record is not exists, method saves tag through <i>tagDao</i>, else
      * throw IllegalArgumentException;
      *
@@ -140,6 +134,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag getUsersMostWidelyUsedTag() {
         return tagDao.getUsersMostWidelyUsedTag().orElseThrow(() ->
-                new TagNotFoundException("Tag not found"));  }
+                new TagNotFoundException("Tag not found"));
+    }
 
 }

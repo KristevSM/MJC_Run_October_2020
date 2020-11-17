@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface OrderDao extends CrudDAO<Order>{
     Optional<OrderDto> getOrderDetails(Long userId,Long orderId);
-    List<OrderDto> getUserOrders(Long userId, int from, int pageSize);
+    List<OrderDto> getUserOrders(Long userId, Long page, Long pageSize);
 }

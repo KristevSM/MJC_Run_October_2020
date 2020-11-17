@@ -7,11 +7,11 @@ import com.epam.esm.model.User;
 import java.util.List;
 
 public interface OrderService {
-    List<Order> getAllOrders(int from, int pageSize);
+    List<Order> getAllOrders(Long page, Long pageSize);
     Order getOrderById(Long id);
     void makeOrder(Long userId, Long certificateId);
     void removeOrder(Long orderId);
     OrderDto getOrderDetails(Long userId, Long orderId);
-    List<OrderDto> getUserOrders(Long userId, int from, int pageSize);
+    List<OrderDto> getUserOrders(Long userId, Long page, Long pageSize);
 
 }

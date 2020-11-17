@@ -51,10 +51,10 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/orders", produces = {"application/hal+json"})
-    public CollectionModel<Order> findAllOrders(@RequestParam(value = "page") Optional<Integer> page,
-                                                @RequestParam(value = "page_size") Optional<Integer> pageSize) {
-        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+    public CollectionModel<Order> findAllOrders(@RequestParam(value = "page") Optional<Long> page,
+                                                @RequestParam(value = "page_size") Optional<Long> pageSize) {
+        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
         List<Order> orderList = orderService.getAllOrders(pageNumber, pageSizeNumber);
@@ -129,11 +129,11 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}/orders", produces = {"application/hal+json"})
     public CollectionModel<OrderDto>getUserOrders(@PathVariable Long id,
-                                        @RequestParam(value = "page") Optional<Integer> page,
-                                        @RequestParam(value = "page_size") Optional<Integer> pageSize
+                                        @RequestParam(value = "page") Optional<Long> page,
+                                        @RequestParam(value = "page_size") Optional<Long> pageSize
     ) {
-        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 

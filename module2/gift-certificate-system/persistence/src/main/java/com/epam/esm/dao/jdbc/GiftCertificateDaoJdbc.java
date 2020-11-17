@@ -135,12 +135,12 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findAll(int from, int pageSize) {
+    public List<GiftCertificate> findAll(Long from, Long pageSize) {
         return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_CERTIFICATES, resultSetExtractor);
     }
 
     @Override
-    public List<GiftCertificate> getCertificates(CertificateSearchQuery query, int from, int pageSize) {
+    public List<GiftCertificate> getCertificates(CertificateSearchQuery query, Long from, Long pageSize) {
         Map<String, Object> params = new HashMap<>();
         StringBuilder sql = new StringBuilder(SQL_SELECT_ALL_CERTIFICATES);
         if (query.hasTagName()) {
@@ -165,7 +165,7 @@ public class GiftCertificateDaoJdbc implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, int from, int pageSize) {
+    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, Long from, Long pageSize) {
         return null;
     }
 

@@ -57,10 +57,10 @@ public class TagController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/tags", produces = {"application/hal+json"})
-    public CollectionModel<Tag> findAllTags(@RequestParam(value = "page") Optional<Integer> page,
-                                             @RequestParam(value = "page_size") Optional<Integer> pageSize) {
-        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+    public CollectionModel<Tag> findAllTags(@RequestParam(value = "page") Optional<Long> page,
+                                             @RequestParam(value = "page_size") Optional<Long> pageSize) {
+        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 

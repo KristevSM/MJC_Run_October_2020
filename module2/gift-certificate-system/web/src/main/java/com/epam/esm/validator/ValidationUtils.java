@@ -9,8 +9,8 @@ public final class ValidationUtils {
     private ValidationUtils() {
     }
 
-    public static boolean checkPaginationData(int page, int pageSize) {
-        if (page < 0) {
+    public static boolean checkPaginationData(Long page, Long pageSize) {
+        if (page <= 0) {
             throw new InvalidInputDataException(MessageFormat.format("Invalid input data. Page: {0}", page));
         } else if (pageSize <= 0) {
             throw new InvalidInputDataException(MessageFormat.format("Invalid input data. Page size: {0}", pageSize));

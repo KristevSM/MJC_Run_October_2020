@@ -5,6 +5,7 @@ import com.epam.esm.model.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.context.annotation.Primary;
@@ -95,13 +96,13 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findAll(int from, int pageSize) {
+    public List<GiftCertificate> findAll(Long page, Long pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         List<GiftCertificate> firstPage = new ArrayList<>();
         try {
-            Criteria criteria = session.createCriteria(User.class);
-            criteria.setFirstResult(from);
-            criteria.setMaxResults(pageSize);
+            Criteria criteria = session.createCriteria(GiftCertificate.class);
+            criteria.setFirstResult(Math.toIntExact((page - 1) * pageSize));
+            criteria.setMaxResults(Math.toIntExact(pageSize));
             firstPage = criteria.list();
         } catch (Exception e) {
             throw new DaoException(MessageFormat.format("Unable to get a list of certificates: {0}", e.getMessage()));
@@ -112,7 +113,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> getCertificates(CertificateSearchQuery query, int from, int pageSize) {
+    public List<GiftCertificate> getCertificates(CertificateSearchQuery query, Long page, Long pageSize) {
 
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         List<GiftCertificate> firstPage = new ArrayList<>();
@@ -143,8 +144,8 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
                     criteria.addOrder(org.hibernate.criterion.Order.asc(query.getSortParameter()));
                 }
             }
-            criteria.setFirstResult(from);
-            criteria.setMaxResults(pageSize);
+            criteria.setFirstResult(Math.toIntExact((page - 1) * pageSize));
+            criteria.setMaxResults(Math.toIntExact(pageSize));
             firstPage = criteria.list();
         } catch (Exception e) {
             throw new DaoException(MessageFormat.format("Unable to get a list of certificates: {0}", e.getMessage()));
@@ -155,7 +156,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
-    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, int from, int pageSize) {
+    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, Long page, Long pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         List<GiftCertificate> firstPage = new ArrayList<>();
@@ -166,9 +167,10 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
             Join<GiftCertificate, Tag> tagsJoin = certificateRoot.join(GiftCertificate_.tags);
             criteriaQuery.where(tagsJoin.get(Tag_.NAME).in(tagNames));
             criteriaQuery.select(certificateRoot).distinct(true);
+
             firstPage = session.createQuery(criteriaQuery)
-                    .setFirstResult(from)
-                    .setMaxResults(pageSize)
+                    .setFirstResult(Math.toIntExact(Math.toIntExact((page - 1) * pageSize)))
+                    .setMaxResults(Math.toIntExact(Math.toIntExact(pageSize)))
                     .getResultList();
 
         } catch (Exception e) {

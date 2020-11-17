@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getAllUsers(int from, int pageSize) {
-        return userDao.findAll(from, pageSize);
+    public List<User> getAllUsers(Long page, Long pageSize) {
+        return userDao.findAll(page, pageSize);
     }
 
     @Override

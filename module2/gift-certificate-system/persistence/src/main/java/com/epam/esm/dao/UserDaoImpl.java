@@ -1,26 +1,18 @@
 package com.epam.esm.dao;
 
 import com.epam.esm.exception.DaoException;
-import com.epam.esm.exception.OrderNotFoundException;
-import com.epam.esm.model.*;
-import com.epam.esm.model.Order;
+import com.epam.esm.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Parameter;
-import javax.persistence.criteria.*;
-import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-
-import static org.graalvm.compiler.options.OptionType.User;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -58,13 +50,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findAll(int from, int pageSize) {
+    public List<User> findAll(Long page, Long pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         List<User> firstPage = new ArrayList<>();
         try {
             Criteria criteria = session.createCriteria(User.class);
-            criteria.setFirstResult(from);
-            criteria.setMaxResults(pageSize);
+
+            criteria.setFirstResult(Math.toIntExact((page - 1) * pageSize));
+            criteria.setMaxResults(Math.toIntExact(pageSize));
             firstPage = criteria.list();
         } catch (Exception e) {
             throw new DaoException(MessageFormat.format("Unable to get a list of users: {0}", e.getMessage()));

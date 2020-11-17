@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface GiftCertificateService {
 
-    List<GiftCertificate> getCertificates(CertificateSearchQuery query, int fromCertificate, int pageSize);
-    List<GiftCertificate> findCertificatesByTags(List<String> tagNames, int fromCertificate, int pageSize);
+    List<GiftCertificate> getCertificates(CertificateSearchQuery query, Long page, Long pageSize);
+    List<GiftCertificate> findCertificatesByTags(List<String> tagNames, Long page, Long pageSize);
     GiftCertificate findCertificateById(Long id);
     Long saveCertificate(GiftCertificate giftCertificate);
     void updateCertificate(GiftCertificate giftCertificate);

@@ -207,10 +207,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
      */
     @Transactional
     @Override
-    public List<GiftCertificate> getCertificates(CertificateSearchQuery query, int fromCertificate, int pageSize) {
+    public List<GiftCertificate> getCertificates(CertificateSearchQuery query, Long page, Long pageSize) {
         List<GiftCertificate> certificateList = new ArrayList<>();
         try {
-            certificateList = giftCertificateDao.getCertificates(query, fromCertificate, pageSize);
+            certificateList = giftCertificateDao.getCertificates(query, page, pageSize);
         } catch (GiftCertificateNotFoundException e) {
             // If certificate not found - return empty list
             return certificateList;
@@ -219,7 +219,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, int fromCertificate, int pageSize) {
-        return giftCertificateDao.findCertificatesByTags(tagNames, fromCertificate, pageSize);
+    public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, Long page, Long pageSize) {
+        return giftCertificateDao.findCertificatesByTags(tagNames, page, pageSize);
     }
 }

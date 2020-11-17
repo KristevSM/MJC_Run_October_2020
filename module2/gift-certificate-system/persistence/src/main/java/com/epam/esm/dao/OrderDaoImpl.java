@@ -2,10 +2,10 @@ package com.epam.esm.dao;
 
 import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.DaoException;
-import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.model.Order;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
@@ -85,14 +86,14 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findAll(int from, int pageSize) {
+    public List<Order> findAll(Long page, Long pageSize) {
 
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         List<Order> firstPage = new ArrayList<>();
         try {
             Criteria criteria = session.createCriteria(Order.class);
-            criteria.setFirstResult(from);
-            criteria.setMaxResults(pageSize);
+            criteria.setFirstResult(Math.toIntExact((page - 1) * pageSize));
+            criteria.setMaxResults(Math.toIntExact(pageSize));
             firstPage = criteria.list();
         } catch (Exception e) {
             throw new DaoException(MessageFormat.format("Unable to get a list of orders: {0}", e.getMessage()));
@@ -129,15 +130,16 @@ public class OrderDaoImpl implements OrderDao {
         return Optional.of(orderDto);    }
 
     @Override
-    public List<OrderDto> getUserOrders(Long userId, int from, int pageSize) {
+    public List<OrderDto> getUserOrders(Long userId, Long page, Long pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         List<Order> orders;
         List<OrderDto> firstPageDto = new ArrayList<>();
         try {
             Criteria criteria = session.createCriteria(Order.class);
             criteria.add(Restrictions.eq("user.id", userId));
-            criteria.setFirstResult(from);
-            criteria.setMaxResults(pageSize);
+
+            criteria.setFirstResult(Math.toIntExact((page - 1) * pageSize));
+            criteria.setMaxResults(Math.toIntExact(pageSize));
             orders = criteria.list();
             for (Order order : orders) {
                 OrderDto orderDto = OrderDto.builder()

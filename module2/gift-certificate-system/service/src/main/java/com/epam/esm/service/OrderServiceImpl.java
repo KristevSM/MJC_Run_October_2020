@@ -33,8 +33,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllOrders(int from, int pageSize) {
-        return orderDao.findAll(from, pageSize);
+    public List<Order> getAllOrders(Long page, Long pageSize) {
+        return orderDao.findAll(page, pageSize);
     }
 
     @Override
@@ -70,11 +70,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getOrderDetails(Long userId, Long orderId) {
         return orderDao.getOrderDetails(userId, orderId).orElseThrow(() -> new OrderNotFoundException(MessageFormat
-                .format("Order with id {0} on user with id {1}: not found", orderId, userId)));    }
+                .format("Order with id {0} on user with id {1}: not found", orderId, userId)));
+    }
 
     @Override
-    public List<OrderDto> getUserOrders(Long userId, int from, int pageSize) {
+    public List<OrderDto> getUserOrders(Long userId, Long page, Long pageSize) {
         userDao.find(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", userId)));
-        return orderDao.getUserOrders(userId,from, pageSize);   }
+        return orderDao.getUserOrders(userId, page, pageSize);
+    }
 }

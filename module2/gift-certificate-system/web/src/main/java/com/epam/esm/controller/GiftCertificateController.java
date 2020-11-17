@@ -187,11 +187,11 @@ public class GiftCertificateController {
                                                              @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
                                                              @RequestParam(value = "sort") Optional<String> sortParameter,
                                                              @RequestParam(value = "sort_order") Optional<String> sortOrder,
-                                                             @RequestParam(value = "page") Optional<Integer> page,
-                                                             @RequestParam(value = "page_size") Optional<Integer> pageSize
+                                                             @RequestParam(value = "page") Optional<Long> page,
+                                                             @RequestParam(value = "page_size") Optional<Long> pageSize
     ) {
-        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
@@ -263,11 +263,11 @@ public class GiftCertificateController {
     @GetMapping(value = "/certificates/search", produces = {"application/hal+json"})
     @ResponseStatus(HttpStatus.OK)
     public CollectionModel<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") List<String> tagNames,
-                                                             @RequestParam(value = "page") Optional<Integer> page,
-                                                             @RequestParam(value = "page_size") Optional<Integer> pageSize
+                                                             @RequestParam(value = "page") Optional<Long> page,
+                                                             @RequestParam(value = "page_size") Optional<Long> pageSize
     ) {
-        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface TagService {
 
-    List<Tag> findAllTags(int from, int pageSize);
+    List<Tag> findAllTags(Long page, Long pageSize);
 
     Tag findTagById(Long id);
 
