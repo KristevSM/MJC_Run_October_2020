@@ -1,8 +1,8 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.TagService;
+import com.epam.esm.validator.ValidationUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_NUMBER;
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_SIZE;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * @author Sergei Kristev
@@ -44,15 +51,27 @@ public class TagController {
     /**
      * Gets list of all tags.
      *
+     * @param page  page's number
+     * @param pageSize page size
      * @return Tags list.
      */
-    @GetMapping(value = "/tags")
-    public List<Tag> findAllTags(@RequestParam(value = "from") Optional<Integer> from,
-                                 @RequestParam(value = "page_size") Optional<Integer> pages) {
-        int fromTag = from.orElse(0);
-        int pageSize = pages.orElse(20);
-        return tagService.findAllTags(fromTag, pageSize);
-    }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/tags", produces = {"application/hal+json"})
+    public CollectionModel<Tag> findAllTags(@RequestParam(value = "page") Optional<Integer> page,
+                                             @RequestParam(value = "page_size") Optional<Integer> pageSize) {
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+
+        ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
+
+        List<Tag> tagList = tagService.findAllTags(pageNumber, pageSizeNumber);
+        for (Tag tag : tagList) {
+            Link selfLink = linkTo(methodOn(TagController.class)
+                    .findTagById(tag.getId())).withSelfRel();
+            tag.add(selfLink);
+        }
+        Link link = linkTo(TagController.class).slash("tags").withSelfRel();
+        return new CollectionModel<>(tagList, link);    }
 
     /**
      * Gets tag by id.
@@ -60,9 +79,17 @@ public class TagController {
      * @param id Tag id.
      * @return Tag instance.
      */
-    @GetMapping(value = "tags/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "tags/{id}", produces = {"application/hal+json"})
     public Tag findTagById(@PathVariable Long id) {
-        return tagService.findTagById(id);
+        Tag tag = tagService.findTagById(id);
+        Link selfLink = linkTo(methodOn(TagController.class)
+                .findTagById(tag.getId())).withSelfRel();
+        Link tagsLink = linkTo(methodOn(TagController.class)
+                .findAllTags(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("tags");
+        tag.add(tagsLink);
+        tag.add(selfLink);
+        return tag;
     }
 
     /**
@@ -145,8 +172,21 @@ public class TagController {
         return objectMapper.treeToValue(patched, Tag.class);
     }
 
-    @GetMapping(value = "/tags/popular")
+    /**
+     * Gets tag by id.
+     * Get the most widely used tag of a user with the highest cost of all orders.
+     * @return Tag instance.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/tags/popular", produces = {"application/hal+json"})
     public Tag getUsersMostWidelyUsedTag() {
-        return tagService.getUsersMostWidelyUsedTag();
+        Tag tag = tagService.getUsersMostWidelyUsedTag();
+        Link selfLink = linkTo(methodOn(TagController.class)
+                .findTagById(tag.getId())).withSelfRel();
+        Link tagsLink = linkTo(methodOn(TagController.class)
+                .findAllTags(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("tags");
+        tag.add(tagsLink);
+        tag.add(selfLink);
+        return tag;
     }
 }

@@ -1,51 +1,94 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.OrderDto;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.InvalidInputDataException;
-import com.epam.esm.exception.UserNotFoundException;
-import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Order;
-import com.epam.esm.model.User;
+import com.epam.esm.model.Tag;
 import com.epam.esm.service.OrderService;
-import com.epam.esm.service.UserService;
+import com.epam.esm.validator.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_NUMBER;
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_SIZE;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+/**
+ * @author Sergei Kristev
+ * <p>
+ * Gets data from rest in JSON format on path "/gift-certificates".
+ */
 @RestController
 @RequestMapping("/gift-certificates")
 public class OrderController {
+
     private final OrderService orderService;
 
+    /**
+     * Accepts service layer objects.
+     *
+     * @param orderService OrderService instance.
+     */
     @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
-    @GetMapping(value = "/orders")
-    public List<Order> findAllOrders(@RequestParam(value = "from") Optional<Integer> from,
-                                     @RequestParam(value = "page_size") Optional<Integer> pages) {
-        int fromOrder = from.orElse(0);
-        int pageSize = pages.orElse(20);
-        return orderService.getAllOrders(fromOrder, pageSize);
+    /**
+     * Gets list of all orders.
+     *
+     * @param page     page's number
+     * @param pageSize page size
+     * @return Orders list.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/orders", produces = {"application/hal+json"})
+    public CollectionModel<Order> findAllOrders(@RequestParam(value = "page") Optional<Integer> page,
+                                                @RequestParam(value = "page_size") Optional<Integer> pageSize) {
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
+
+        List<Order> orderList = orderService.getAllOrders(pageNumber, pageSizeNumber);
+        for (Order order : orderList) {
+            Link selfLink = linkTo(methodOn(OrderController.class)
+                    .findOrderById(order.getId())).withSelfRel();
+            order.add(selfLink);
+        }
+        Link link = linkTo(OrderController.class).slash("orders").withSelfRel();
+        return new CollectionModel<>(orderList, link);
     }
 
-    //get order's details
-    @GetMapping(value = "/orders/{id}")
+    /**
+     * Gets order by id.
+     *
+     * @param id Order id.
+     * @return Order instance.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/orders/{id}", produces = {"application/hal+json"})
     public Order findOrderById(@PathVariable Long id) {
-        return orderService.getOrderById(id);
+        Order order = orderService.getOrderById(id);
+        Link selfLink = linkTo(methodOn(OrderController.class)
+                .findOrderById(order.getId())).withSelfRel();
+        Link ordersLink = linkTo(methodOn(OrderController.class)
+                .findAllOrders(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("orders");
+        order.add(ordersLink);
+        order.add(selfLink);
+        return order;
     }
 
     @PostMapping(value = "/orders")
-    public ResponseEntity<Order> makeOrder(@RequestParam(value = "userId") Optional<Long> userId,
-                                           @RequestParam(value = "certificateId") Optional<Long> certificateId) {
+    public ResponseEntity<Order> makeOrder(@RequestParam(value = "user_id") Optional<Long> userId,
+                                           @RequestParam(value = "certificate_id") Optional<Long> certificateId) {
 
         Long userIdFromRequest = userId.orElseThrow(() -> new InvalidInputDataException("Missing value for the userId parameter"));
         Long certificateIdFromRequest = certificateId.orElseThrow(() -> new InvalidInputDataException("Missing value for the certificateId parameter"));
@@ -54,20 +97,53 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/users/{userId}/orders/{orderId}")
+    /**
+     * Get user's order details
+     *
+     * @param userId  User id.
+     * @param orderId Order id.
+     * @return Order instance.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/users/{userId}/orders/{orderId}", produces = {"application/hal+json"})
     public OrderDto getUsersOrderDetails(@PathVariable(value = "userId") Long userId,
                                          @PathVariable(value = "orderId") Long orderId) {
         OrderDto order = orderService.getOrderDetails(userId, orderId);
+        Link selfLink = linkTo(methodOn(OrderController.class)
+                .findOrderById(order.getId())).withSelfRel();
+        Link ordersLink = linkTo(methodOn(OrderController.class)
+                .findAllOrders(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("orders");
+        order.add(ordersLink);
+        order.add(selfLink);
         return order;
     }
 
-    @GetMapping(value = "/users/{id}/orders")
-    public List<OrderDto> getUserOrders(@PathVariable Long id,
-                                        @RequestParam(value = "from") Optional<Integer> from,
-                                        @RequestParam(value = "page_size") Optional<Integer> pages
+    /**
+     * Get user's order details
+     *
+     * @param id  User id.
+     * @param page  page's number
+     * @param pageSize page size
+     * @return Order instance.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/users/{id}/orders", produces = {"application/hal+json"})
+    public CollectionModel<OrderDto>getUserOrders(@PathVariable Long id,
+                                        @RequestParam(value = "page") Optional<Integer> page,
+                                        @RequestParam(value = "page_size") Optional<Integer> pageSize
     ) {
-        int fromOrder = from.orElse(0);
-        int pageSize = pages.orElse(20);
-        return orderService.getUserOrders(id, fromOrder, pageSize);
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+
+        ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
+
+        List<OrderDto> orderDtoList = orderService.getUserOrders(id, pageNumber, pageSizeNumber);
+        for (OrderDto order : orderDtoList) {
+            Link selfLink = linkTo(methodOn(OrderController.class)
+                    .findOrderById(order.getId())).withSelfRel();
+            order.add(selfLink);
+        }
+        Link link = linkTo(OrderController.class).slash("orders").withSelfRel();
+        return new CollectionModel<>(orderDtoList, link);
     }
 }

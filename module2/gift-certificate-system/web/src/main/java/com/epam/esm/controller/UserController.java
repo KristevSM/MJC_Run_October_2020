@@ -1,8 +1,8 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.User;
 import com.epam.esm.service.UserService;
+import com.epam.esm.validator.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static com.epam.esm.constants.AppConstants.DEFAULT_FROM_ELEMENT;
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_NUMBER;
 import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_SIZE;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -43,23 +43,26 @@ public class UserController {
      * <p>
      * Getting users list.
      *
-     * @param from  first element for presentation
-     * @param pages page size
+     * @param page  page's number
+     * @param pageSize page size
      * @return User list.
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users", produces = {"application/hal+json"})
-    public CollectionModel<User> findAllUsers(@RequestParam(value = "from") Optional<Integer> from,
-                                              @RequestParam(value = "page_size") Optional<Integer> pages) {
-        int fromUser = from.orElse(DEFAULT_FROM_ELEMENT);
-        int pageSize = pages.orElse(DEFAULT_PAGE_SIZE);
-        List<User> userList = userService.getAllUsers(fromUser, pageSize);
+    public CollectionModel<User> findAllUsers(@RequestParam(value = "page") Optional<Integer> page,
+                                              @RequestParam(value = "page_size") Optional<Integer> pageSize) {
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+
+        ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
+
+        List<User> userList = userService.getAllUsers(pageNumber, pageSizeNumber);
         for (User user : userList) {
             Link selfLink = linkTo(methodOn(UserController.class)
                     .findUserById(user.getId())).withSelfRel();
             user.add(selfLink);
             Link ordersLink = linkTo(methodOn(OrderController.class)
-                    .getUserOrders(user.getId(), Optional.of(DEFAULT_FROM_ELEMENT), Optional.of(DEFAULT_PAGE_SIZE))).withRel("usersOrders");
+                    .getUserOrders(user.getId(), Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("usersOrders");
             user.add(ordersLink);
         }
         Link link = linkTo(UserController.class).slash("users").withSelfRel();
@@ -79,7 +82,7 @@ public class UserController {
         Link selfLink = linkTo(methodOn(UserController.class)
                 .findUserById(user.getId())).withSelfRel();
         Link ordersLink = linkTo(methodOn(OrderController.class)
-                .getUserOrders(user.getId(), Optional.of(DEFAULT_FROM_ELEMENT), Optional.of(DEFAULT_PAGE_SIZE))).withRel("usersOrders");
+                .getUserOrders(user.getId(), Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("usersOrders");
         user.add(ordersLink);
         user.add(selfLink);
         return user;

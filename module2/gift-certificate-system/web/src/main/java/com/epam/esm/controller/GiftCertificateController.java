@@ -5,8 +5,8 @@ import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.GiftCertificateService;
-import com.epam.esm.service.TagService;
 import com.epam.esm.validator.CertificateSearchValidator;
+import com.epam.esm.validator.ValidationUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -176,8 +176,8 @@ public class GiftCertificateController {
      * @param partOfDescription value of "part_of_description"
      * @param sortParameter     value of "sort"
      * @param sortOrder         value of "sort_order"
-     * @param from              first element for presentation
-     * @param pages             page size
+     * @param page              page's number
+     * @param pageSize          page size
      * @return GiftCertificates list.
      */
     @GetMapping(value = "/certificates", produces = {"application/hal+json"})
@@ -187,11 +187,13 @@ public class GiftCertificateController {
                                                              @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
                                                              @RequestParam(value = "sort") Optional<String> sortParameter,
                                                              @RequestParam(value = "sort_order") Optional<String> sortOrder,
-                                                             @RequestParam(value = "from") Optional<Integer> from,
-                                                             @RequestParam(value = "page_size") Optional<Integer> pages
+                                                             @RequestParam(value = "page") Optional<Integer> page,
+                                                             @RequestParam(value = "page_size") Optional<Integer> pageSize
     ) {
-        int fromCertificate = from.orElse(DEFAULT_FROM_ELEMENT);
-        int pageSize = pages.orElse(DEFAULT_PAGE_SIZE);
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+
+        ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
         List<GiftCertificate> certificateList;
 
@@ -210,7 +212,7 @@ public class GiftCertificateController {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         }
-        certificateList = giftCertificateService.getCertificates(query, fromCertificate, pageSize);
+        certificateList = giftCertificateService.getCertificates(query, pageNumber, pageSizeNumber);
 
         List<Tag> tags;
         for (final GiftCertificate certificate : certificateList) {
@@ -253,21 +255,23 @@ public class GiftCertificateController {
      * <p>
      * Searches gift certificates by several tags.
      *
-     * @param tagNames list of tag names
-     * @param from     first element for presentation
-     * @param pages    page size
+     * @param tagNames    list of tag names
+     * @param page        page's number
+     * @param pageSize    page size
      * @return GiftCertificates list.
      */
     @GetMapping(value = "/certificates/search", produces = {"application/hal+json"})
     @ResponseStatus(HttpStatus.OK)
     public CollectionModel<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") List<String> tagNames,
-                                                             @RequestParam(value = "from") Optional<Integer> from,
-                                                             @RequestParam(value = "page_size") Optional<Integer> pages
+                                                             @RequestParam(value = "page") Optional<Integer> page,
+                                                             @RequestParam(value = "page_size") Optional<Integer> pageSize
     ) {
-        int fromCertificate = from.orElse(DEFAULT_FROM_ELEMENT);
-        int pageSize = pages.orElse(DEFAULT_PAGE_SIZE);
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
-        List<GiftCertificate> certificates = giftCertificateService.findCertificatesByTags(tagNames, fromCertificate, pageSize);
+        ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
+
+        List<GiftCertificate> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber, pageSizeNumber);
         List<Tag> tags;
         for (final GiftCertificate certificate : certificates) {
             tags = certificate.getTags();
