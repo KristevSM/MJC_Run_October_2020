@@ -66,6 +66,6 @@ class TagDaoImplTest {
     void shouldFindTagName() {
         Optional<Tag> tag = tagDao.findByTagName("Apple");
         assertTrue(tag.isPresent());
-
     }
+
 }

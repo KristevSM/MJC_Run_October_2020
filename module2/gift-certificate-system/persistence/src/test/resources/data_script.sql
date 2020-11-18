@@ -79,3 +79,10 @@ insert into users (first_name, last_name, email, password, address, date_of_birt
 insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Adrea', 'Billsberry', 'abillsberry1b@state.tx.us', 'GhEgLOH7', '69892 Sunnyside Crossing', '1991-03-19');
 insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hadleigh', 'Crooke', 'hcrooke1c@biblegateway.com', 'T2QKIskpmNOP', '59 Marcy Terrace', '2009-02-19');
 insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Jessie', 'Rounsefell', 'jrounsefell1d@mapy.cz', 'AH5vUfxjiD', '93423 Toban Pass', '2004-01-17');
+
+INSERT INTO orders (certificate_id, cost, user_id) VALUES ('1', '25', '1');
+INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '1');
+INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '1');
+INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '100', '1');
+INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '2');
+INSERT INTO orders (certificate_id, cost, user_id) VALUES ('3', '100', '3');
