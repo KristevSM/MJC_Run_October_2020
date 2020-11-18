@@ -3,7 +3,6 @@ package com.epam.esm.controller;
 import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.Order;
-import com.epam.esm.model.Tag;
 import com.epam.esm.service.OrderService;
 import com.epam.esm.validator.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_NUMBER;
 import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_SIZE;
@@ -122,29 +120,43 @@ public class OrderController {
     /**
      * Get user's order details
      *
-     * @param id  User id.
-     * @param page  page's number
+     * @param id       User id.
+     * @param page     page's number
      * @param pageSize page size
      * @return Order instance.
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}/orders", produces = {"application/hal+json"})
-    public CollectionModel<OrderDto>getUserOrders(@PathVariable Long id,
-                                        @RequestParam(value = "page") Optional<Long> page,
-                                        @RequestParam(value = "page_size") Optional<Long> pageSize
+    public CollectionModel<OrderDto> getUserOrders(@PathVariable Long id,
+                                                   @RequestParam(value = "page") Optional<Long> page,
+                                                   @RequestParam(value = "page_size") Optional<Long> pageSize
     ) {
-        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
-
         List<OrderDto> orderDtoList = orderService.getUserOrders(id, pageNumber, pageSizeNumber);
+        Long totalCount = orderService.findOrderTotalCountByUserId(id);
+        double totalPages = Math.ceil((double)totalCount / (double)pageSizeNumber);
         for (OrderDto order : orderDtoList) {
             Link selfLink = linkTo(methodOn(OrderController.class)
-                    .findOrderById(order.getId())).withSelfRel();
+                    .findOrderById(order.getId())).withRel("order");
             order.add(selfLink);
         }
-        Link link = linkTo(OrderController.class).slash("orders").withSelfRel();
-        return new CollectionModel<>(orderDtoList, link);
+
+        Link orders = linkTo(OrderController.class).slash("orders").withRel("orders");
+
+        CollectionModel<OrderDto> collectionModel = new CollectionModel(orderDtoList, orders);
+        if (pageNumber > 1) {
+            Link previousPage = linkTo(methodOn(OrderController.class)
+                    .getUserOrders(id, Optional.of(pageNumber - 1), pageSize)).withRel("previousPage");
+            collectionModel.add(previousPage);
+        }
+        if (pageNumber < totalPages) {
+            Link nextPage = linkTo(methodOn(OrderController.class)
+                    .getUserOrders(id, Optional.of(pageNumber + 1), pageSize)).withRel("nextPage");
+            collectionModel.add(nextPage);
+        }
+        return collectionModel;
     }
 }

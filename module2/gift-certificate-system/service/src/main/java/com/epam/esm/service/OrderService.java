@@ -13,5 +13,6 @@ public interface OrderService {
     void removeOrder(Long orderId);
     OrderDto getOrderDetails(Long userId, Long orderId);
     List<OrderDto> getUserOrders(Long userId, Long page, Long pageSize);
+    Long findOrderTotalCountByUserId(Long userId);
 
 }

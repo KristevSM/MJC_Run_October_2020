@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -223,5 +224,43 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, Long page, Long pageSize) {
         return giftCertificateDao.findCertificatesByTags(tagNames, page, pageSize);
+    }
+
+    @Override
+    public GiftCertificate updateSingleCertificateField(Long id, String fieldName, String fieldValue) {
+        GiftCertificate certificate = giftCertificateDao.find(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
+                .format("Gift certificate with id: {0} not found", id)));
+        try {
+            switch (fieldName) {
+                case "name":
+                    certificate.setName(fieldValue);
+                    break;
+                case "description":
+                    certificate.setDescription(fieldValue);
+                    break;
+                case "price":
+                    certificate.setPrice(BigDecimal.valueOf(Double.parseDouble(fieldValue)));
+                    break;
+                case "duration":
+                    certificate.setDuration(Integer.parseInt(fieldValue));
+                    break;
+                default:
+                    throw new InvalidInputDataException(MessageFormat.format("Unknown field: {0}", fieldName));
+            }
+        } catch (NumberFormatException e) {
+            throw new InvalidInputDataException(MessageFormat
+                    .format("Unsupported value type: {0} for field: {1}", fieldValue, fieldName));
+        }
+        BindingResult result = new BeanPropertyBindingResult(certificate, "giftCertificate");
+        certificateValidator.validate(certificate, result);
+        if (result.hasErrors()) {
+            String brokenField = result.getFieldErrors().get(0).getField();
+            String errorCode = result.getFieldErrors().get(0).getCode();
+            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
+                    brokenField, errorCode));
+        }
+        certificate.setLastUpdateDate(ZonedDateTime.now());
+        giftCertificateDao.update(certificate);
+        return certificate;
     }
 }

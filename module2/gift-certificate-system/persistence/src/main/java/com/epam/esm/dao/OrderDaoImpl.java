@@ -5,6 +5,7 @@ import com.epam.esm.exception.DaoException;
 import com.epam.esm.model.Order;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -147,6 +148,7 @@ public class OrderDaoImpl implements OrderDao {
                         .build();
                 firstPageDto.add(orderDto);
             }
+            Long totalCount = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 
         } catch (Exception e) {
             throw new DaoException(MessageFormat.format("Unable to get a list of orders: {0}", e.getMessage()));
@@ -154,4 +156,21 @@ public class OrderDaoImpl implements OrderDao {
             session.close();
         }
         return firstPageDto;    }
+
+    @Override
+    public Long findOrderTotalCountByUserId(Long userId) {
+        Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
+        Long totalCount = 0L;
+        try {
+            Criteria criteria = session.createCriteria(Order.class);
+            criteria.add(Restrictions.eq("user.id", userId));
+
+            totalCount = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+
+        } catch (Exception e) {
+            throw new DaoException(MessageFormat.format("Unable to get a list of orders: {0}", e.getMessage()));
+        } finally {
+            session.close();
+        }
+        return totalCount;    }
 }

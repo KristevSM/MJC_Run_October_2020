@@ -14,4 +14,5 @@ public interface GiftCertificateService {
     Long saveCertificate(GiftCertificate giftCertificate);
     void updateCertificate(GiftCertificate giftCertificate);
     void deleteCertificate(Long id);
+    GiftCertificate updateSingleCertificateField(Long id, String fieldName,String fieldValue);
 }

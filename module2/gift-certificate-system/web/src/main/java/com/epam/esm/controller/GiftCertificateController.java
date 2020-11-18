@@ -20,6 +20,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -255,9 +256,9 @@ public class GiftCertificateController {
      * <p>
      * Searches gift certificates by several tags.
      *
-     * @param tagNames    list of tag names
-     * @param page        page's number
-     * @param pageSize    page size
+     * @param tagNames list of tag names
+     * @param page     page's number
+     * @param pageSize page size
      * @return GiftCertificates list.
      */
     @GetMapping(value = "/certificates/search", produces = {"application/hal+json"})
@@ -288,4 +289,22 @@ public class GiftCertificateController {
         return new CollectionModel<>(certificates, link);
     }
 
+    /**
+     * Change single field of gift certificate
+     * <p>
+     * Change single field of gift certificate
+     *
+     * @param id         certificate's id
+     * @param fieldName  updating field's name
+     * @param fieldValue field's value
+     * @return GiftCertificate instance.
+     */
+    @PostMapping(path = "/certificates/{id}/edit")
+    @ResponseStatus(HttpStatus.OK)
+    public GiftCertificate updateSingleCertificateField(@PathVariable Long id,
+                                                        @RequestParam(value = "fieldName", defaultValue = "") String fieldName,
+                                                        @RequestParam(value = "fieldValue", defaultValue = "") String fieldValue) {
+
+        return giftCertificateService.updateSingleCertificateField(id, fieldName, fieldValue);
+    }
 }

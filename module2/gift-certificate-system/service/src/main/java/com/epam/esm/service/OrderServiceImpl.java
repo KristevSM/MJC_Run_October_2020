@@ -79,4 +79,9 @@ public class OrderServiceImpl implements OrderService {
                 .format("User with id: {0} not found", userId)));
         return orderDao.getUserOrders(userId, page, pageSize);
     }
+
+    @Override
+    public Long findOrderTotalCountByUserId(Long userId) {
+        return orderDao.findOrderTotalCountByUserId(userId);
+    }
 }
