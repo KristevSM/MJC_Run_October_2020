@@ -56,7 +56,7 @@ class GiftCertificateValidatorTest {
         System.out.println("Errors count: " + result.getAllErrors().size());
         result.getAllErrors().forEach(System.out::println);
 
-        assertEquals(6, result.getAllErrors().size());
+        assertEquals(5, result.getAllErrors().size());
 
     }
 }

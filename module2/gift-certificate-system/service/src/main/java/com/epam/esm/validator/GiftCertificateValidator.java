@@ -22,7 +22,7 @@ public class GiftCertificateValidator implements Validator {
                 || giftCertificate.getName().length() < 1 ) {
             errors.rejectValue("name", "giftCertificateName.size");
         }
-        if (giftCertificate.getDescription() == null || giftCertificate.getDescription().length() > 250
+        if (giftCertificate.getDescription() == null || giftCertificate.getDescription().length() > 500
                 || giftCertificate.getDescription().length() < 1 ) {
             errors.rejectValue("description", "giftCertificateDescription.size");
         }
