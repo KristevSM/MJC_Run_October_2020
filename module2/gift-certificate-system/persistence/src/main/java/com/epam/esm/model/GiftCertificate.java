@@ -30,7 +30,7 @@ public class GiftCertificate extends RepresentationModel<GiftCertificate> implem
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "description")
+    @Column(name = "description", length = 500)
     private String description;
     @Column(name = "price")
     private BigDecimal price;

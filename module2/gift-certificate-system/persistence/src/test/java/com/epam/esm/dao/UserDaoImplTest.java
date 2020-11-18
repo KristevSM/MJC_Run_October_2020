@@ -1,113 +1,52 @@
 package com.epam.esm.dao;
 
-import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.Order;
-import com.epam.esm.model.Tag;
 import com.epam.esm.model.User;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import org.junit.*;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.*;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDaoImplTest {
 
-    private Session session;
-
     private UserDao userDao;
 
-    public UserDaoImplTest() {
+    @BeforeEach
+    void setUp() {
         userDao = new UserDaoImpl();
     }
 
 
     @Test
-    public void shouldSaveUsers() {
-        session = HibernateAnnotationUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        User user1 = User.builder()
-                .firstName("First name")
-                .lastName("Last Name")
-                .email("email@test.com")
-                .password("qwerty")
-                .address("Some address")
-                .dateOfBirth(LocalDate.of(1990, 10, 12))
-                .build();
-        session.persist(user1);
-
-        User user2 = User.builder()
-                .firstName("First name")
-                .lastName("Last Name")
-                .email("email@test.com")
-                .password("qwerty")
-                .address("Some address")
-                .dateOfBirth(LocalDate.of(1990, 10, 12))
-                .build();
-        session.persist(user2);
-
-        List<Order> orders = new ArrayList<>();
-        Order order1 = Order.builder().user(user1).orderDate(ZonedDateTime.now()).build();
-        Order order2 = Order.builder().user(user1).orderDate(ZonedDateTime.now()).build();
-        String sql = "SELECT * FROM GIFT_CERTIFICATE where CERTIFICATE_ID = 15";
-        GiftCertificate certificate = (GiftCertificate) session.createNativeQuery(sql).addEntity(GiftCertificate.class).getSingleResult();
-        order1.setGiftCertificate(certificate);
-        orders.add(order1);
-        orders.add(order2);
-        user1.setOrders(orders);
-        user1.setOrders(orders);
-        session.update(user1);
-
-
-        //
-//        String hql = "FROM User u";
-//        Query query = session.createQuery(hql);
-//        List results = query.list();
-
-        User userFromDb = (User) session.get(User.class, 3L);
-        System.out.println(userFromDb);
-        assertNotNull(userFromDb);
-
-        List<Order> orderList = userFromDb.getOrders();
-        assertEquals(2, orderList.size());
-        System.out.println(orderList);
-        session.getTransaction().commit();
-        session.close();
-
-        session = HibernateAnnotationUtil.getSessionFactory().openSession();
-
-        String sql3 = "SELECT * FROM ORDERS where ORDER_ID = 1";
-        Order order = (Order) session.createNativeQuery(sql3).addEntity(Order.class).getSingleResult();
-
-//        List<User> userList = userDao.getAllUsers();
-//        for (User u : userList) {
-//            System.out.println(u);
-//        }
-//        System.out.println(userList.get(3).getOrders().get(0).getGiftCertificate());
-//        assertEquals(4L, userList.size());
-//        session.close();
-
-
+    public void shouldFindUserById() {
+        Optional<User> user1 = userDao.find(1L);
+        Optional<User> user2 = userDao.find(22L);
+        Optional<User> user3 = userDao.find(50L);
+        Optional<User> userNotExists = userDao.find(150L);
+        assertTrue(user1.isPresent());
+        assertTrue(user2.isPresent());
+        assertTrue(user3.isPresent());
+        assertFalse(userNotExists.isPresent());
     }
 
-//    @Test
-//    public void shouldGetUsersList() {
-//
-//        List<User> userList = userDao.getAllUsers(0, 20);
-//        for (User u : userList){
-//            System.out.println(u);
-//        }
-//
-//        assertEquals(2L, userList.size());
-//
-//    }
+    @Test
+    public void shouldGetUsersList() {
 
-    @AfterClass
-    public static void afterTests() {
-        HibernateAnnotationUtil.shutdown();
+        List<User> userList = userDao.findAll(1L, 200L);
+        assertEquals(50L, userList.size());
+    }
+
+    @Test
+    public void shouldPaginateUsersList() {
+
+        List<User> userList1 = userDao.findAll(1L, 20L);
+        assertEquals(20L, userList1.size());
+        List<User> userList2 = userDao.findAll(2L, 20L);
+        assertEquals(20L, userList2.size());
+        List<User> userList3 = userDao.findAll(1L, 30L);
+        assertEquals(30L, userList3.size());
     }
 }

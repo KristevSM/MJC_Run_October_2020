@@ -1,11 +1,13 @@
 package com.epam.esm.dao;
 
 import com.epam.esm.exception.DaoException;
-import com.epam.esm.model.*;
+import com.epam.esm.model.GiftCertificate;
+import com.epam.esm.model.GiftCertificate_;
+import com.epam.esm.model.Tag;
+import com.epam.esm.model.Tag_;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.context.annotation.Primary;
@@ -156,22 +158,22 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
     }
 
     @Override
+
     public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, Long page, Long pageSize) {
         Session session = HibernateAnnotationUtil.getSessionFactory().openSession();
         session.beginTransaction();
         List<GiftCertificate> firstPage = new ArrayList<>();
         try {
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<GiftCertificate> criteriaQuery = criteriaBuilder.createQuery(GiftCertificate.class);
-            Root<GiftCertificate> certificateRoot = criteriaQuery.from(GiftCertificate.class);
-            Join<GiftCertificate, Tag> tagsJoin = certificateRoot.join(GiftCertificate_.tags);
-            criteriaQuery.where(tagsJoin.get(Tag_.NAME).in(tagNames));
-            criteriaQuery.select(certificateRoot).distinct(true);
 
-            firstPage = session.createQuery(criteriaQuery)
-                    .setFirstResult(Math.toIntExact(Math.toIntExact((page - 1) * pageSize)))
-                    .setMaxResults(Math.toIntExact(Math.toIntExact(pageSize)))
-                    .getResultList();
+            String hql = "SELECT c FROM GiftCertificate c LEFT JOIN c.tags t WHERE t.name IN :tagNames"
+                    + " GROUP BY c HAVING COUNT(t.name) = :tagNamesSize";
+            Query query = session.createQuery(hql);
+            Long tagsSize = Long.valueOf(tagNames.size());
+            query.setParameter("tagNames", tagNames);
+            query.setParameter("tagNamesSize", tagsSize);
+            query.setFirstResult(Math.toIntExact(Math.toIntExact((page - 1) * pageSize)));
+            query.setMaxResults(Math.toIntExact(Math.toIntExact(pageSize)));
+            firstPage = query.list();
 
         } catch (Exception e) {
             session.getTransaction().rollback();

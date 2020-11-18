@@ -15,14 +15,6 @@ CREATE TABLE gift_certificate (
                                   PRIMARY KEY (id));
 
 
-CREATE TABLE tag_has_gift_certificate (
-                                          tag_id bigint(10) NOT NULL,
-                                          gift_certificate_id bigint(10) NOT NULL,
-                                          FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                                          FOREIGN KEY (gift_certificate_id) REFERENCES gift_certificate (id) ON DELETE RESTRICT ON UPDATE CASCADE,
-                                          PRIMARY KEY (tag_id, gift_certificate_id)
-);
-
 
 CREATE TABLE users (
                                   user_id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
