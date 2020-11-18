@@ -121,13 +121,17 @@ public class TagDaoImpl implements TagDao {
         session.beginTransaction();
         Optional tag;
         try {
-            String sql = "SELECT tag.tag_id, tag.name, sum(orders.cost) as totalSum from orders\n" +
+            String sql = "SELECT tag.tag_id, name, COUNT(name) AS qty from orders\n" +
                     "inner join users u on u.user_id = orders.user_id\n" +
                     "inner join tag_has_gift_certificate on (orders.certificate_id=tag_has_gift_certificate.gift_certificate_id)\n" +
-                    "inner join tag on (tag.tag_id=tag_has_gift_certificate.tag_id)  \n" +
+                    "inner join tag on (tag.tag_id=tag_has_gift_certificate.tag_id) where orders.user_id = \n" +
+                    "(select orders.user_id from orders\n" +
+                    "group by orders.user_id\n" +
+                    "order by sum(orders.cost) desc\n" +
+                    "limit 1) \n" +
                     "group by tag.name\n" +
-                    "ORDER BY totalSum DESC\n" +
-                    "LIMIT 1";
+                    "order by qty desc\n" +
+                    "limit 1";
             Query query = session.createSQLQuery(sql).addEntity(Tag.class);
             tag = query.uniqueResultOptional();
 
