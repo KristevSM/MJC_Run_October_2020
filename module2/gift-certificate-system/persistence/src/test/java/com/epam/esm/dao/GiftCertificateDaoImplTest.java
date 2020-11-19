@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GiftCertificateDaoImplTest {
 
-    private GiftCertificateDao giftCertificateDao;
-    private TagDaoImpl tagDao;
-
-    @BeforeEach
-    void setUp() {
-        giftCertificateDao = new GiftCertificateDaoImpl();
-        tagDao = new TagDaoImpl();
-    }
+//    private GiftCertificateDao giftCertificateDao;
+//    private TagDaoImpl tagDao;
+//
+//    @BeforeEach
+//    void setUp() {
+//        giftCertificateDao = new GiftCertificateDaoImpl();
+//        tagDao = new TagDaoImpl();
+//    }
     //
 //    //Hibernate
 //    @Test
@@ -69,82 +69,82 @@ class GiftCertificateDaoImplTest {
 //        session.close();
 //    }
 //
-    @Test
-    void shouldFindAllCertificates() {
-        List<GiftCertificate> giftCertificates = giftCertificateDao.findAll(1L, 16L);
-        assertEquals(15, giftCertificates.size());
-    }
-
-    @Test
-    void shouldFindCertificateById() {
-        Optional<GiftCertificate> giftCertificate1 = giftCertificateDao.find(1L);
-        Optional<GiftCertificate> giftCertificate15 = giftCertificateDao.find(15L);
-        assertTrue(giftCertificate1.isPresent());
-        assertTrue(giftCertificate15.isPresent());
-
-    }
-
-    @Test
-    void shouldUpdateCertificate() {
-
-        Optional<GiftCertificate> certificateFromDao = giftCertificateDao.find(1L);
-        GiftCertificate certificate = certificateFromDao.get();
-
-        assertNotEquals("Updated certificate", certificate.getName());
-        assertNotEquals("Updated description", certificate.getDescription());
-
-        certificate.setName("Updated certificate");
-        certificate.setDescription("Updated description");
-
-        giftCertificateDao.update(certificate);
-
-        Optional<GiftCertificate> certificateFromDaoUpdated = giftCertificateDao.find(1L);
-        GiftCertificate updatedCertificate = certificateFromDaoUpdated.get();
-        assertEquals("Updated certificate", updatedCertificate.getName());
-        assertEquals("Updated description", updatedCertificate.getDescription());
-    }
-
-    @Test
-    void shouldSaveAndDeleteCertificate() {
-        GiftCertificate certificate = GiftCertificate.builder()
-                .name("New certificate")
-                .description("Some description")
-                .price(BigDecimal.valueOf(100D))
-                .createDate(ZonedDateTime.now())
-                .lastUpdateDate(ZonedDateTime.now())
-                .duration(6)
-                .tags(new ArrayList<>())
-                .build();
-
-        Long id = giftCertificateDao.save(certificate);
-        Tag tag = Tag.builder()
-                .id(2L)
-                .name("Tag 4")
-                .build();
-
-        Long tagId = tagDao.save(tag);
-        assertTrue(giftCertificateDao.find(id).isPresent());
-
-        giftCertificateDao.delete(id);
-        tagDao.delete(tagId);
-
-        assertFalse(giftCertificateDao.find(id).isPresent());
-    }
-
-
-    @Test
-    void shouldFindCertificateByPartOfDescription() {
-        CertificateSearchQuery query = new CertificateSearchQuery();
-        query.setPartOfDescription("Use the Apple Gift Ca");
-        List<GiftCertificate> giftCertificates = giftCertificateDao.getCertificates(query, 1L, 10L);
-        assertEquals(3, giftCertificates.size());
-    }
-
-    @Test
-    void shouldFindCertificateByPartOfName() {
-        CertificateSearchQuery query = new CertificateSearchQuery();
-        query.setPartOfName("ple Gift Card $25");
-        List<GiftCertificate> giftCertificates = giftCertificateDao.getCertificates(query, 1L, 10L);
-        assertEquals(1L, giftCertificates.size());
-    }
+//    @Test
+//    void shouldFindAllCertificates() {
+//        List<GiftCertificate> giftCertificates = giftCertificateDao.findAll(1L, 16L);
+//        assertEquals(15, giftCertificates.size());
+//    }
+//
+//    @Test
+//    void shouldFindCertificateById() {
+//        Optional<GiftCertificate> giftCertificate1 = giftCertificateDao.find(1L);
+//        Optional<GiftCertificate> giftCertificate15 = giftCertificateDao.find(15L);
+//        assertTrue(giftCertificate1.isPresent());
+//        assertTrue(giftCertificate15.isPresent());
+//
+//    }
+//
+//    @Test
+//    void shouldUpdateCertificate() {
+//
+//        Optional<GiftCertificate> certificateFromDao = giftCertificateDao.find(1L);
+//        GiftCertificate certificate = certificateFromDao.get();
+//
+//        assertNotEquals("Updated certificate", certificate.getName());
+//        assertNotEquals("Updated description", certificate.getDescription());
+//
+//        certificate.setName("Updated certificate");
+//        certificate.setDescription("Updated description");
+//
+//        giftCertificateDao.update(certificate);
+//
+//        Optional<GiftCertificate> certificateFromDaoUpdated = giftCertificateDao.find(1L);
+//        GiftCertificate updatedCertificate = certificateFromDaoUpdated.get();
+//        assertEquals("Updated certificate", updatedCertificate.getName());
+//        assertEquals("Updated description", updatedCertificate.getDescription());
+//    }
+//
+//    @Test
+//    void shouldSaveAndDeleteCertificate() {
+//        GiftCertificate certificate = GiftCertificate.builder()
+//                .name("New certificate")
+//                .description("Some description")
+//                .price(BigDecimal.valueOf(100D))
+//                .createDate(ZonedDateTime.now())
+//                .lastUpdateDate(ZonedDateTime.now())
+//                .duration(6)
+//                .tags(new ArrayList<>())
+//                .build();
+//
+//        Long id = giftCertificateDao.save(certificate);
+//        Tag tag = Tag.builder()
+//                .id(2L)
+//                .name("Tag 4")
+//                .build();
+//
+//        Long tagId = tagDao.save(tag);
+//        assertTrue(giftCertificateDao.find(id).isPresent());
+//
+//        giftCertificateDao.delete(id);
+//        tagDao.delete(tagId);
+//
+//        assertFalse(giftCertificateDao.find(id).isPresent());
+//    }
+//
+//
+//    @Test
+//    void shouldFindCertificateByPartOfDescription() {
+//        CertificateSearchQuery query = new CertificateSearchQuery();
+//        query.setPartOfDescription("Use the Apple Gift Ca");
+//        List<GiftCertificate> giftCertificates = giftCertificateDao.getCertificates(query, 1L, 10L);
+//        assertEquals(3, giftCertificates.size());
+//    }
+//
+//    @Test
+//    void shouldFindCertificateByPartOfName() {
+//        CertificateSearchQuery query = new CertificateSearchQuery();
+//        query.setPartOfName("ple Gift Card $25");
+//        List<GiftCertificate> giftCertificates = giftCertificateDao.getCertificates(query, 1L, 10L);
+//        assertEquals(1L, giftCertificates.size());
+//    }
 }
