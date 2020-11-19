@@ -86,7 +86,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (giftCertificate.getTags() == null) {
             giftCertificate.setTags(new ArrayList<>());
         }
-        //todo check certificate by name
         BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
         certificateValidator.validate(giftCertificate, result);
         if (result.hasErrors()) {
@@ -117,16 +116,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         return certificateId;
     }
 
-    //    /**
-//     * Updates certificate.
-//     * <p>
-//     * First, gets list of certificate's tags. After that the certificate object is being validated.
-//     * If there are invalid fields, it is returned <i>InvalidInputDataException</i> If successful,assigns new tag
-//     * to certificate through <i>tagDao</i>. After that updates certificate through <i>giftCertificateDao</i>
-//     *
-//     * @param giftCertificate GiftCertificate instance.
-//     * @throws InvalidInputDataException Field errors in object ''giftCertificate'' on field: {0}"
-//     */
+    /**
+     * Updates certificate.
+     * <p>
+     * First, gets list of certificate's tags. After that the certificate object is being validated.
+     * If there are invalid fields, it is returned <i>InvalidInputDataException</i> After that updates
+     * certificate through <i>giftCertificateDao</i>
+     *
+     * @param giftCertificate GiftCertificate instance.
+     * @throws InvalidInputDataException Unexpected certificate''s field: {0}, error code: {1}
+     */
     @Transactional
     @Override
     public void updateCertificate(GiftCertificate giftCertificate) {
@@ -176,12 +175,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     /**
      * Deletes certificate.
      * <p>
-     * First, finds a certificate by ID. Subsequently, if the certificate record is exists, method removes all tags
-     * from passed certificate through <i>tagDao</i>, else throw TagNotFoundException. After that deletes certificate
+     * First, finds a certificate by ID. Subsequently, if the certificate record is exists, method updates
+     * all order's tags: set field certificate_id to null. After that deletes certificate
      * through <i>giftCertificateDao</i>
      *
      * @param id GiftCertificate id.
-     * @throws TagNotFoundException Gift certificate with id: {0} not found.
+     * @throws GiftCertificateNotFoundException Gift certificate with id: {0} not found.
      */
     @Transactional
     @Override
@@ -221,11 +220,34 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         return certificateList;
     }
 
+    /**
+     * Searches gift certificates by several tags.
+     * <p>
+     * Searches gift certificates by several tags.
+     *
+     * @param tagNames List of tag's names
+     * @param page     Index of first page instance.
+     * @param pageSize Count pages in response.
+     * @return GiftCertificates list.
+     */
     @Override
     public List<GiftCertificate> findCertificatesByTags(List<String> tagNames, Long page, Long pageSize) {
         return giftCertificateDao.findCertificatesByTags(tagNames, page, pageSize);
     }
 
+    /**
+     * Updates certificate's single field.
+     * <p>
+     * First, finds a certificate by ID. Subsequently, if the certificate record is exists, method check
+     * in switch case fieldName and set fieldValue.
+     *
+     * @param id GiftCertificate id.
+     * @param fieldName Field's name.
+     * @param fieldValue Field's value.
+     * @throws InvalidInputDataException Unknown field: {0}
+     * @throws NumberFormatException Unsupported value type: {0} for field: {1}
+     */
+    @Transactional
     @Override
     public GiftCertificate updateSingleCertificateField(Long id, String fieldName, String fieldValue) {
         GiftCertificate certificate = giftCertificateDao.find(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat

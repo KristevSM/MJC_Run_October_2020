@@ -93,13 +93,13 @@ class OrderServiceImplTest {
         GiftCertificate certificate = mock(GiftCertificate.class);
         when(userDao.find(1L)).thenReturn(Optional.ofNullable(user));
         when(certificateDao.find(1L)).thenReturn(Optional.ofNullable(certificate));
-        orderService.makeOrder(1L, 1L);
         Order order = Order.builder()
                 .giftCertificate(certificate)
                 .cost(certificate.getPrice())
                 .user(user)
                 .orderDate(ZonedDateTime.now())
                 .build();
+        when(orderDao.save(order)).thenReturn(1L);
         orderDao.save(order);
         Mockito.verify(orderDao, Mockito.times(1)).save(order);
     }

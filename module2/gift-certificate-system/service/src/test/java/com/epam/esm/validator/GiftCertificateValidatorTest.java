@@ -44,8 +44,10 @@ class GiftCertificateValidatorTest {
                 .name("dlqbkmggdlgcekupeaoogaadudduwjdyxihdxzfpn")
                 .description("wmrjkwqcrpsndahcsdshxrrhdcylygohzxlocbhqiiueobqllipiyxjyeldnsemdymdlwexbkqwgokyhzxnwcrosr" +
                         "smlkcmpongxzuuizdwqgnklglqobdrhpwtbudivcdjyzheefskryltblnqsleqsignrntnojzecnfuvcgjjyoahsbvgjbvo" +
+                        "kfwviqrdqaknxwglxsyfmbxxxafskegeerxbejftfhdxsgyngbetifcvyvluxklbonjwmrjkwqcrpsndahcsdshxrrhdcylygohzxlocbhqiiueobqllipiyxjyeldnsemdymdlwexbkqwgokyhzxnwcrosr\" +\n" +
+                        "smlkcmpongxzuuizdwqgnklglqobdrhpwtbudivcdjyzheefskryltblnqsleqsignrntnojzecnfuvcgjjyoahsbvgjbvo\" +\n" +
                         "kfwviqrdqaknxwglxsyfmbxxxafskegeerxbejftfhdxsgyngbetifcvyvluxklbonj\n" +
-                        "\n")
+                        "sdfdsfsdfdsf")
                 .price(BigDecimal.valueOf(-1D))
                 .createDate(ZonedDateTime.now())
                 .lastUpdateDate(ZonedDateTime.now().minusDays(1))

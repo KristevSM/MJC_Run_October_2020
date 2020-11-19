@@ -16,8 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * @author Sergei Kristev
+ * <p>
+ * Service for managing Orders objects.
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -25,6 +29,13 @@ public class OrderServiceImpl implements OrderService {
     private final UserDao userDao;
     private final GiftCertificateDao certificateDao;
 
+    /**
+     * Constructor accepts UserDao object.
+     *
+     * @param orderDao       OrderDao instance.
+     * @param userDao        UserDao instance.
+     * @param certificateDao GiftCertificateDao instance.
+     */
     @Autowired
     public OrderServiceImpl(OrderDao orderDao, UserDao userDao, GiftCertificateDao certificateDao) {
         this.orderDao = orderDao;
@@ -32,11 +43,25 @@ public class OrderServiceImpl implements OrderService {
         this.certificateDao = certificateDao;
     }
 
+    /**
+     * Gets list of all orders from OrderDao.
+     *
+     * @param page     Index of first page instance.
+     * @param pageSize Count pages in response.
+     * @return Orders list.
+     */
     @Override
     public List<Order> getAllOrders(Long page, Long pageSize) {
         return orderDao.findAll(page, pageSize);
     }
 
+    /**
+     * Create order on certificate.
+     *
+     * @param userId        User's id.
+     * @param certificateId Certificate's id.
+     * @return Order instance.
+     */
     @Override
     @Transactional
     public Order makeOrder(Long userId, Long certificateId) {
@@ -57,12 +82,24 @@ public class OrderServiceImpl implements OrderService {
         return orderFromDao;
     }
 
+    /**
+     * Gets order by id.
+     *
+     * @param id Order id.
+     * @return Order instance.
+     */
     @Override
     public Order getOrderById(Long id) {
         return orderDao.find(id).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                 .format("Order with id: {0} not found", id)));
     }
 
+    /**
+     * Remove order.
+     *
+     * @param orderId   Order's id.
+     *
+     */
     @Override
     public void removeOrder(Long orderId) {
         orderDao.find(orderId).orElseThrow(() -> new OrderNotFoundException(MessageFormat
@@ -71,6 +108,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    /**
+     * Gets user's orders.
+     *
+     * @param userId   User's id.
+     * @param page     Index of first page instance.
+     * @param pageSize Count pages in response.
+     * @return List orders.
+     */
     @Override
     public List<Order> getUserOrders(Long userId, Long page, Long pageSize) {
         userDao.find(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
@@ -78,11 +123,21 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.getUserOrders(userId, page, pageSize);
     }
 
+    /**
+     * Gets total count of user's orders.
+     *
+     * @return Long orders count.
+     */
     @Override
     public Long findOrderTotalCountByUserId(Long userId) {
         return orderDao.findOrderTotalCountByUserId(userId);
     }
 
+    /**
+     * Gets total count of orders in DB.
+     *
+     * @return Long orders count.
+     */
     @Override
     public Long findOrderTotalCount() {
         return orderDao.findOrderTotalCount();
