@@ -305,6 +305,16 @@ public class GiftCertificateController {
                                                         @RequestParam(value = "fieldName", defaultValue = "") String fieldName,
                                                         @RequestParam(value = "fieldValue", defaultValue = "") String fieldValue) {
 
-        return giftCertificateService.updateSingleCertificateField(id, fieldName, fieldValue);
+        GiftCertificate certificate = giftCertificateService.updateSingleCertificateField(id, fieldName, fieldValue);
+        List<Tag> tags = certificate.getTags();
+        tags.forEach(tag -> {
+            Link selfLink = linkTo(methodOn(TagController.class)
+                    .findTagById(tag.getId())).withRel("tag");
+            tag.add(selfLink);
+        });
+        Link selfLink = linkTo(methodOn(GiftCertificateController.class)
+                .findCertificateById(certificate.getId())).withRel("certificate");
+        certificate.add(selfLink);
+        return certificate;
     }
 }
