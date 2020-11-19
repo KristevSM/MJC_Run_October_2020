@@ -1,6 +1,5 @@
 package com.epam.esm.dao;
 
-import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.DaoException;
 import com.epam.esm.model.Order;
 import org.hibernate.Criteria;
@@ -92,35 +91,9 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public Optional<OrderDto> getOrderDetails(Long userId, Long orderId) {
+    public List<Order> getUserOrders(Long userId, Long page, Long pageSize) {
         Session session = getCurrentSession();
-        OrderDto orderDto;
-        try {
-            String hql = "FROM Order o WHERE o.id = :orderId AND o.user.id = :userId";
-            Query query = session.createQuery(hql);
-            query.setParameter("orderId", orderId);
-            query.setParameter("userId", userId);
-            Optional<Order> order = query.uniqueResultOptional();
-            if (!order.isPresent()) {
-                return Optional.empty();
-            }
-            Order orderFromDto = order.get();
-            orderDto = OrderDto.builder()
-                    .id(orderFromDto.getId())
-                    .purchaseCost(orderFromDto.getCost())
-                    .purchaseTime(orderFromDto.getOrderDate())
-                    .build();
-        } catch (Exception e) {
-            throw new DaoException(MessageFormat.format("Unable to get a order: {0}", e.getMessage()));
-        }
-        return Optional.of(orderDto);
-    }
-
-    @Override
-    public List<OrderDto> getUserOrders(Long userId, Long page, Long pageSize) {
-        Session session = getCurrentSession();
-        List<Order> orders;
-        List<OrderDto> firstPageDto = new ArrayList<>();
+        List<Order> orders = new ArrayList<>();
         try {
             Criteria criteria = session.createCriteria(Order.class);
             criteria.add(Restrictions.eq("user.id", userId));
@@ -128,20 +101,12 @@ public class OrderDaoImpl implements OrderDao {
             criteria.setFirstResult(Math.toIntExact((page - 1) * pageSize));
             criteria.setMaxResults(Math.toIntExact(pageSize));
             orders = criteria.list();
-            for (Order order : orders) {
-                OrderDto orderDto = OrderDto.builder()
-                        .id(order.getId())
-                        .purchaseTime(order.getOrderDate())
-                        .purchaseCost(order.getCost())
-                        .build();
-                firstPageDto.add(orderDto);
-            }
 //            Long totalCount = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 
         } catch (Exception e) {
             throw new DaoException(MessageFormat.format("Unable to get a list of orders: {0}", e.getMessage()));
         }
-        return firstPageDto;
+        return orders;
     }
 
     @Override
@@ -152,6 +117,20 @@ public class OrderDaoImpl implements OrderDao {
             Criteria criteria = session.createCriteria(Order.class);
             criteria.add(Restrictions.eq("user.id", userId));
 
+            totalCount = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+
+        } catch (Exception e) {
+            throw new DaoException(MessageFormat.format("Unable to get a list of orders: {0}", e.getMessage()));
+        }
+        return totalCount;
+    }
+
+    @Override
+    public Long findOrderTotalCount() {
+        Session session = getCurrentSession();
+        Long totalCount = 0L;
+        try {
+            Criteria criteria = session.createCriteria(Order.class);
             totalCount = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 
         } catch (Exception e) {

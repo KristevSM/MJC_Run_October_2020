@@ -3,7 +3,6 @@ package com.epam.esm.service;
 import com.epam.esm.dao.GiftCertificateDao;
 import com.epam.esm.dao.OrderDao;
 import com.epam.esm.dao.UserDao;
-import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.exception.UserNotFoundException;
@@ -17,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void makeOrder(Long userId, Long certificateId) {
+    public Order makeOrder(Long userId, Long certificateId) {
         GiftCertificate certificate = certificateDao.find(certificateId).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
                 .format("Gift certificate with id: {0} not found", certificateId)));
 
@@ -51,7 +51,10 @@ public class OrderServiceImpl implements OrderService {
                 .user(user)
                 .orderDate(ZonedDateTime.now())
                 .build();
-        orderDao.save(order);
+        Long orderId = orderDao.save(order);
+        Order orderFromDao = orderDao.find(orderId).orElseThrow(() -> new OrderNotFoundException(MessageFormat
+                .format("Order with id: {0} not found", orderId)));
+        return orderFromDao;
     }
 
     @Override
@@ -67,14 +70,9 @@ public class OrderServiceImpl implements OrderService {
         orderDao.delete(orderId);
     }
 
-    @Override
-    public OrderDto getOrderDetails(Long userId, Long orderId) {
-        return orderDao.getOrderDetails(userId, orderId).orElseThrow(() -> new OrderNotFoundException(MessageFormat
-                .format("Order with id {0} on user with id {1}: not found", orderId, userId)));
-    }
 
     @Override
-    public List<OrderDto> getUserOrders(Long userId, Long page, Long pageSize) {
+    public List<Order> getUserOrders(Long userId, Long page, Long pageSize) {
         userDao.find(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", userId)));
         return orderDao.getUserOrders(userId, page, pageSize);
@@ -83,5 +81,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long findOrderTotalCountByUserId(Long userId) {
         return orderDao.findOrderTotalCountByUserId(userId);
+    }
+
+    @Override
+    public Long findOrderTotalCount() {
+        return orderDao.findOrderTotalCount();
     }
 }

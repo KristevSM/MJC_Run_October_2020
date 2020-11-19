@@ -4,6 +4,7 @@ import com.epam.esm.exception.DaoException;
 import com.epam.esm.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +71,19 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException(MessageFormat.format("Unable to get a list of users: {0}", e.getMessage()));
         }
         return firstPage;
+    }
+
+    @Override
+    public Long findUsersTotalCount() {
+        Session session = getCurrentSession();
+        Long totalCount = 0L;
+        try {
+            Criteria criteria = session.createCriteria(User.class);
+            totalCount = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+
+        } catch (Exception e) {
+            throw new DaoException(MessageFormat.format("Unable to get a list of users: {0}", e.getMessage()));
+        }
+        return totalCount;
     }
 }

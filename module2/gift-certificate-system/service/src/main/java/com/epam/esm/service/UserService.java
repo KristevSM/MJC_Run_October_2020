@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UserService {
     List<User> getAllUsers(Long page, Long pageSize);
     User getUserById(Long id);
+    Long findUsersTotalCount();
 }

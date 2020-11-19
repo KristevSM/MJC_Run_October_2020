@@ -1,7 +1,6 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dao.*;
-import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Order;
@@ -76,20 +75,10 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void shouldGetOrderDetails() {
-
-        OrderDto orderDto = mock(OrderDto.class);
-        when(orderDao.getOrderDetails(1L, 1L)).thenReturn(Optional.of(orderDto));
-
-        assertEquals(orderDto, orderService.getOrderDetails(1L, 1L));
-        Mockito.verify(orderDao, Mockito.times(1)).getOrderDetails(1L,1L);
-    }
-
-    @Test
     void shouldReturnUsersOrders() {
 
         User user = mock(User.class);
-        List<OrderDto> orders = mock(ArrayList.class);
+        List<Order> orders = mock(ArrayList.class);
         when(orders.size()).thenReturn(10);
         when(userDao.find(1L)).thenReturn(Optional.ofNullable(user));
         when(orderService.getUserOrders(1L,1L, 20L)).thenReturn(orders);
