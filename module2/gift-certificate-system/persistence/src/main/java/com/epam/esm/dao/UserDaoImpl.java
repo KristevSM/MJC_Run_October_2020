@@ -20,6 +20,8 @@ import java.util.Optional;
 @Repository
 public class UserDaoImpl implements UserDao {
 
+    private static final String FIND_USER_BY_ID = "FROM User u WHERE u.id = :id";
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -32,8 +34,7 @@ public class UserDaoImpl implements UserDao {
         Session session = getCurrentSession();
         Optional<User> user;
         try {
-            String hql = "FROM User u WHERE u.id = :id";
-            Query query = session.createQuery(hql);
+            Query query = session.createQuery(FIND_USER_BY_ID);
             query.setParameter("id", id);
             user = query.uniqueResultOptional();
         } catch (Exception e) {

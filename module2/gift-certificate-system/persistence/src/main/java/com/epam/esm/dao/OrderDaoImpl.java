@@ -20,6 +20,9 @@ import java.util.Optional;
 @Transactional
 @Repository
 public class OrderDaoImpl implements OrderDao {
+
+    private static final String FIND_ORDER_BY_ID = "FROM Order o WHERE o.id = :id";
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -32,8 +35,7 @@ public class OrderDaoImpl implements OrderDao {
         Session session = getCurrentSession();
         Optional<Order> order;
         try {
-            String hql = "FROM Order o WHERE o.id = :id";
-            Query query = session.createQuery(hql);
+            Query query = session.createQuery(FIND_ORDER_BY_ID);
             query.setParameter("id", id);
             order = query.uniqueResultOptional();
         } catch (Exception e) {

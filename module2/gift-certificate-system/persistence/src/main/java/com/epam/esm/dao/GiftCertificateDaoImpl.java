@@ -26,6 +26,12 @@ import java.util.Optional;
 @Primary
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
 
+    private static final String FIND_CERTIFICATES_BY_TAGS_NAMES = "SELECT c FROM GiftCertificate c LEFT JOIN c.tags t WHERE t.name IN :tagNames"
+            + " GROUP BY c HAVING COUNT(t.name) = :tagNamesSize";
+    private static final String FIND_CERTIFICATE_BY_ID = "FROM GiftCertificate c WHERE c.id = :id";
+    private static final String DELETE_CERTIFICATE_BY_ID = "DELETE GiftCertificate c WHERE c.id = :id";
+    private static final String FIND_CERTIFICATE_BY_NAME = "FROM GiftCertificate c WHERE c.name = :name";
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -38,8 +44,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         Session session = getCurrentSession();
         Optional<GiftCertificate> giftCertificate;
         try {
-            String hql = "FROM GiftCertificate c WHERE c.id = :id";
-            Query query = session.createQuery(hql);
+            Query query = session.createQuery(FIND_CERTIFICATE_BY_ID);
             query.setParameter("id", id);
             giftCertificate = query.uniqueResultOptional();
         } catch (Exception e) {
@@ -78,8 +83,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         Session session = getCurrentSession();
         try {
             session.clear();
-            String hql = "DELETE GiftCertificate c WHERE c.id = :id";
-            Query query = session.createQuery(hql);
+            Query query = session.createQuery(DELETE_CERTIFICATE_BY_ID);
             query.setParameter("id", id);
             query.executeUpdate();
             session.flush();
@@ -149,10 +153,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         Session session = getCurrentSession();
         List<GiftCertificate> firstPage = new ArrayList<>();
         try {
-
-            String hql = "SELECT c FROM GiftCertificate c LEFT JOIN c.tags t WHERE t.name IN :tagNames"
-                    + " GROUP BY c HAVING COUNT(t.name) = :tagNamesSize";
-            Query query = session.createQuery(hql);
+            Query query = session.createQuery(FIND_CERTIFICATES_BY_TAGS_NAMES);
             Long tagsSize = Long.valueOf(tagNames.size());
             query.setParameter("tagNames", tagNames);
             query.setParameter("tagNamesSize", tagsSize);
@@ -171,8 +172,7 @@ public class GiftCertificateDaoImpl implements GiftCertificateDao {
         Session session = getCurrentSession();
         Optional<GiftCertificate> giftCertificate;
         try {
-            String hql = "FROM GiftCertificate c WHERE c.name = :name";
-            Query query = session.createQuery(hql);
+            Query query = session.createQuery(FIND_CERTIFICATE_BY_NAME);
             query.setParameter("name", name);
             giftCertificate = query.uniqueResultOptional();
         } catch (Exception e) {
