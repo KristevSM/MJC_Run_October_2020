@@ -1,13 +1,12 @@
 package com.epam.esm.validator;
 
 import com.epam.esm.exception.InvalidInputDataException;
+import lombok.experimental.UtilityClass;
 
 import java.text.MessageFormat;
 
+@UtilityClass
 public final class ValidationUtils {
-
-    private ValidationUtils() {
-    }
 
     public static boolean checkPaginationData(Long page, Long pageSize) {
         if (page <= 0) {
