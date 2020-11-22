@@ -38,8 +38,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.github.java-json-tools/json-patch
     compile group: 'com.github.java-json-tools', name: 'json-patch', version: '1.13'
 
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+//    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+//    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
 
     compileOnly 'org.projectlombok:lombok:1.18.14'
     annotationProcessor 'org.projectlombok:lombok:1.18.14'

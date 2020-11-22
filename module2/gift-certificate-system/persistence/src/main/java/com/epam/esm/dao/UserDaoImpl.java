@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
+//@Transactional
 @Repository
 public class UserDaoImpl implements UserDao {
 

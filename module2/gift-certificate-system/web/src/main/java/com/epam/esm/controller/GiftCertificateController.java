@@ -215,14 +215,7 @@ public class GiftCertificateController {
         }
         certificateList = giftCertificateService.getCertificates(query, pageNumber, pageSizeNumber);
 
-        List<Tag> tags;
-        for (final GiftCertificate certificate : certificateList) {
-            tags = certificate.getTags();
-            tags.forEach(tag -> {
-                Link selfLink = linkTo(methodOn(TagController.class)
-                        .findTagById(tag.getId())).withSelfRel();
-                tag.add(selfLink);
-            });
+        for (GiftCertificate certificate : certificateList) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificateById(certificate.getId())).withSelfRel();
             certificate.add(selfLink);
@@ -273,14 +266,7 @@ public class GiftCertificateController {
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
         List<GiftCertificate> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber, pageSizeNumber);
-        List<Tag> tags;
-        for (final GiftCertificate certificate : certificates) {
-            tags = certificate.getTags();
-            for (Tag tag : tags) {
-                Link selfLink = linkTo(methodOn(TagController.class)
-                        .findTagById(tag.getId())).withSelfRel();
-                tag.add(selfLink);
-            }
+        for (GiftCertificate certificate : certificates) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificateById(certificate.getId())).withSelfRel();
             certificate.add(selfLink);

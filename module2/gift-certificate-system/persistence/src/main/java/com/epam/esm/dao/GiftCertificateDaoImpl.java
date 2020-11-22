@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
+//@Transactional
 @Repository
 @Primary
 public class GiftCertificateDaoImpl implements GiftCertificateDao {
