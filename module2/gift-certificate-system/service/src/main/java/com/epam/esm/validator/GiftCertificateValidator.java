@@ -18,27 +18,27 @@ public class GiftCertificateValidator implements Validator {
     public void validate(Object target, Errors errors) {
 
         GiftCertificate giftCertificate = (GiftCertificate) target;
-        if (giftCertificate.getName() == null || StringUtils.hasLength(giftCertificate.getName())
-                && giftCertificate.getName().length() > 40) {
-            errors.rejectValue("name", "giftCertificateName.maxSize");
+        if (giftCertificate.getName() == null || giftCertificate.getName().length() > 40
+                || giftCertificate.getName().length() < 1 ) {
+            errors.rejectValue("name", "giftCertificateName.size");
         }
-        if (giftCertificate.getName() == null || StringUtils.hasLength(giftCertificate.getDescription())
-                && giftCertificate.getDescription().length() > 250) {
-            errors.rejectValue("description", "giftCertificateDescription.maxSize");
+        if (giftCertificate.getDescription() == null || giftCertificate.getDescription().length() > 500
+                || giftCertificate.getDescription().length() < 1 ) {
+            errors.rejectValue("description", "giftCertificateDescription.size");
         }
-        if (giftCertificate.getPrice() != null
-                && giftCertificate.getPrice().doubleValue() < 0) {
+        if (giftCertificate.getPrice() == null
+                || giftCertificate.getPrice().doubleValue() <= 0) {
             errors.rejectValue("price", "giftCertificatePrice.negative");
         }
-        if (giftCertificate.getCreateDate() != null && giftCertificate.getLastUpdateDate() != null
-                && giftCertificate.getLastUpdateDate().isBefore(giftCertificate.getCreateDate())) {
+        if (giftCertificate.getCreateDate() == null || giftCertificate.getLastUpdateDate() == null
+                || giftCertificate.getLastUpdateDate().isBefore(giftCertificate.getCreateDate())) {
             errors.rejectValue("lastUpdateDate", "giftCertificateLastUpdateDate.beforeCreating");
         }
         if (giftCertificate.getDuration() <= 0) {
             errors.rejectValue("duration", "giftCertificateDuration.negative");
         }
-        if (giftCertificate.getTags() == null) {
-            errors.rejectValue("tags", "giftCertificateTags.isNotSet");
-        }
+//        if (giftCertificate.getTags() == null) {
+//            errors.rejectValue("tags", "giftCertificateTags.isNotSet");
+//        }
     }
 }

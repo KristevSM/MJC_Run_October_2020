@@ -1,5 +1,6 @@
-package com.epam.esm.dao;
+package com.epam.esm.dao.jdbc;
 
+import com.epam.esm.dao.TagDao;
 import com.epam.esm.model.Tag;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -14,13 +15,13 @@ import java.util.*;
 @Repository
 public class TagDaoJdbc implements TagDao {
 
-    private static final String SQL_SELECT_ALL_TAGS = "SELECT id, name FROM tag;";
+    private static final String SQL_SELECT_ALL_TAGS = "SELECT tag_id, name FROM tag;";
     private static final String SQL_INSERT_TAG = "INSERT INTO tag (name)" +
             " VALUES (:name);";
-    private static final String SQL_SELECT_BY_ID = "SELECT id, name FROM tag WHERE id = :id;";
-    private static final String SQL_UPDATE_TAG = "UPDATE tag SET name = :name WHERE (id = :id);";
-    private static final String SQL_DELETE_BY_ID = "DELETE FROM tag WHERE (id = :id);";
-    private static final String SQL_SELECT_BY_TAG_NAME = "SELECT id, name FROM tag WHERE name = :name;";
+    private static final String SQL_SELECT_BY_ID = "SELECT tag_id, name FROM tag WHERE tag_id = :id;";
+    private static final String SQL_UPDATE_TAG = "UPDATE tag SET name = :name WHERE (tag_id = :id);";
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM tag WHERE (tag_id = :id);";
+    private static final String SQL_SELECT_BY_TAG_NAME = "SELECT tag_id, name FROM tag WHERE name = :name;";
     private static final String SQL_ASSIGN_DEFAULT_TAG = "INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) " +
             "VALUES (:tag_id, :gift_certificate_id)";
     private static final String SQL_ASSIGN_NEW_TAG_TO_CERTIFICATE = "UPDATE tag_has_gift_certificate" +
@@ -37,7 +38,7 @@ public class TagDaoJdbc implements TagDao {
     }
 
     private final RowMapper<Tag> tagRowMapper = (resultSet, i) -> Tag.builder()
-            .id(resultSet.getLong("id"))
+            .id(resultSet.getLong("tag_id"))
             .name(resultSet.getString("name"))
             .build();
 
@@ -84,7 +85,7 @@ public class TagDaoJdbc implements TagDao {
     }
 
     @Override
-    public List<Tag> findAll() {
+    public List<Tag> findAll(Long from, Long pageSize) {
         return namedParameterJdbcTemplate.query(SQL_SELECT_ALL_TAGS, tagRowMapper);
     }
 
@@ -101,34 +102,38 @@ public class TagDaoJdbc implements TagDao {
     }
 
     @Override
-    public void assignTag(Long tagId, Long certificateId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("tag_id", tagId);
-        params.put("gift_certificate_id", certificateId);
-        namedParameterJdbcTemplate.update(SQL_ASSIGN_DEFAULT_TAG, params);
+    public Optional<Tag> getUsersMostWidelyUsedTag() {
+        return Optional.empty();
     }
-
-    @Override
-    public void assignNewTagToCertificate(Long tagId, Long certificateId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("tag_id", tagId);
-        params.put("gift_certificate_id", certificateId);
-        namedParameterJdbcTemplate.update(SQL_ASSIGN_NEW_TAG_TO_CERTIFICATE, params);
-    }
-
-    @Override
-    public void removeTagAndCertificate(Long tagId, Long certificateId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("tag_id", tagId);
-        params.put("gift_certificate_id", certificateId);
-        namedParameterJdbcTemplate.update(SQL_REMOVE_TAG_AND_CERTIFICATE, params);
-    }
-
-    @Override
-    public void addNewTagToCertificate(Long tagId, Long certificateId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("tag_id", tagId);
-        params.put("gift_certificate_id", certificateId);
-        namedParameterJdbcTemplate.update(SQL_ADD_NEW_TAG_AND_CERTIFICATE, params);
-    }
+    //    @Override
+//    public void assignTag(Long tagId, Long certificateId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("tag_id", tagId);
+//        params.put("gift_certificate_id", certificateId);
+//        namedParameterJdbcTemplate.update(SQL_ASSIGN_DEFAULT_TAG, params);
+//    }
+//
+//    @Override
+//    public void assignNewTagToCertificate(Long tagId, Long certificateId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("tag_id", tagId);
+//        params.put("gift_certificate_id", certificateId);
+//        namedParameterJdbcTemplate.update(SQL_ASSIGN_NEW_TAG_TO_CERTIFICATE, params);
+//    }
+//
+//    @Override
+//    public void removeTagAndCertificate(Long tagId, Long certificateId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("tag_id", tagId);
+//        params.put("gift_certificate_id", certificateId);
+//        namedParameterJdbcTemplate.update(SQL_REMOVE_TAG_AND_CERTIFICATE, params);
+//    }
+//
+//    @Override
+//    public void addNewTagToCertificate(Long tagId, Long certificateId) {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("tag_id", tagId);
+//        params.put("gift_certificate_id", certificateId);
+//        namedParameterJdbcTemplate.update(SQL_ADD_NEW_TAG_AND_CERTIFICATE, params);
+//    }
 }

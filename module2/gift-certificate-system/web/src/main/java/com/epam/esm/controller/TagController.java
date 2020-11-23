@@ -1,11 +1,8 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.dao.CertificateSearchQuery;
-import com.epam.esm.exception.GiftCertificateNotFoundException;
-import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
-import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.service.TagService;
+import com.epam.esm.validator.ValidationUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_NUMBER;
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_SIZE;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * @author Sergei Kristev
@@ -32,29 +37,41 @@ import java.util.List;
 public class TagController {
 
     private final TagService tagService;
-    private final GiftCertificateService certificateService;
 
     /**
      * Accepts service layer objects and tag validator.
      *
      * @param tagService            TagService instance.
-     * @param certificateService    GiftCertificateService instance.
      */
     @Autowired
-    public TagController(TagService tagService, GiftCertificateService certificateService) {
+    public TagController(TagService tagService) {
         this.tagService = tagService;
-        this.certificateService = certificateService;
     }
 
     /**
      * Gets list of all tags.
      *
+     * @param page  page's number
+     * @param pageSize page size
      * @return Tags list.
      */
-    @GetMapping(value = "/tags")
-    public List<Tag> findAllTags() {
-        return tagService.findAllTags();
-    }
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/tags", produces = {"application/hal+json"})
+    public CollectionModel<Tag> findAllTags(@RequestParam(value = "page") Optional<Long> page,
+                                             @RequestParam(value = "page_size") Optional<Long> pageSize) {
+        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+
+        ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
+
+        List<Tag> tagList = tagService.findAllTags(pageNumber, pageSizeNumber);
+        for (Tag tag : tagList) {
+            Link selfLink = linkTo(methodOn(TagController.class)
+                    .findTagById(tag.getId())).withSelfRel();
+            tag.add(selfLink);
+        }
+        Link link = linkTo(TagController.class).slash("tags").withSelfRel();
+        return new CollectionModel<>(tagList, link);    }
 
     /**
      * Gets tag by id.
@@ -62,9 +79,17 @@ public class TagController {
      * @param id Tag id.
      * @return Tag instance.
      */
-    @GetMapping(value = "tags/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "tags/{id}", produces = {"application/hal+json"})
     public Tag findTagById(@PathVariable Long id) {
-        return tagService.findTagById(id);
+        Tag tag = tagService.findTagById(id);
+        Link selfLink = linkTo(methodOn(TagController.class)
+                .findTagById(tag.getId())).withSelfRel();
+        Link tagsLink = linkTo(methodOn(TagController.class)
+                .findAllTags(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("tags");
+        tag.add(tagsLink);
+        tag.add(selfLink);
+        return tag;
     }
 
     /**
@@ -125,15 +150,6 @@ public class TagController {
      */
     @DeleteMapping(path = "tags/{id}")
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
-        Tag tag = tagService.findTagById(id);
-        try {
-            CertificateSearchQuery query = new CertificateSearchQuery();
-            query.setTagName(tag.getName());
-            List<GiftCertificate> certificates = certificateService.getCertificates(query);
-            certificates.forEach(certificate -> certificateService.removeTagFromCertificate(certificate.getId(), id));
-        } catch (GiftCertificateNotFoundException e) {
-            //logging
-        }
         tagService.deleteTag(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -154,5 +170,23 @@ public class TagController {
 
         JsonNode patched = patch.apply(objectMapper.convertValue(targetTag, JsonNode.class));
         return objectMapper.treeToValue(patched, Tag.class);
+    }
+
+    /**
+     * Gets tag by id.
+     * Get the most widely used tag of a user with the highest cost of all orders.
+     * @return Tag instance.
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = "/tags/popular", produces = {"application/hal+json"})
+    public Tag getUsersMostWidelyUsedTag() {
+        Tag tag = tagService.getUsersMostWidelyUsedTag();
+        Link selfLink = linkTo(methodOn(TagController.class)
+                .findTagById(tag.getId())).withSelfRel();
+        Link tagsLink = linkTo(methodOn(TagController.class)
+                .findAllTags(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("tags");
+        tag.add(tagsLink);
+        tag.add(selfLink);
+        return tag;
     }
 }

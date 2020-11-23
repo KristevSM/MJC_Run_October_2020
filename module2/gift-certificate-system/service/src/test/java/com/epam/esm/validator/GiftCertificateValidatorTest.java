@@ -44,8 +44,10 @@ class GiftCertificateValidatorTest {
                 .name("dlqbkmggdlgcekupeaoogaadudduwjdyxihdxzfpn")
                 .description("wmrjkwqcrpsndahcsdshxrrhdcylygohzxlocbhqiiueobqllipiyxjyeldnsemdymdlwexbkqwgokyhzxnwcrosr" +
                         "smlkcmpongxzuuizdwqgnklglqobdrhpwtbudivcdjyzheefskryltblnqsleqsignrntnojzecnfuvcgjjyoahsbvgjbvo" +
+                        "kfwviqrdqaknxwglxsyfmbxxxafskegeerxbejftfhdxsgyngbetifcvyvluxklbonjwmrjkwqcrpsndahcsdshxrrhdcylygohzxlocbhqiiueobqllipiyxjyeldnsemdymdlwexbkqwgokyhzxnwcrosr\" +\n" +
+                        "smlkcmpongxzuuizdwqgnklglqobdrhpwtbudivcdjyzheefskryltblnqsleqsignrntnojzecnfuvcgjjyoahsbvgjbvo\" +\n" +
                         "kfwviqrdqaknxwglxsyfmbxxxafskegeerxbejftfhdxsgyngbetifcvyvluxklbonj\n" +
-                        "\n")
+                        "sdfdsfsdfdsf")
                 .price(BigDecimal.valueOf(-1D))
                 .createDate(ZonedDateTime.now())
                 .lastUpdateDate(ZonedDateTime.now().minusDays(1))
@@ -56,7 +58,7 @@ class GiftCertificateValidatorTest {
         System.out.println("Errors count: " + result.getAllErrors().size());
         result.getAllErrors().forEach(System.out::println);
 
-        assertEquals(6, result.getAllErrors().size());
+        assertEquals(5, result.getAllErrors().size());
 
     }
 }
