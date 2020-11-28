@@ -15,12 +15,10 @@ bootJar {
 
 jar {
     enabled = true
-}
-
-jar {
     baseName = 'service'
     version = '1.0-SNAPSHOT'
 }
+
 sourceCompatibility = 1.8
 
 repositories { mavenCentral() }
@@ -28,22 +26,4 @@ repositories { mavenCentral() }
 dependencies {
     compile project(':persistence')
 
-//    compile('org.springframework.boot:spring-boot-starter-actuator')
-//    compile('org.springframework.boot:spring-boot-starter-web')
-
-    compile('org.springframework.boot:spring-boot-starter')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-}
-
-test {
-    // Enable JUnit 5 (Gradle 4.6+).
-    useJUnitPlatform()
-
-    // Always run tests, even when nothing changed.
-    dependsOn 'cleanTest'
-
-    // Show test results.
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
 }
