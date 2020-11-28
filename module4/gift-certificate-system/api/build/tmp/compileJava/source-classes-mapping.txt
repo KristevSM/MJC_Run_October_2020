@@ -1,33 +1,15 @@
-com/epam/esm/service/OrderServiceImpl.java
- com.epam.esm.service.OrderServiceImpl
 com/epam/esm/validator/TagValidator.java
  com.epam.esm.validator.TagValidator
+com/epam/esm/service/OrderServiceSpringData.java
+ com.epam.esm.service.OrderServiceSpringData
 com/epam/esm/service/TagServiceImpl.java
  com.epam.esm.service.TagServiceImpl
-com/epam/esm/validator/ValidationUtils.java
- com.epam.esm.validator.ValidationUtils
-com/epam/esm/validator/CertificateSearchValidator.java
- com.epam.esm.validator.CertificateSearchValidator
-com/epam/esm/controller/GiftCertificateController.java
- com.epam.esm.controller.GiftCertificateController
-com/epam/esm/service/OrderService.java
- com.epam.esm.service.OrderService
+com/epam/esm/service/GiftCertificateSpringData.java
+ com.epam.esm.service.GiftCertificateSpringData
 com/epam/esm/controller/TagController.java
  com.epam.esm.controller.TagController
 com/epam/esm/controller/OrderController.java
  com.epam.esm.controller.OrderController
-com/epam/esm/App.java
- com.epam.esm.App
-com/epam/esm/service/UserServiceImpl.java
- com.epam.esm.service.UserServiceImpl
-com/epam/esm/constants/AppConstants.java
- com.epam.esm.constants.AppConstants
-com/epam/esm/exception/InvalidInputDataException.java
- com.epam.esm.exception.InvalidInputDataException
-com/epam/esm/controller/UserController.java
- com.epam.esm.controller.UserController
-com/epam/esm/exception/FieldValidationError.java
- com.epam.esm.exception.FieldValidationError
 com/epam/esm/validator/GiftCertificateValidator.java
  com.epam.esm.validator.GiftCertificateValidator
 com/epam/esm/service/UserService.java
@@ -38,6 +20,30 @@ com/epam/esm/service/TagService.java
  com.epam.esm.service.TagService
 com/epam/esm/exception/ApiError.java
  com.epam.esm.exception.ApiError
+com/epam/esm/service/OrderServiceImpl.java
+ com.epam.esm.service.OrderServiceImpl
+com/epam/esm/validator/ValidationUtils.java
+ com.epam.esm.validator.ValidationUtils
+com/epam/esm/validator/CertificateSearchValidator.java
+ com.epam.esm.validator.CertificateSearchValidator
+com/epam/esm/controller/GiftCertificateController.java
+ com.epam.esm.controller.GiftCertificateController
+com/epam/esm/service/OrderService.java
+ com.epam.esm.service.OrderService
+com/epam/esm/App.java
+ com.epam.esm.App
+com/epam/esm/service/UserServiceSprigData.java
+ com.epam.esm.service.UserServiceSprigData
+com/epam/esm/service/UserServiceImpl.java
+ com.epam.esm.service.UserServiceImpl
+com/epam/esm/constants/AppConstants.java
+ com.epam.esm.constants.AppConstants
+com/epam/esm/exception/InvalidInputDataException.java
+ com.epam.esm.exception.InvalidInputDataException
+com/epam/esm/controller/UserController.java
+ com.epam.esm.controller.UserController
+com/epam/esm/exception/FieldValidationError.java
+ com.epam.esm.exception.FieldValidationError
 com/epam/esm/service/GiftCertificateService.java
  com.epam.esm.service.GiftCertificateService
 com/epam/esm/service/GiftCertificateServiceImpl.java

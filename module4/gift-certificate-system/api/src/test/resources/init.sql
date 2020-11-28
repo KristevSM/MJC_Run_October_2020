@@ -38,8 +38,24 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS orders (
                                   order_id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
                                   order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                  certificate_id BIGINT(10),
+                                  user_id BIGINT(10),
+                                  cost DECIMAL(12,2) NOT NULL,
 --                                   FOREIGN KEY (order_id) REFERENCES Users (user_id),
                                   PRIMARY KEY (order_id));
+
+  CREATE TABLE IF NOT EXISTS user_role (
+  user_role_id BIGINT(10) NOT NULL AUTO_INCREMENT UNIQUE,
+  name VARCHAR(45) NOT NULL UNIQUE,
+  PRIMARY KEY (user_role_id));
+
+CREATE TABLE IF NOT EXISTS users_has_user_role (
+                                          user_id bigint(10) NOT NULL,
+                                          user_role_id bigint(10) NOT NULL,
+                                          FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                                          FOREIGN KEY (user_role_id) REFERENCES user_role (user_role_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+                                          PRIMARY KEY (user_id, user_role_id)
+);
 
 INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $25', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '25', '365');
 INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $50', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '50', '365');
@@ -70,40 +86,49 @@ INSERT INTO tag (name) VALUES ('Pizza');
 INSERT INTO tag (name) VALUES ('Food');
 INSERT INTO tag (name) VALUES ('Games');
 INSERT INTO tag (name) VALUES ('Home');
---
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('1', '1');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('6', '1');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '1');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('8', '1');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('1', '2');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('6', '2');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '2');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('8', '2');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('1', '3');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('6', '3');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '3');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('8', '3');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('9', '4');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('10', '4');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('9', '5');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('10', '5');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('9', '6');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('10', '6');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('3', '7');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '7');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('3', '8');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '8');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('3', '9');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '9');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('4', '10');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '10');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('4', '11');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '11');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('4', '12');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '12');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '13');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '14');
--- INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '15');
+
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('1', '1');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('6', '1');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '1');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('8', '1');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('1', '2');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('6', '2');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '2');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('8', '2');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('1', '3');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('6', '3');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '3');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('8', '3');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('9', '4');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('10', '4');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('9', '5');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('10', '5');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('9', '6');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('10', '6');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('3', '7');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '7');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('3', '8');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '8');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('3', '9');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('7', '9');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('4', '10');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '10');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('4', '11');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '11');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('4', '12');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '12');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '13');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '14');
+INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '15');
 
 INSERT INTO users (first_name, last_name, email, password, address, date_of_birth) VALUES ('Petr', 'Petrov', 'petrov@mail.com', 'qwerty', 'Address 1', '2000-10-12');
 INSERT INTO users (first_name, last_name, email, password, address, date_of_birth) VALUES ('Ivan', 'Ivanov', 'ivanov@mail.com', 'qwerty', 'Address 2', '1990-09-17');
+insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Nanete', 'Hadwen', 'nhadwen2@issuu.com', 'nI8NIXv9GnF7', '9 Forest Dale Circle', '2001-12-15');
+insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lucias', 'Isaacs', 'lisaacs3@unc.edu', 'nxceGe', '7001 Maple Wood Avenue', '2001-04-08');
+insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Carrol', 'Pinwill', 'cpinwill4@dyndns.org', 'emBqhDlf', '63311 Norway Maple Park', '2005-08-09');
+
+INSERT INTO orders (certificate_id, user_id, cost) VALUES ('1', '1', '200');
+INSERT INTO orders (certificate_id, user_id, cost) VALUES ('2', '2', '100');
+INSERT INTO orders (certificate_id, user_id, cost) VALUES ('3', '2', '240');
+INSERT INTO orders (certificate_id, user_id, cost) VALUES ('4', '2', '300');
+INSERT INTO orders (certificate_id, user_id, cost) VALUES ('5', '2', '220');

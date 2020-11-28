@@ -55,8 +55,8 @@ public class OrderController {
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
         List<Order> orderList = orderService.getAllOrders(pageNumber, pageSizeNumber);
-        long totalCount = orderService.findOrderTotalCount();
-        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
+//        long totalCount = orderService.findOrderTotalCount();
+//        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
         for (Order order : orderList) {
             Link selfLink = linkTo(methodOn(OrderController.class)
                     .findOrderById(order.getId())).withRel("currentOrder");
@@ -71,11 +71,11 @@ public class OrderController {
                     .findAllOrders(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-        if (pageNumber < totalPages) {
-            Link nextPage = linkTo(methodOn(OrderController.class)
-                    .findAllOrders(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
-            collectionModel.add(nextPage);
-        }
+//        if (pageNumber < totalPages) {
+//            Link nextPage = linkTo(methodOn(OrderController.class)
+//                    .findAllOrders(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
+//            collectionModel.add(nextPage);
+//        }
         return collectionModel;
     }
 
@@ -132,8 +132,8 @@ public class OrderController {
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
         List<Order> orderList = orderService.getUserOrders(id, pageNumber, pageSizeNumber);
-        long totalCount = orderService.findOrderTotalCountByUserId(id);
-        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
+//        long totalCount = orderService.findOrderTotalCountByUserId(id);
+//        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
         for (Order order : orderList) {
             Link selfLink = linkTo(methodOn(OrderController.class)
                     .findOrderById(order.getId())).withRel("order");
@@ -146,11 +146,11 @@ public class OrderController {
                     .getUserOrders(id, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-        if (pageNumber < totalPages) {
-            Link nextPage = linkTo(methodOn(OrderController.class)
-                    .getUserOrders(id, Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
-            collectionModel.add(nextPage);
-        }
+//        if (pageNumber < totalPages) {
+//            Link nextPage = linkTo(methodOn(OrderController.class)
+//                    .getUserOrders(id, Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
+//            collectionModel.add(nextPage);
+//        }
         return collectionModel;
     }
 }
