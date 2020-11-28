@@ -63,16 +63,10 @@ project(':persistence') {
     }
 }
 
-project(':service') {
-    dependencies {
-        compile project(':persistence')
-    }
-}
-
 project(':web') {
     dependencies {
 
-        compile project(':service')
+        compile project(':persistence')
         compile('org.springframework.boot:spring-boot-starter-actuator')
         compile('org.springframework.boot:spring-boot-starter-web')
 

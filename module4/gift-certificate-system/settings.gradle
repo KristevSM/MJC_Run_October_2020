@@ -1,10 +1,8 @@
 rootProject.name = 'gift-certificate-system'
 include 'persistence'
-include 'service'
 include 'web'
 
 project(':persistence').projectDir = new File(settingsDir, '/persistence')
-project(':service').projectDir = new File(settingsDir, '/service')
 project(':web').projectDir = new File(settingsDir, '/web')
 
 

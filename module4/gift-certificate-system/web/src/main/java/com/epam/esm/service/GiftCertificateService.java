@@ -2,7 +2,6 @@ package com.epam.esm.service;
 
 import com.epam.esm.dao.CertificateSearchQuery;
 import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.Tag;
 
 import java.util.List;
 

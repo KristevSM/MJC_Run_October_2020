@@ -1,10 +1,12 @@
-package com.epam.esm.service;
+package esm.service;
 
 import com.epam.esm.dao.*;
 import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Order;
 import com.epam.esm.model.User;
+import com.epam.esm.service.OrderService;
+import com.epam.esm.service.OrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

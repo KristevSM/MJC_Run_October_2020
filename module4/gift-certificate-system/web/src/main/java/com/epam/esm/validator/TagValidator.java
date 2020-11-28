@@ -2,7 +2,6 @@ package com.epam.esm.validator;
 
 import com.epam.esm.model.Tag;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

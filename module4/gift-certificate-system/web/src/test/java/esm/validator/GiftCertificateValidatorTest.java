@@ -1,4 +1,4 @@
-package com.epam.esm.validator;
+package esm.validator;
 
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.validator.GiftCertificateValidator;
