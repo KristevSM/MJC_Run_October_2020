@@ -15,7 +15,7 @@ public interface GiftCertificateRepository extends JpaRepository<GiftCertificate
     @Query(value = "SELECT c FROM GiftCertificate c LEFT JOIN c.tags t WHERE t.name IN :tagNames " +
             "GROUP BY c HAVING COUNT(t.name) = :tagNamesSize")
     List<GiftCertificate> getGiftCertificatesByTagsNames(@Param("tagNames") List<String> tagNames,
-                                                         @Param("tagNamesSize") int size);
+                                                         @Param("tagNamesSize") long size);
     Optional<GiftCertificate> getCertificateByName(String name);
 
 }

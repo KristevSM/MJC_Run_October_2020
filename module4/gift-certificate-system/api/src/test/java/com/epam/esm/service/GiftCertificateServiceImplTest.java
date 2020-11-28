@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class GiftCertificateSpringDataTest {
+class GiftCertificateServiceImplTest {
 
     @Autowired
     private GiftCertificateService giftCertificateService;

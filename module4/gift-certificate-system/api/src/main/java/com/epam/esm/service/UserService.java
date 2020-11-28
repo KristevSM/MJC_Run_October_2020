@@ -7,5 +7,4 @@ import java.util.List;
 public interface UserService {
     List<User> getAllUsers(Long page, Long pageSize);
     User getUserById(Long id);
-    Long findUsersTotalCount();
 }

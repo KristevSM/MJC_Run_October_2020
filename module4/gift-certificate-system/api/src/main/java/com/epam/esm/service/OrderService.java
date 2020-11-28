@@ -10,7 +10,5 @@ public interface OrderService {
     Order makeOrder(Long userId, Long certificateId);
     void removeOrder(Long orderId);
     List<Order> getUserOrders(Long userId, Long page, Long pageSize);
-    Long findOrderTotalCountByUserId(Long userId);
-    Long findOrderTotalCount();
 
 }
