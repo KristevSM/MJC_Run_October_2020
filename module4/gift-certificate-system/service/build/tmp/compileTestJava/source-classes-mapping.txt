@@ -1,0 +1,12 @@
+com/epam/esm/validator/GiftCertificateValidatorTest.java
+ com.epam.esm.validator.GiftCertificateValidatorTest
+com/epam/esm/validator/TagValidatorTest.java
+ com.epam.esm.validator.TagValidatorTest
+com/epam/esm/service/UserServiceImplTest.java
+ com.epam.esm.service.UserServiceImplTest
+com/epam/esm/service/OrderServiceImplTest.java
+ com.epam.esm.service.OrderServiceImplTest
+com/epam/esm/service/TagServiceImplTest.java
+ com.epam.esm.service.TagServiceImplTest
+com/epam/esm/service/GiftCertificateServiceImplTest.java
+ com.epam.esm.service.GiftCertificateServiceImplTest

@@ -1,0 +1,120 @@
+group 'by.kristev'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
+}
+
+//allprojects {
+//
+//    apply plugin: "java"
+//    apply plugin: "war"
+//
+//    sourceCompatibility = JavaVersion.VERSION_1_8
+//    targetCompatibility = JavaVersion.VERSION_1_8
+//
+//}
+//
+//subprojects {
+//
+//    repositories {
+//        mavenCentral()
+//    }
+//
+//    dependencies {
+//        // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+//        compile group: 'org.springframework', name: 'spring-webmvc', version: '5.2.9.RELEASE'
+//
+//        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
+//        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
+//
+//        compileOnly 'org.projectlombok:lombok:1.18.14'
+//        annotationProcessor 'org.projectlombok:lombok:1.18.14'
+//
+//        testCompileOnly 'org.projectlombok:lombok:1.18.14'
+//        testAnnotationProcessor 'org.projectlombok:lombok:1.18.14'
+//
+//        // https://mvnrepository.com/artifact/org.springframework/spring-test
+//        testCompile group: 'org.springframework', name: 'spring-test', version: '5.2.9.RELEASE'
+//
+//        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+//        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+//        // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+//        compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.11.3'
+//
+//        // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+//        compile group: 'org.springframework', name: 'spring-jdbc', version: '5.2.9.RELEASE'
+//
+//        // https://mvnrepository.com/artifact/com.h2database/h2
+//        testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
+//
+//        // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+//        compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
+//
+//        implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
+//
+//        // https://mvnrepository.com/artifact/org.mockito/mockito-core
+//        testCompile group: 'org.mockito', name: 'mockito-core', version: '3.5.15'
+//
+//
+//
+//    }
+//
+//    test {
+//        // Enable JUnit 5 (Gradle 4.6+).
+//        useJUnitPlatform()
+//
+//        // Always run tests, even when nothing changed.
+//        dependsOn 'cleanTest'
+//
+//        // Show test results.
+//        testLogging {
+//            events "passed", "skipped", "failed"
+//        }
+//    }
+//
+//}
+//
+//project(':persistence') {
+//    dependencies {
+//
+//
+//    }
+//}
+//
+//project(':service') {
+//    dependencies {
+//        compile project(':persistence')
+//    }
+//}
+//
+//project(':web') {
+//    dependencies {
+//        // https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp
+//        compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.2.2'
+//
+//        compile project(':service')
+//
+//        // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+//        providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+////        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+////        compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
+//
+//        // https://mvnrepository.com/artifact/javax.validation/validation-api
+//        compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+//
+//        // https://mvnrepository.com/artifact/com.github.java-json-tools/json-patch
+//        compile group: 'com.github.java-json-tools', name: 'json-patch', version: '1.13'
+//
+//    }
+//}
+

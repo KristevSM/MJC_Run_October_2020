@@ -1,0 +1,1086 @@
+n23:50:59.541 [Test worker] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+™23:50:59.610 [Test worker] DEBUG org.hibernate.integrator.internal.IntegratorServiceImpl - Adding Integrator [org.hibernate.cfg.beanvalidation.BeanValidationIntegrator].
+ò23:50:59.619 [Test worker] DEBUG org.hibernate.integrator.internal.IntegratorServiceImpl - Adding Integrator [org.hibernate.secure.spi.JaccIntegrator].
+®23:50:59.635 [Test worker] DEBUG org.hibernate.integrator.internal.IntegratorServiceImpl - Adding Integrator [org.hibernate.cache.internal.CollectionCacheInvalidator].
+k23:50:59.691 [Test worker] INFO org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.22.Final
+k23:50:59.697 [Test worker] DEBUG org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+˛23:51:00.124 [Test worker] DEBUG org.hibernate.boot.jaxb.internal.stax.LocalXmlResourceResolver - Interpreting public/system identifier : [-//Hibernate/Hibernate Configuration DTD 3.0//EN] - [http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd]
+…23:51:00.125 [Test worker] DEBUG org.hibernate.boot.jaxb.internal.stax.LocalXmlResourceResolver - Recognized hibernate-configuration identifier; attempting to resolve on classpath under org/hibernate/
+∆23:51:00.134 [Test worker] DEBUG org.hibernate.boot.cfgxml.internal.JaxbCfgProcessor - cfg.xml document did not define namespaces; wrapping in custom event reader to introduce namespace information
+ó23:51:00.571 [Test worker] DEBUG org.hibernate.service.spi.ServiceBinding - Overriding existing service binding [org.hibernate.secure.spi.JaccService]
+ƒ23:51:00.596 [Test worker] DEBUG org.hibernate.cache.internal.RegionFactoryInitiator - Cannot default RegionFactory based on registered strategies as `[]` RegionFactory strategies were registered
+¢23:51:00.599 [Test worker] DEBUG org.hibernate.cache.internal.RegionFactoryInitiator - Cache region factory : org.hibernate.cache.internal.NoCachingRegionFactory
+Ñ23:51:00.642 [Test worker] INFO org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+î23:51:00.706 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration boolean -> org.hibernate.type.BooleanType@3a87ed8d
+î23:51:00.706 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration boolean -> org.hibernate.type.BooleanType@3a87ed8d
+û23:51:00.707 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Boolean -> org.hibernate.type.BooleanType@3a87ed8d
+£23:51:00.709 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration numeric_boolean -> org.hibernate.type.NumericBooleanType@488c13c8
+ò23:51:00.712 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration true_false -> org.hibernate.type.TrueFalseType@c1b81a3
+ë23:51:00.714 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration yes_no -> org.hibernate.type.YesNoType@47ffdc6e
+é23:51:00.717 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration byte -> org.hibernate.type.ByteType@11a64f25
+é23:51:00.719 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration byte -> org.hibernate.type.ByteType@11a64f25
+ò23:51:00.719 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Byte -> org.hibernate.type.ByteType@11a64f25
+ò23:51:00.721 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration character -> org.hibernate.type.CharacterType@162d6841
+ì23:51:00.721 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration char -> org.hibernate.type.CharacterType@162d6841
+¢23:51:00.722 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Character -> org.hibernate.type.CharacterType@162d6841
+ê23:51:00.725 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration short -> org.hibernate.type.ShortType@7615b1c4
+ê23:51:00.725 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration short -> org.hibernate.type.ShortType@7615b1c4
+ö23:51:00.726 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Short -> org.hibernate.type.ShortType@7615b1c4
+î23:51:00.728 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration integer -> org.hibernate.type.IntegerType@4753a946
+ê23:51:00.728 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration int -> org.hibernate.type.IntegerType@4753a946
+û23:51:00.729 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Integer -> org.hibernate.type.IntegerType@4753a946
+é23:51:00.731 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration long -> org.hibernate.type.LongType@7673c82d
+é23:51:00.732 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration long -> org.hibernate.type.LongType@7673c82d
+ò23:51:00.732 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Long -> org.hibernate.type.LongType@7673c82d
+ê23:51:00.735 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration float -> org.hibernate.type.FloatType@269590d0
+ê23:51:00.735 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration float -> org.hibernate.type.FloatType@269590d0
+ö23:51:00.736 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Float -> org.hibernate.type.FloatType@269590d0
+í23:51:00.738 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration double -> org.hibernate.type.DoubleType@616ac6e1
+í23:51:00.738 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration double -> org.hibernate.type.DoubleType@616ac6e1
+ú23:51:00.739 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Double -> org.hibernate.type.DoubleType@616ac6e1
+õ23:51:00.741 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration big_decimal -> org.hibernate.type.BigDecimalType@592eb1a5
+§23:51:00.742 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.math.BigDecimal -> org.hibernate.type.BigDecimalType@592eb1a5
+õ23:51:00.744 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration big_integer -> org.hibernate.type.BigIntegerType@2868211a
+§23:51:00.744 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.math.BigInteger -> org.hibernate.type.BigIntegerType@2868211a
+í23:51:00.745 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration string -> org.hibernate.type.StringType@19ca134d
+ú23:51:00.746 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.String -> org.hibernate.type.StringType@19ca134d
+ö23:51:00.747 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration nstring -> org.hibernate.type.StringNVarcharType@3ac9e48
+û23:51:00.748 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration ncharacter -> org.hibernate.type.CharacterNCharType@499a3943
+ã23:51:00.751 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration url -> org.hibernate.type.UrlType@9a56c5a
+î23:51:00.753 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.net.URL -> org.hibernate.type.UrlType@9a56c5a
+ï23:51:00.754 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration Duration -> org.hibernate.type.DurationType@554bfc9
+ü23:51:00.755 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.Duration -> org.hibernate.type.DurationType@554bfc9
+î23:51:00.765 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration Instant -> org.hibernate.type.InstantType@5b7e378e
+û23:51:00.766 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.Instant -> org.hibernate.type.InstantType@5b7e378e
+†23:51:00.769 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration LocalDateTime -> org.hibernate.type.LocalDateTimeType@2a77454c
+™23:51:00.770 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.LocalDateTime -> org.hibernate.type.LocalDateTimeType@2a77454c
+ò23:51:00.772 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration LocalDate -> org.hibernate.type.LocalDateType@5ffe8992
+¢23:51:00.772 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.LocalDate -> org.hibernate.type.LocalDateType@5ffe8992
+ò23:51:00.774 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration LocalTime -> org.hibernate.type.LocalTimeType@6f45057c
+¢23:51:00.774 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.LocalTime -> org.hibernate.type.LocalTimeType@6f45057c
+¢23:51:00.778 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration OffsetDateTime -> org.hibernate.type.OffsetDateTimeType@50b652e1
+¨23:51:00.778 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.OffsetDateTime -> org.hibernate.type.OffsetDateTimeType@50b652e1
+ö23:51:00.780 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration OffsetTime -> org.hibernate.type.OffsetTimeType@133a9c79
+§23:51:00.780 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.OffsetTime -> org.hibernate.type.OffsetTimeType@133a9c79
+†23:51:00.783 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration ZonedDateTime -> org.hibernate.type.ZonedDateTimeType@1fc308c5
+™23:51:00.784 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.time.ZonedDateTime -> org.hibernate.type.ZonedDateTimeType@1fc308c5
+é23:51:00.786 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration date -> org.hibernate.type.DateType@4b8e4666
+ó23:51:00.787 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Date -> org.hibernate.type.DateType@4b8e4666
+ç23:51:00.789 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration time -> org.hibernate.type.TimeType@4e1da88
+ñ23:51:00.789 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Time -> org.hibernate.type.TimeType@4e1da88
+ò23:51:00.791 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration timestamp -> org.hibernate.type.TimestampType@7b53f35a
+°23:51:00.791 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Timestamp -> org.hibernate.type.TimestampType@7b53f35a
+ù23:51:00.791 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Date -> org.hibernate.type.TimestampType@7b53f35a
+ú23:51:00.794 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration dbtimestamp -> org.hibernate.type.DbTimestampType@6ec03017
+ñ23:51:00.795 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration calendar -> org.hibernate.type.CalendarType@30fc3269
+†23:51:00.795 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Calendar -> org.hibernate.type.CalendarType@30fc3269
+©23:51:00.796 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.GregorianCalendar -> org.hibernate.type.CalendarType@30fc3269
+ü23:51:00.797 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration calendar_date -> org.hibernate.type.CalendarDateType@2ac7a660
+ü23:51:00.798 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration calendar_time -> org.hibernate.type.CalendarTimeType@3936eb40
+í23:51:00.800 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration locale -> org.hibernate.type.LocaleType@33155604
+ú23:51:00.800 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Locale -> org.hibernate.type.LocaleType@33155604
+ñ23:51:00.802 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration currency -> org.hibernate.type.CurrencyType@6161516a
+†23:51:00.802 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.Currency -> org.hibernate.type.CurrencyType@6161516a
+ñ23:51:00.804 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration timezone -> org.hibernate.type.TimeZoneType@486e9441
+†23:51:00.804 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.TimeZone -> org.hibernate.type.TimeZoneType@486e9441
+ê23:51:00.806 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration class -> org.hibernate.type.ClassType@40a45df6
+ö23:51:00.806 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Class -> org.hibernate.type.ClassType@40a45df6
+õ23:51:00.809 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration uuid-binary -> org.hibernate.type.UUIDBinaryType@3c4d18d9
+û23:51:00.809 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.util.UUID -> org.hibernate.type.UUIDBinaryType@3c4d18d9
+ó23:51:00.810 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration uuid-char -> org.hibernate.type.UUIDCharType@13206b88
+í23:51:00.812 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration binary -> org.hibernate.type.BinaryType@4cb66cb3
+í23:51:00.813 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration byte[] -> org.hibernate.type.BinaryType@4cb66cb3
+é23:51:00.813 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration [B -> org.hibernate.type.BinaryType@4cb66cb3
+°23:51:00.814 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration wrapper-binary -> org.hibernate.type.WrapperBinaryType@25ef3550
+ô23:51:00.815 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration Byte[] -> org.hibernate.type.WrapperBinaryType@25ef3550
+§23:51:00.815 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration [Ljava.lang.Byte; -> org.hibernate.type.WrapperBinaryType@25ef3550
+õ23:51:00.817 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration row_version -> org.hibernate.type.RowVersionType@341d5c2f
+ê23:51:00.818 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration image -> org.hibernate.type.ImageType@2dfe517e
+ô23:51:00.819 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration characters -> org.hibernate.type.CharArrayType@232fd6c7
+ï23:51:00.820 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration char[] -> org.hibernate.type.CharArrayType@232fd6c7
+ë23:51:00.820 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration [C -> org.hibernate.type.CharArrayType@232fd6c7
+¶23:51:00.822 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration wrapper-characters -> org.hibernate.type.CharacterArrayType@4d0fab17
+™23:51:00.822 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration [Ljava.lang.Character; -> org.hibernate.type.CharacterArrayType@4d0fab17
+ü23:51:00.822 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration Character[] -> org.hibernate.type.CharacterArrayType@4d0fab17
+é23:51:00.823 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration text -> org.hibernate.type.TextType@18616472
+ê23:51:00.825 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration ntext -> org.hibernate.type.NTextType@64d5d085
+é23:51:00.827 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration blob -> org.hibernate.type.BlobType@6f7a8703
+ó23:51:00.827 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Blob -> org.hibernate.type.BlobType@6f7a8703
+ß23:51:00.828 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration materialized_blob -> org.hibernate.type.MaterializedBlobType@43844240
+é23:51:00.830 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration clob -> org.hibernate.type.ClobType@795f0e33
+ó23:51:00.830 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.Clob -> org.hibernate.type.ClobType@795f0e33
+ê23:51:00.833 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration nclob -> org.hibernate.type.NClobType@3f030e34
+ô23:51:00.834 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.sql.NClob -> org.hibernate.type.NClobType@3f030e34
+ß23:51:00.835 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration materialized_clob -> org.hibernate.type.MaterializedClobType@3434827e
+©23:51:00.837 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration materialized_nclob -> org.hibernate.type.MaterializedNClobType@33da6896
+û23:51:00.840 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration serializable -> org.hibernate.type.SerializableType@672e9126
+í23:51:00.855 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration object -> org.hibernate.type.ObjectType@538b63e6
+ú23:51:00.855 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration java.lang.Object -> org.hibernate.type.ObjectType@538b63e6
+û23:51:00.857 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_date -> org.hibernate.type.AdaptedImmutableType@4af3123b
+û23:51:00.858 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_time -> org.hibernate.type.AdaptedImmutableType@51aa6a4e
+£23:51:00.858 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_timestamp -> org.hibernate.type.AdaptedImmutableType@4e1924e5
+•23:51:00.859 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_dbtimestamp -> org.hibernate.type.AdaptedImmutableType@72a47920
+¢23:51:00.859 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_calendar -> org.hibernate.type.AdaptedImmutableType@2014cf85
+ß23:51:00.860 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_calendar_date -> org.hibernate.type.AdaptedImmutableType@226e29d3
+†23:51:00.861 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_binary -> org.hibernate.type.AdaptedImmutableType@25570f77
+¶23:51:00.861 [Test worker] DEBUG org.hibernate.type.BasicTypeRegistry - Adding type registration imm_serializable -> org.hibernate.type.AdaptedImmutableType@74eb0f84
+º23:51:00.940 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [uuid2] -> [org.hibernate.id.UUIDGenerator]
+ª23:51:00.942 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [guid] -> [org.hibernate.id.GUIDGenerator]
+æ23:51:00.945 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [uuid] -> [org.hibernate.id.UUIDHexGenerator]
+¬23:51:00.947 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [uuid.hex] -> [org.hibernate.id.UUIDHexGenerator]
+∫23:51:00.947 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [assigned] -> [org.hibernate.id.Assigned]
+√23:51:00.953 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [identity] -> [org.hibernate.id.IdentityGenerator]
+ø23:51:00.958 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [select] -> [org.hibernate.id.SelectGenerator]
+—23:51:00.961 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [sequence] -> [org.hibernate.id.enhanced.SequenceStyleGenerator]
+∆23:51:00.964 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [seqhilo] -> [org.hibernate.id.SequenceHiLoGenerator]
+≈23:51:00.966 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [increment] -> [org.hibernate.id.IncrementGenerator]
+¡23:51:00.968 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [foreign] -> [org.hibernate.id.ForeignGenerator]
+‘23:51:00.971 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [sequence-identity] -> [org.hibernate.id.SequenceIdentityGenerator]
+⁄23:51:00.971 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [enhanced-sequence] -> [org.hibernate.id.enhanced.SequenceStyleGenerator]
+œ23:51:00.974 [Test worker] DEBUG org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory - Registering IdentifierGenerator strategy [enhanced-table] -> [org.hibernate.id.enhanced.TableGenerator]
+ò23:51:00.982 [Test worker] WARN org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+å23:51:00.991 [Test worker] INFO org.hibernate.orm.connections.pooling - HHH10001005: using driver [org.h2.Driver] at URL [jdbc:h2:mem:test]
+Å23:51:00.992 [Test worker] INFO org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {password=, user=sa}
+l23:51:00.993 [Test worker] INFO org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+¶23:51:00.996 [Test worker] DEBUG org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - Initializing Connection pool with 1 Connections
+´23:51:00.997 [Test worker] INFO org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 10 (min=1)
+o23:51:01.522 [Test worker] DEBUG org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator - Database ->
+       name : H2
+#    version : 1.4.200 (2019-10-14)
+      major : 1
+      minor : 4
+m23:51:01.522 [Test worker] DEBUG org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator - Driver ->
+       name : H2 JDBC Driver
+#    version : 1.4.200 (2019-10-14)
+      major : 1
+      minor : 4
+v23:51:01.523 [Test worker] DEBUG org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator - JDBC version : 4.1
+z23:51:01.563 [Test worker] INFO org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+≈23:51:01.649 [Test worker] DEBUG org.hibernate.engine.jdbc.env.spi.IdentifierHelperBuilder - JDBC driver metadata reported database stores quoted identifiers in neither upper, lower nor mixed case
+»23:51:01.746 [Test worker] DEBUG org.hibernate.boot.model.relational.Namespace - Created database namespace [logicalName=Name{catalog=null, schema=null}, physicalName=Name{catalog=null, schema=null}]
+Ç23:51:01.751 [Test worker] DEBUG org.hibernate.type.spi.TypeConfiguration$Scope - Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@30110543] to MetadataBuildingContext [org.hibernate.boot.internal.MetadataBuildingContextRootImpl@7a26f53a]
+é23:51:01.915 [Test worker] DEBUG org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: com.epam.esm.model.GiftCertificate
+¢23:51:01.998 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
+v23:51:02.011 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Import with entity name GiftCertificate
+ó23:51:02.021 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Bind entity com.epam.esm.model.GiftCertificate on table gift_certificate
+›23:51:02.119 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=certificate_id, insertable=true, updatable=true, unique=false}
+Ñ23:51:02.126 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property id with lazy=false
+¥23:51:02.129 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.GiftCertificate:id]
+o23:51:02.133 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for id
+e23:51:02.139 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property id
+ª23:51:02.145 [Test worker] DEBUG org.hibernate.cfg.BinderHelper - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(certificate_id)]), id, identity, , ...)
+⁄23:51:02.146 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=create_date, insertable=true, updatable=true, unique=false}
+å23:51:02.147 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property createDate with lazy=false
+º23:51:02.147 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.GiftCertificate:createDate]
+w23:51:02.148 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for createDate
+m23:51:02.148 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property createDate
+⁄23:51:02.152 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=description, insertable=true, updatable=true, unique=false}
+ç23:51:02.155 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property description with lazy=false
+Ω23:51:02.155 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.GiftCertificate:description]
+x23:51:02.156 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for description
+n23:51:02.156 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property description
+◊23:51:02.157 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=duration, insertable=true, updatable=true, unique=false}
+ä23:51:02.158 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property duration with lazy=false
+∫23:51:02.158 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.GiftCertificate:duration]
+u23:51:02.159 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for duration
+k23:51:02.160 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property duration
+ﬂ23:51:02.160 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=last_update_date, insertable=true, updatable=true, unique=false}
+ê23:51:02.161 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property lastUpdateDate with lazy=false
+¿23:51:02.162 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.GiftCertificate:lastUpdateDate]
+{23:51:02.162 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for lastUpdateDate
+q23:51:02.163 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property lastUpdateDate
+”23:51:02.163 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=name, insertable=true, updatable=true, unique=false}
+Ü23:51:02.164 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property name with lazy=false
+∂23:51:02.164 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.GiftCertificate:name]
+q23:51:02.165 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for name
+g23:51:02.165 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property name
+Æ23:51:02.169 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='giftCertificate'}
+’23:51:02.171 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=orders, insertable=true, updatable=true, unique=false}
+”23:51:02.176 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=null, insertable=true, updatable=true, unique=false}
+÷23:51:02.192 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=element, insertable=true, updatable=true, unique=false}
+Ÿ23:51:02.193 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=orders_KEY, insertable=true, updatable=true, unique=false}
+©23:51:02.195 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='orders_KEY', referencedColumn='null', mappedBy='null'}
+Æ23:51:02.196 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='giftCertificate'}
+Æ23:51:02.196 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='giftCertificate'}
+ç23:51:02.197 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Collection role: com.epam.esm.model.GiftCertificate.orders
+i23:51:02.207 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property orders
+‘23:51:02.208 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=price, insertable=true, updatable=true, unique=false}
+á23:51:02.209 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property price with lazy=false
+∑23:51:02.210 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.GiftCertificate:price]
+r23:51:02.210 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for price
+h23:51:02.211 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property price
+”23:51:02.212 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=null, insertable=true, updatable=true, unique=false}
+÷23:51:02.213 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=element, insertable=true, updatable=true, unique=false}
+◊23:51:02.214 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(gift_certificate), mappingColumn=tags_KEY, insertable=true, updatable=true, unique=false}
+ß23:51:02.214 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='tags_KEY', referencedColumn='null', mappedBy='null'}
+™23:51:02.216 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='gift_certificate_id', referencedColumn='', mappedBy=''}
+ù23:51:02.217 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='tag_id', referencedColumn='', mappedBy=''}
+ã23:51:02.218 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Collection role: com.epam.esm.model.GiftCertificate.tags
+g23:51:02.219 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property tags
+Ç23:51:02.223 [Test worker] DEBUG org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: com.epam.esm.model.Tag
+¢23:51:02.224 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
+j23:51:02.224 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Import with entity name Tag
+~23:51:02.225 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Bind entity com.epam.esm.model.Tag on table tag
+»23:51:02.231 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(tag), mappingColumn=tag_id, insertable=true, updatable=true, unique=false}
+Ñ23:51:02.231 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property id with lazy=false
+®23:51:02.232 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.Tag:id]
+o23:51:02.232 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for id
+e23:51:02.234 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property id
+≥23:51:02.234 [Test worker] DEBUG org.hibernate.cfg.BinderHelper - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(tag_id)]), id, identity, , ...)
+∆23:51:02.235 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(tag), mappingColumn=null, insertable=true, updatable=true, unique=false}
+…23:51:02.236 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(tag), mappingColumn=element, insertable=true, updatable=true, unique=false}
+“23:51:02.236 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(tag), mappingColumn=certificates_KEY, insertable=true, updatable=true, unique=false}
+Ø23:51:02.237 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='certificates_KEY', referencedColumn='null', mappedBy='null'}
+£23:51:02.237 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='tags'}
+£23:51:02.238 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='tags'}
+á23:51:02.240 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Collection role: com.epam.esm.model.Tag.certificates
+o23:51:02.241 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property certificates
+∆23:51:02.243 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(tag), mappingColumn=name, insertable=true, updatable=true, unique=false}
+Ü23:51:02.243 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property name with lazy=false
+™23:51:02.244 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.Tag:name]
+q23:51:02.245 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for name
+g23:51:02.245 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property name
+Ñ23:51:02.252 [Test worker] DEBUG org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: com.epam.esm.model.Order
+¢23:51:02.256 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
+l23:51:02.258 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Import with entity name Order
+É23:51:02.260 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Bind entity com.epam.esm.model.Order on table orders
+Ã23:51:02.270 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(orders), mappingColumn=order_id, insertable=true, updatable=true, unique=true}
+Ñ23:51:02.271 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property id with lazy=false
+™23:51:02.277 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.Order:id]
+o23:51:02.277 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for id
+e23:51:02.278 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property id
+µ23:51:02.279 [Test worker] DEBUG org.hibernate.cfg.BinderHelper - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(order_id)]), id, identity, , ...)
+…23:51:02.281 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(orders), mappingColumn=cost, insertable=true, updatable=true, unique=false}
+Ü23:51:02.282 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property cost with lazy=false
+¨23:51:02.283 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.Order:cost]
+q23:51:02.284 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for cost
+g23:51:02.284 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property cost
+•23:51:02.285 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='certificate_id', referencedColumn='', mappedBy=''}
+‘23:51:02.286 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(orders), mappingColumn=giftCertificate, insertable=true, updatable=true, unique=false}
+r23:51:02.292 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property giftCertificate
+œ23:51:02.295 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(orders), mappingColumn=order_date, insertable=true, updatable=true, unique=false}
+ã23:51:02.295 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property orderDate with lazy=false
+±23:51:02.296 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.Order:orderDate]
+v23:51:02.297 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for orderDate
+l23:51:02.298 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property orderDate
+û23:51:02.298 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='user_id', referencedColumn='', mappedBy=''}
+…23:51:02.299 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(orders), mappingColumn=user, insertable=true, updatable=true, unique=false}
+g23:51:02.300 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property user
+É23:51:02.300 [Test worker] DEBUG org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: com.epam.esm.model.User
+¢23:51:02.301 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3DiscriminatorColumn{logicalColumnName'DTYPE', discriminatorTypeName='string'}
+k23:51:02.301 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Import with entity name User
+Å23:51:02.302 [Test worker] DEBUG org.hibernate.cfg.annotations.EntityBinder - Bind entity com.epam.esm.model.User on table users
+ 23:51:02.306 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=user_id, insertable=true, updatable=true, unique=true}
+Ñ23:51:02.306 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property id with lazy=false
+©23:51:02.306 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.User:id]
+o23:51:02.307 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for id
+e23:51:02.307 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property id
+¥23:51:02.308 [Test worker] DEBUG org.hibernate.cfg.BinderHelper - #makeIdGenerator(org.hibernate.mapping.SimpleValue([org.hibernate.mapping.Column(user_id)]), id, identity, , ...)
+À23:51:02.309 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=address, insertable=true, updatable=true, unique=false}
+â23:51:02.309 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property address with lazy=false
+Æ23:51:02.310 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.User:address]
+t23:51:02.310 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for address
+j23:51:02.311 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property address
+—23:51:02.311 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=date_of_birth, insertable=true, updatable=true, unique=false}
+ç23:51:02.312 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property dateOfBirth with lazy=false
+≤23:51:02.312 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.User:dateOfBirth]
+x23:51:02.313 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for dateOfBirth
+n23:51:02.313 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property dateOfBirth
+…23:51:02.314 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=email, insertable=true, updatable=true, unique=false}
+á23:51:02.314 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property email with lazy=false
+¨23:51:02.314 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.User:email]
+r23:51:02.314 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for email
+h23:51:02.314 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property email
+Œ23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=first_name, insertable=true, updatable=true, unique=false}
+ã23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property firstName with lazy=false
+∞23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.User:firstName]
+v23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for firstName
+l23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property firstName
+Õ23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=last_name, insertable=true, updatable=true, unique=false}
+ä23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property lastName with lazy=false
+Ø23:51:02.315 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.User:lastName]
+u23:51:02.316 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for lastName
+k23:51:02.316 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property lastName
+£23:51:02.316 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='user'}
+ 23:51:02.317 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=orders, insertable=true, updatable=true, unique=false}
+»23:51:02.318 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=null, insertable=true, updatable=true, unique=false}
+À23:51:02.319 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=element, insertable=true, updatable=true, unique=false}
+Œ23:51:02.320 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=orders_KEY, insertable=true, updatable=true, unique=false}
+©23:51:02.321 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='orders_KEY', referencedColumn='null', mappedBy='null'}
+£23:51:02.321 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='user'}
+£23:51:02.322 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3JoinColumn{logicalColumnName='null', referencedColumn='null', mappedBy='user'}
+Ç23:51:02.322 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Collection role: com.epam.esm.model.User.orders
+i23:51:02.322 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property orders
+Ã23:51:02.323 [Test worker] DEBUG org.hibernate.cfg.Ejb3Column - Binding column: Ejb3Column{table=org.hibernate.mapping.Table(users), mappingColumn=password, insertable=true, updatable=true, unique=false}
+ä23:51:02.323 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - MetadataSourceProcessor property password with lazy=false
+Ø23:51:02.324 [Test worker] DEBUG org.hibernate.cfg.AbstractPropertyHolder - Attempting to locate auto-apply AttributeConverter for property [com.epam.esm.model.User:password]
+u23:51:02.324 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - building SimpleValue for password
+k23:51:02.325 [Test worker] DEBUG org.hibernate.cfg.annotations.PropertyBinder - Building property password
+s23:51:02.329 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for id
+{23:51:02.330 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for createDate
+|23:51:02.330 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for description
+y23:51:02.335 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for duration
+23:51:02.341 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for lastUpdateDate
+u23:51:02.343 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for name
+v23:51:02.344 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for price
+s23:51:02.345 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for id
+u23:51:02.346 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for name
+s23:51:02.352 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for id
+u23:51:02.353 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for cost
+z23:51:02.354 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for orderDate
+s23:51:02.355 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for id
+x23:51:02.356 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for address
+|23:51:02.358 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for dateOfBirth
+v23:51:02.359 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for email
+z23:51:02.359 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for firstName
+y23:51:02.360 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for lastName
+y23:51:02.360 [Test worker] DEBUG org.hibernate.cfg.annotations.SimpleValueBinder - Starting fillSimpleValue for password
+±23:51:02.370 [Test worker] DEBUG org.hibernate.mapping.PrimaryKey - Forcing column [certificate_id] to be non-null as it is part of the primary key for table [gift_certificate]
+ú23:51:02.371 [Test worker] DEBUG org.hibernate.mapping.PrimaryKey - Forcing column [tag_id] to be non-null as it is part of the primary key for table [tag]
+°23:51:02.371 [Test worker] DEBUG org.hibernate.mapping.PrimaryKey - Forcing column [order_id] to be non-null as it is part of the primary key for table [orders]
+ü23:51:02.371 [Test worker] DEBUG org.hibernate.mapping.PrimaryKey - Forcing column [user_id] to be non-null as it is part of the primary key for table [users]
+é23:51:02.371 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Second pass for collection: com.epam.esm.model.GiftCertificate.tags
+ë23:51:02.372 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Binding as ManyToMany: com.epam.esm.model.GiftCertificate.tags
+Ü23:51:02.376 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Mapped collection key: gift_certificate_id, element: tag_id
+ê23:51:02.376 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Second pass for collection: com.epam.esm.model.GiftCertificate.orders
+ß23:51:02.377 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Binding a OneToMany: com.epam.esm.model.GiftCertificate.orders through a foreign key
+ö23:51:02.378 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: com.epam.esm.model.GiftCertificate.orders -> orders
+ä23:51:02.379 [Test worker] DEBUG org.hibernate.cfg.annotations.TableBinder - Retrieving property com.epam.esm.model.Order.giftCertificate
+ó23:51:02.379 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Mapped collection key: certificate_id, one-to-many: com.epam.esm.model.Order
+ä23:51:02.380 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Second pass for collection: com.epam.esm.model.Tag.certificates
+ç23:51:02.381 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Binding as ManyToMany: com.epam.esm.model.Tag.certificates
+â23:51:02.381 [Test worker] DEBUG org.hibernate.cfg.annotations.TableBinder - Retrieving property com.epam.esm.model.GiftCertificate.tags
+Ü23:51:02.381 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Mapped collection key: tag_id, element: gift_certificate_id
+Ö23:51:02.382 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Second pass for collection: com.epam.esm.model.User.orders
+ú23:51:02.382 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Binding a OneToMany: com.epam.esm.model.User.orders through a foreign key
+è23:51:02.382 [Test worker] DEBUG org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: com.epam.esm.model.User.orders -> orders
+23:51:02.382 [Test worker] DEBUG org.hibernate.cfg.annotations.TableBinder - Retrieving property com.epam.esm.model.Order.user
+ê23:51:02.382 [Test worker] DEBUG org.hibernate.cfg.CollectionSecondPass - Mapped collection key: user_id, one-to-many: com.epam.esm.model.Order
+û23:51:02.383 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.GiftCertificate
+ì23:51:02.390 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.User
+í23:51:02.392 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.Tag
+û23:51:02.392 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.GiftCertificate
+û23:51:02.397 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.GiftCertificate
+ì23:51:02.398 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.User
+í23:51:02.398 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.Tag
+û23:51:02.398 [Test worker] DEBUG org.hibernate.boot.internal.InFlightMetadataCollectorImpl - Resolving reference to class: com.epam.esm.model.GiftCertificate
+f23:51:02.515 [Test worker] DEBUG org.hibernate.internal.SessionFactoryImpl - Building session factory
+Y23:51:02.520 [Test worker] DEBUG org.hibernate.cfg.Settings - SessionFactory name : null
+q23:51:02.520 [Test worker] DEBUG org.hibernate.cfg.Settings - Automatic flush during beforeCompletion(): enabled
+v23:51:02.527 [Test worker] DEBUG org.hibernate.cfg.Settings - Automatic session close at end of transaction: disabled
+S23:51:02.529 [Test worker] DEBUG org.hibernate.cfg.Settings - Statistics: disabled
+u23:51:02.530 [Test worker] DEBUG org.hibernate.cfg.Settings - Deleted entity synthetic identifier rollback: disabled
+X23:51:02.531 [Test worker] DEBUG org.hibernate.cfg.Settings - Default entity-mode: pojo
+ë23:51:02.536 [Test worker] DEBUG org.hibernate.cfg.Settings - Check Nullability in Core (should be disabled when Bean Validation is on): enabled
+{23:51:02.538 [Test worker] DEBUG org.hibernate.cfg.Settings - Allow initialization of lazy state outside session : enabled
+]23:51:02.538 [Test worker] DEBUG org.hibernate.cfg.Settings - Using BatchFetchStyle : LEGACY
+[23:51:02.538 [Test worker] DEBUG org.hibernate.cfg.Settings - Default batch fetch size: -1
+c23:51:02.538 [Test worker] DEBUG org.hibernate.cfg.Settings - Maximum outer join fetch depth: null
+Z23:51:02.539 [Test worker] DEBUG org.hibernate.cfg.Settings - Default null ordering: NONE
+i23:51:02.539 [Test worker] DEBUG org.hibernate.cfg.Settings - Order SQL updates by primary key: disabled
+g23:51:02.539 [Test worker] DEBUG org.hibernate.cfg.Settings - Order SQL inserts for batching: disabled
+\23:51:02.540 [Test worker] DEBUG org.hibernate.cfg.Settings - multi-tenancy strategy : NONE
+[23:51:02.541 [Test worker] DEBUG org.hibernate.cfg.Settings - JTA Track by Thread: enabled
+_23:51:02.541 [Test worker] DEBUG org.hibernate.cfg.Settings - Query language substitutions: {}
+]23:51:02.543 [Test worker] DEBUG org.hibernate.cfg.Settings - Named query checking : enabled
+[23:51:02.545 [Test worker] DEBUG org.hibernate.cfg.Settings - Second-level cache: disabled
+a23:51:02.547 [Test worker] DEBUG org.hibernate.cfg.Settings - Second-level query cache: disabled
+e23:51:02.547 [Test worker] DEBUG org.hibernate.cfg.Settings - Second-level query cache factory: null
+e23:51:02.548 [Test worker] DEBUG org.hibernate.cfg.Settings - Second-level cache region prefix: null
+u23:51:02.550 [Test worker] DEBUG org.hibernate.cfg.Settings - Optimize second-level cache for minimal puts: disabled
+n23:51:02.551 [Test worker] DEBUG org.hibernate.cfg.Settings - Structured second-level cache entries: disabled
+t23:51:02.553 [Test worker] DEBUG org.hibernate.cfg.Settings - Second-level cache direct-reference entries: disabled
+o23:51:02.553 [Test worker] DEBUG org.hibernate.cfg.Settings - Automatic eviction of collection cache: disabled
+R23:51:02.554 [Test worker] DEBUG org.hibernate.cfg.Settings - JDBC batch size: 15
+m23:51:02.554 [Test worker] DEBUG org.hibernate.cfg.Settings - JDBC batch updates for versioned data: enabled
+^23:51:02.554 [Test worker] DEBUG org.hibernate.cfg.Settings - Scrollable result sets: enabled
+Y23:51:02.555 [Test worker] DEBUG org.hibernate.cfg.Settings - Wrap result sets: disabled
+`23:51:02.555 [Test worker] DEBUG org.hibernate.cfg.Settings - JDBC3 getGeneratedKeys(): enabled
+_23:51:02.555 [Test worker] DEBUG org.hibernate.cfg.Settings - JDBC result set fetch size: null
+i23:51:02.555 [Test worker] DEBUG org.hibernate.cfg.Settings - Connection release mode: AFTER_TRANSACTION
+c23:51:02.555 [Test worker] DEBUG org.hibernate.cfg.Settings - Generate SQL with comments: disabled
+`23:51:02.556 [Test worker] DEBUG org.hibernate.cfg.Settings - JPA compliance - query : disabled
+j23:51:02.556 [Test worker] DEBUG org.hibernate.cfg.Settings - JPA compliance - closed-handling : disabled
+`23:51:02.556 [Test worker] DEBUG org.hibernate.cfg.Settings - JPA compliance - lists : disabled
+g23:51:02.556 [Test worker] DEBUG org.hibernate.cfg.Settings - JPA compliance - transactions : disabled
+â23:51:02.710 [Test worker] DEBUG org.hibernate.internal.SessionFactoryImpl - Session factory constructed with filter configurations : {}
+˚â23:51:02.710 [Test worker] DEBUG org.hibernate.internal.SessionFactoryImpl - Instantiating session factory with properties: {gopherProxySet=false, awt.toolkit=sun.lwawt.macosx.LWCToolkit, dialect=org.hibernate.dialect.H2Dialect, java.specification.version=11, sun.cpu.isalist=, hibernate.dbcp.maxIdle=10, sun.jnu.encoding=UTF-8, hibernate.dialect=org.hibernate.dialect.H2Dialect, org.gradle.test.worker=7, java.class.path=/Users/sergeikristev/.gradle/caches/6.5/workerMain/gradle-worker.jar:/Users/sergeikristev/IdeaProjects/MJC_Run_October_2020/module2/gift-certificate-system/persistence/build/classes/java/test:/Users/sergeikristev/IdeaProjects/MJC_Run_October_2020/module2/gift-certificate-system/persistence/build/resources/test:/Users/sergeikristev/IdeaProjects/MJC_Run_October_2020/module2/gift-certificate-system/persistence/build/classes/java/main:/Users/sergeikristev/IdeaProjects/MJC_Run_October_2020/module2/gift-certificate-system/persistence/build/resources/main:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-data-jpa/2.3.5.RELEASE/80e9c92e45ab9e97c757a772dbef0c98062ff523/spring-boot-starter-data-jpa-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-jdbc/2.3.5.RELEASE/47b034686ac244de05635297b14e6912594598ed/spring-boot-starter-jdbc-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-test/2.3.5.RELEASE/7d024e47f30cabb26953b1001bcd2f27fdce3693/spring-boot-starter-test-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-aop/2.3.5.RELEASE/c935777688d9f6b83f00f9e91b9b879ae53b58d1/spring-boot-starter-aop-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-hateoas/2.3.5.RELEASE/20293cc80868030721e238202c482b9a97328379/spring-boot-starter-hateoas-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-web/2.3.5.RELEASE/b74a4d0ff61c5defc54d18486e246dafe072ef21/spring-boot-starter-web-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-json/2.3.5.RELEASE/fc731d8bf9b170fe4decb9aa1deb804ac4188239/spring-boot-starter-json-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter/2.3.5.RELEASE/620af49aa19d9c53c37895194af4de2574ace560/spring-boot-starter-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/8.0.21/53fd3a0887667aae7e40a3439fff2d03d93ec4c2/mysql-connector-java-8.0.21.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.h2database/h2/1.4.200/f7533fe7cb8e99c87a43d325a77b4b678ad9031a/h2-1.4.200.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-test-autoconfigure/2.3.5.RELEASE/40c5dad9f5de7d99515c2a7aa693b94b2838a3cf/spring-boot-test-autoconfigure-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-autoconfigure/2.3.5.RELEASE/c7c3eda5d27ec5ee45994c9bafb6e1b9362fbafd/spring-boot-autoconfigure-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-test/2.3.5.RELEASE/a1d4f9871936d21754a89f4fa65fbe87ed68ea3e/spring-boot-test-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot/2.3.5.RELEASE/1c4cd722b0ae9a2e8ad984fff56c43c7cfb24496/spring-boot-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-logging/2.3.5.RELEASE/921c53d1b34b93d9bcc3bdd043982cf2c16bdb01/spring-boot-starter-logging-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-tomcat/2.3.5.RELEASE/95767769e6b15a85860e920dc36e838512c20b75/spring-boot-starter-tomcat-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/1.3.5/59eb84ee0d616332ff44aba065f3888cf002cd2d/jakarta.annotation-api-1.3.5.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.3.5.RELEASE/dfcf77ef4171adf41e98236412ffa65ff6224c4f/spring-data-jpa-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-orm/5.2.10.RELEASE/776384b37665f4b8022a65a2dc1cd3bb1172b3b7/spring-orm-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/5.2.10.RELEASE/a5c855649a53a81d63f51947a0a9e083b25fe705/spring-jdbc-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.hateoas/spring-hateoas/1.1.2.RELEASE/f1a96f37be285bd4f839c1fa55adad4bd763f476/spring-hateoas-1.1.2.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/5.2.10.RELEASE/dc0d631468fd62866359dd5a40e2cc8708228537/spring-test-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/5.2.10.RELEASE/efbd76044be879472b2e6dc5cfa715587f38d447/spring-webmvc-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.plugin/spring-plugin-core/2.0.0.RELEASE/95fc8c13037630f4aba9c51141f535becec00fe6/spring-plugin-core-2.0.0.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/5.2.10.RELEASE/e43d1bb3b7387eebba96c00a63da8116f76e9426/spring-context-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/5.2.10.RELEASE/9dd79d3d5197420c3fd44b9d1810f4c6633784e8/spring-tx-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/5.2.10.RELEASE/b875a6bce7b6b0040816f1fb945f5fd9557e1205/spring-aop-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.3.5.RELEASE/14ce7b472a335a96271d217bbcaac2b217db6700/spring-data-commons-2.3.5.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/5.2.10.RELEASE/7b494eab9ea8103d79813768fe4b7e7ac6d5e4b0/spring-web-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/5.2.10.RELEASE/88d4eb1380940163b7cbfe1f991158f4a4cd7058/spring-beans-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/5.2.10.RELEASE/4a863c13e8b263a1f867258b43443df7480702d1/spring-expression-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/5.2.10.RELEASE/29423e9f1d766eb4f4e3516211877f361fe3169f/spring-core-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.26/a78a8747147d2c5807683e76ec2b633e95c14fe9/snakeyaml-1.26.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.zaxxer/HikariCP/3.4.5/aa1a2c00aae8e4ba8308e19940711bb9525b103d/HikariCP-3.4.5.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/jakarta.transaction/jakarta.transaction-api/1.3.3/c4179d48720a1e87202115fbed6089bdc4195405/jakarta.transaction-api-1.3.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/jakarta.persistence/jakarta.persistence-api/2.2.3/8f6ea5daedc614f07a3654a455660145286f024e/jakarta.persistence-api-2.2.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/5.4.22.Final/3171ee075e69d4be3a39cbadcad9db3c2c0f2681/hibernate-core-5.4.22.Final.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aspects/5.2.10.RELEASE/2b5fd79ba114a7086613ada4c3b2c0d357a5f9a1/spring-aspects-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.jayway.jsonpath/json-path/2.4.0/765a4401ceb2dc8d40553c2075eb80a8fa35c2ae/json-path-2.4.0.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/jaxb-runtime/2.3.3/c46b68a6e3a2d84ba4eb14c6a8a1a9a7be4048bc/jaxb-runtime-2.3.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/jakarta.xml.bind/jakarta.xml.bind-api/2.3.3/48e3b9cfc10752fba3521d6511f4165bea951801/jakarta.xml.bind-api-2.3.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.assertj/assertj-core/3.16.1/6e772120aff69ca3d1583b3d1b36b7529de43ba1/assertj-core-3.16.1.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest/2.2/1820c0968dba3a11a1b30669bb1f01978a91dedc/hamcrest-2.2.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.junit.vintage/junit-vintage-engine/5.6.3/b5899eb399c36350d575ea2cbf2265bbcbfa592b/junit-vintage-engine-5.6.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-junit-jupiter/3.3.3/1176ce43cf773e11a5a318ff04e57e55f9187347/mockito-junit-jupiter-3.3.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-params/5.6.3/fb4a394249d18d56d6f527b7c547cb400037a016/junit-jupiter-params-5.6.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-engine/5.6.3/234f250d1608684c4436d72214e7530f23cb8a03/junit-jupiter-engine-5.6.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter-api/5.6.3/73ea5e2b7f112616315d3e2325a98e6e93c2813a/junit-jupiter-api-5.6.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-engine/1.6.3/a926b9bbc7fe67c5795ee1f00cc1b618b313e5ce/junit-platform-engine-1.6.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.junit.platform/junit-platform-commons/1.6.3/7ce526bbb9e6202e8a30140a50bfff644fddd10e/junit-platform-commons-1.6.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.junit.jupiter/junit-jupiter/5.6.3/e02aa6453c90c8fb12a88212df94d477dc97ad9b/junit-jupiter-5.6.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/3.3.3/4878395d4e63173f3825e17e5e0690e8054445f1/mockito-core-3.3.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.skyscreamer/jsonassert/1.5.0/6c9d5fe2f59da598d9aefc1cfc6528ff3cf32df3/jsonassert-1.5.0.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.xmlunit/xmlunit-core/2.7.0/4d014eac96329c70175116b185749765cee0aad5/xmlunit-core-2.7.0.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-classic/1.2.3/7c4f3c474fb2c041d8028740440937705ebb473a/logback-classic-1.2.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-to-slf4j/2.13.3/966f6fd1af4959d6b12bfa880121d4a2b164f857/log4j-to-slf4j-2.13.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.slf4j/jul-to-slf4j/1.7.30/d58bebff8cbf70ff52b59208586095f467656c30/jul-to-slf4j-1.7.30.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jcl/5.2.10.RELEASE/1cd2f1347ce808fe3564b7600e5f89ae2f42024e/spring-jcl-5.2.10.RELEASE.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.30/b5a4b6d16ab13e34a88fae84c35cd5d68cac922c/slf4j-api-1.7.30.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjweaver/1.9.6/ee3b73aa16df35179255f17354d9dfd8e7822835/aspectjweaver-1.9.6.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.hibernate.common/hibernate-commons-annotations/5.1.0.Final/700aeedc4a2089816621948f0379e17cbd17d5db/hibernate-commons-annotations-5.1.0.Final.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.4.1.Final/40fd4d696c55793e996d1ff3c475833f836c2498/jboss-logging-3.4.1.Final.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.24.0-GA/d7466fc2e3af7c023e95c510f06448ad29b225b3/javassist-3.24.0-GA.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy/1.10.17/7ed0da3ca193fa4c2d1ae0d45b28fa45e63acc6e/byte-buddy-1.10.17.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/antlr/antlr/2.7.7/83cd2cd674a217ade95a4bb83a8a14f351f48bd0/antlr-2.7.7.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.jboss/jandex/2.1.3.Final/cd56603e39eb1421560b71daa584348ecfd9e0b8/jandex-2.1.3.Final.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.fasterxml/classmate/1.5.1/3fe0bed568c62df5e89f4f174c101eab25345b6c/classmate-1.5.1.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.dom4j/dom4j/2.1.3/a75914155a9f5808963170ec20653668a2ffd2fd/dom4j-2.1.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/net.minidev/json-smart/2.3/7396407491352ce4fa30de92efb158adb76b5b/json-smart-2.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/jakarta.activation/jakarta.activation-api/1.2.2/99f53adba383cb1bf7c3862844488574b559621f/jakarta.activation-api-1.2.2.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.apiguardian/apiguardian-api/1.1.0/fc9dff4bb36d627bdc553de77e1f17efd790876c/apiguardian-api-1.1.0.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/junit/junit/4.13.1/cdd00374f1fee76b11e2a9d127405aa3f6be5b6a/junit-4.13.1.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.10.17/ab5bb1199fe138c575f254e746b177d0e662e51b/byte-buddy-agent-1.10.17.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/2.6/639033469776fd37c08358c6b92a4761feb2af4b/objenesis-2.6.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.vaadin.external.google/android-json/0.0.20131108.vaadin1/fa26d351fe62a6a17f5cda1287c1c6110dec413f/android-json-0.0.20131108.vaadin1.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/ch.qos.logback/logback-core/1.2.3/864344400c3d4d92dfeb0a305dc87d953677c03c/logback-core-1.2.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.13.3/ec1508160b93d274b1add34419b897bae84c6ca9/log4j-api-2.13.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.glassfish.jaxb/txw2/2.3.3/12f70b0ea4fc1ad45315e842f63f7c9a46f46530/txw2-2.3.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.sun.istack/istack-commons-runtime/3.0.11/4293b5f4e4e89d598f62bb2ba73b32132e7c3a27/istack-commons-runtime-3.0.11.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.sun.activation/jakarta.activation/1.2.2/74548703f9851017ce2f556066659438019e7eb5/jakarta.activation-1.2.2.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.11.3/dcdfce3e4af9da18d69b1be6f3d7c91256105831/jackson-datatype-jdk8-2.11.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.11.3/dd53d93fd448b345eeb75bec336d9c91dc56b796/jackson-datatype-jsr310-2.11.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-parameter-names/2.11.3/ab66d5c5b8008161ae89be8a3d98efff9ef1b915/jackson-module-parameter-names-2.11.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.11.3/4f7b27416934dc929bb6c2d2c5fe521829e6a4ec/jackson-databind-2.11.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-websocket/9.0.39/7b9607722206ba3045331159a29deb1ffc0f2cdf/tomcat-embed-websocket-9.0.39.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/9.0.39/d82e926b31f06e96fccf552e41f1b8b1615d96dc/tomcat-embed-core-9.0.39.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.glassfish/jakarta.el/3.0.3/dab46ee1ee23f7197c13d7c40fce14817c9017df/jakarta.el-3.0.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/net.minidev/accessors-smart/1.2/c592b500269bfde36096641b01238a8350f8aa31/accessors-smart-1.2.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.opentest4j/opentest4j/1.2.0/28c11eb91f9b6d8e200631d46e20a7f407f2a046/opentest4j-1.2.0.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.11.3/25d4e9c777e7a8805c4a000a8629d3009c779c9b/jackson-annotations-2.11.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.11.3/c2351800432bdbdd8284c3f5a7f0782a352aa84a/jackson-core-2.11.3.jar:/Users/sergeikristev/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.4/da08b8cce7bbf903602a25a3a163ae252435795/asm-5.0.4.jar, java.vm.vendor=Oracle Corporation, sun.arch.data.model=64, hbm2ddl.auto=create-drop, user.variant=, java.vendor.url=http://java.oracle.com/, user.timezone=Europe/Minsk, hibernate.dbcp.maxWaitMillis=-1, os.name=Mac OS X, java.vm.specification.version=11, user.country=BY, sun.java.launcher=SUN_STANDARD, sun.boot.library.path=/Library/Java/JavaVirtualMachines/jdk-11.0.6.jdk/Contents/Home/lib, sun.java.command=worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 7', http.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, jdk.debug=release, sun.cpu.endian=little, user.home=/Users/sergeikristev, user.language=ru, java.specification.vendor=Oracle Corporation, org.gradle.native=false, java.version.date=2020-01-14, java.home=/Library/Java/JavaVirtualMachines/jdk-11.0.6.jdk/Contents/Home, file.separator=/, java.vm.compressedOopsMode=Zero based, line.separator=
+∏, java.specification.name=Java Platform API Specification, java.vm.specification.vendor=Oracle Corporation, java.awt.graphicsenv=sun.awt.CGraphicsEnvironment, hibernate.hbm2ddl.auto=create-drop, connection.password=, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, ftp.nonProxyHosts=local|*.local|169.254/16|*.169.254/16, java.runtime.version=11.0.6+8-LTS, user.name=sergeikristev, path.separator=:, hibernate.connection.username=****, hibernate.dbcp.minIdle=5, os.version=10.15.2, hibernate.enable_lazy_load_no_trans=true, java.runtime.name=Java(TM) SE Runtime Environment, hibernate.connection.url=jdbc:h2:mem:test, connection.pool_size=10, file.encoding=UTF-8, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, hibernate.show_sql=true, java.vendor.version=18.9, hibernate.dbcp.initialSize=5, hibernate.dbcp.maxTotal=20, hibernate.current_session_context_class=org.springframework.orm.hibernate5.SpringSessionContext, show_sql=true, hibernate.connection.driver_class=org.h2.Driver, java.vendor.url.bug=http://bugreport.java.com/bugreport/, java.io.tmpdir=/var/folders/xp/yf9dhcmj7gz00hdpcrw8x0v80000gn/T/, java.version=11.0.6, user.dir=/Users/sergeikristev/IdeaProjects/MJC_Run_October_2020/module2/gift-certificate-system/persistence, os.arch=x86_64, connection.username=sa, java.vm.specification.name=Java Virtual Machine Specification, java.awt.printerjob=sun.lwawt.macosx.CPrinterJob, hibernate.connection.password=****, sun.os.patch.level=unknown, connection.driver_class=org.h2.Driver, hibernate.boot.CfgXmlAccessService.key=org.hibernate.boot.cfgxml.spi.LoadedConfig@4337f0fe, java.library.path=/Users/sergeikristev/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:., java.vendor=Oracle Corporation, java.vm.info=mixed mode, java.vm.version=11.0.6+8-LTS, hibernate.bytecode.use_reflection_optimizer=false, sun.io.unicode.encoding=UnicodeBig, hibernate.connection.pool_size=10, hibernate.hbm2ddl.import_files=/data_script.sql, socksNonProxyHosts=local|*.local|169.254/16|*.169.254/16, java.class.version=55.0}
+{23:51:02.749 [Test worker] DEBUG org.hibernate.secure.spi.JaccIntegrator - Skipping JACC integration as it was not enabled
+j23:51:02.752 [Test worker] DEBUG org.hibernate.internal.SessionFactoryImpl - Instantiated session factory
+Î23:51:02.753 [Test worker] DEBUG org.hibernate.type.spi.TypeConfiguration$Scope - Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@30110543] to SessionFactoryImpl [org.hibernate.internal.SessionFactoryImpl@73fc7b90]
+¶23:51:02.838 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.GiftCertificate] is safe
+‘23:51:02.838 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.GiftCertificate
+¶23:51:02.906 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.GiftCertificate] is safe
+‘23:51:02.906 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.GiftCertificate
+õ23:51:03.442 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.User] is safe
+…23:51:03.442 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.User
+õ23:51:03.443 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.User] is safe
+…23:51:03.443 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.User
+ú23:51:03.506 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.Order] is safe
+ 23:51:03.507 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.Order
+ú23:51:03.508 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.Order] is safe
+ 23:51:03.508 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.Order
+ö23:51:03.584 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.Tag] is safe
+»23:51:03.584 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.Tag
+ö23:51:03.585 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - Not known whether passed class name [com.epam.esm.model.Tag] is safe
+»23:51:03.586 [Test worker] DEBUG org.hibernate.boot.internal.ClassLoaderAccessImpl - No temp ClassLoader provided; using live ClassLoader for loading potentially unsafe class : com.epam.esm.model.Tag
+ß23:51:03.649 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister - Static SQL for collection: com.epam.esm.model.GiftCertificate.orders
+£23:51:03.649 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row insert: update orders set certificate_id=? where order_id=?
+ì23:51:03.650 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row update: update orders set  where order_id=?
+ª23:51:03.650 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row delete: update orders set certificate_id=null where certificate_id=? and order_id=?
+±23:51:03.650 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  One-shot delete: update orders set certificate_id=null where certificate_id=?
+•23:51:03.653 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister - Static SQL for collection: com.epam.esm.model.GiftCertificate.tags
+¿23:51:03.654 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row insert: insert into tag_has_gift_certificate (gift_certificate_id, tag_id) values (?, ?)
+≈23:51:03.654 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row update: update tag_has_gift_certificate set tag_id=? where gift_certificate_id=? and tag_id=?
+Ω23:51:03.654 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row delete: delete from tag_has_gift_certificate where gift_certificate_id=? and tag_id=?
+µ23:51:03.654 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  One-shot delete: delete from tag_has_gift_certificate where gift_certificate_id=?
+ú23:51:03.655 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister - Static SQL for collection: com.epam.esm.model.User.orders
+ú23:51:03.655 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row insert: update orders set user_id=? where order_id=?
+ì23:51:03.655 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row update: update orders set  where order_id=?
+≠23:51:03.656 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row delete: update orders set user_id=null where user_id=? and order_id=?
+£23:51:03.656 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  One-shot delete: update orders set user_id=null where user_id=?
+°23:51:03.657 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister - Static SQL for collection: com.epam.esm.model.Tag.certificates
+¿23:51:03.657 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row insert: insert into tag_has_gift_certificate (tag_id, gift_certificate_id) values (?, ?)
+“23:51:03.658 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row update: update tag_has_gift_certificate set gift_certificate_id=? where tag_id=? and gift_certificate_id=?
+Ω23:51:03.658 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  Row delete: delete from tag_has_gift_certificate where tag_id=? and gift_certificate_id=?
+®23:51:03.658 [Test worker] DEBUG org.hibernate.persister.collection.AbstractCollectionPersister -  One-shot delete: delete from tag_has_gift_certificate where tag_id=?
+î23:51:03.671 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister - Static SQL for entity: com.epam.esm.model.GiftCertificate
+Ø23:51:03.671 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Version select: select certificate_id from gift_certificate where certificate_id =?
+∑23:51:03.672 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Snapshot select: select giftcertif_.certificate_id, giftcertif_.create_date as create_d2_0_, giftcertif_.description as descript3_0_, giftcertif_.duration as duration4_0_, giftcertif_.last_update_date as last_upd5_0_, giftcertif_.name as name6_0_, giftcertif_.price as price7_0_ from gift_certificate giftcertif_ where giftcertif_.certificate_id=?
+Û23:51:03.672 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Insert 0: insert into gift_certificate (create_date, description, duration, last_update_date, name, price, certificate_id) values (?, ?, ?, ?, ?, ?, ?)
+Ê23:51:03.673 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Update 0: update gift_certificate set create_date=?, description=?, duration=?, last_update_date=?, name=?, price=? where certificate_id=?
+ô23:51:03.673 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Delete 0: delete from gift_certificate where certificate_id=?
+˝23:51:03.673 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Identity insert: insert into gift_certificate (certificate_id, create_date, description, duration, last_update_date, name, price) values (null, ?, ?, ?, ?, ?, ?)
+÷23:51:03.741 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@522e8e9]
+Å23:51:03.743 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : createDate
+Ç23:51:03.743 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : description
+23:51:03.743 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : duration
+Ö23:51:03.744 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : lastUpdateDate
+{23:51:03.744 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : name
+}23:51:03.745 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orders
+€23:51:03.761 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@312dedd0]
+◊23:51:03.768 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@742bf6fc]
+|23:51:03.770 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : price
+{23:51:03.771 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : tags
+€23:51:03.772 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:3> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@5ee14249]
+◊23:51:03.772 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:4> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@68c68a74]
+ô23:51:03.773 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.807 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+è23:51:03.817 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.GiftCertificate)
+    - Returns
+Ö       - EntityReturnImpl(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:0>, path=com.epam.esm.model.GiftCertificate)
+¶          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.orders, querySpaceUid=<gen:1>, path=com.epam.esm.model.GiftCertificate.orders)
+Ω             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Order, querySpaceUid=<gen:2>, path=com.epam.esm.model.GiftCertificate.orders.<elements>)
+¢          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.tags, querySpaceUid=<gen:3>, path=com.epam.esm.model.GiftCertificate.tags)
+π             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:4>, path=com.epam.esm.model.GiftCertificate.tags.<elements>)
+    - QuerySpaces
+V       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.GiftCertificate)
+3          - SQL table alias mapping - giftcertif0_
+          - alias suffix - 0_
+4          - suffixed key columns - {certific1_0_0_}
+
+á23:51:03.824 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.GiftCertificate [NONE]: select giftcertif0_.certificate_id as certific1_0_0_, giftcertif0_.create_date as create_d2_0_0_, giftcertif0_.description as descript3_0_0_, giftcertif0_.duration as duration4_0_0_, giftcertif0_.last_update_date as last_upd5_0_0_, giftcertif0_.name as name6_0_0_, giftcertif0_.price as price7_0_0_ from gift_certificate giftcertif0_ where giftcertif0_.certificate_id=?
+◊23:51:03.825 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@2b33b425]
+Å23:51:03.827 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : createDate
+Ç23:51:03.827 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : description
+23:51:03.829 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : duration
+Ö23:51:03.829 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : lastUpdateDate
+{23:51:03.829 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : name
+}23:51:03.830 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orders
+€23:51:03.830 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@2aaa53e0]
+◊23:51:03.830 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@3566c144]
+|23:51:03.831 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : price
+{23:51:03.831 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : tags
+⁄23:51:03.831 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:3> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@3c2c951]
+◊23:51:03.832 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:4> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@761e3a0f]
+ô23:51:03.832 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.832 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+è23:51:03.834 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.GiftCertificate)
+    - Returns
+Ö       - EntityReturnImpl(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:0>, path=com.epam.esm.model.GiftCertificate)
+¶          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.orders, querySpaceUid=<gen:1>, path=com.epam.esm.model.GiftCertificate.orders)
+Ω             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Order, querySpaceUid=<gen:2>, path=com.epam.esm.model.GiftCertificate.orders.<elements>)
+¢          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.tags, querySpaceUid=<gen:3>, path=com.epam.esm.model.GiftCertificate.tags)
+π             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:4>, path=com.epam.esm.model.GiftCertificate.tags.<elements>)
+    - QuerySpaces
+V       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.GiftCertificate)
+3          - SQL table alias mapping - giftcertif0_
+          - alias suffix - 0_
+4          - suffixed key columns - {certific1_0_0_}
+
+á23:51:03.837 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.GiftCertificate [READ]: select giftcertif0_.certificate_id as certific1_0_0_, giftcertif0_.create_date as create_d2_0_0_, giftcertif0_.description as descript3_0_0_, giftcertif0_.duration as duration4_0_0_, giftcertif0_.last_update_date as last_upd5_0_0_, giftcertif0_.name as name6_0_0_, giftcertif0_.price as price7_0_0_ from gift_certificate giftcertif0_ where giftcertif0_.certificate_id=?
+´23:51:03.862 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_MERGE on entity com.epam.esm.model.GiftCertificate: select giftcertif0_.certificate_id as certific1_0_1_, giftcertif0_.create_date as create_d2_0_1_, giftcertif0_.description as descript3_0_1_, giftcertif0_.duration as duration4_0_1_, giftcertif0_.last_update_date as last_upd5_0_1_, giftcertif0_.name as name6_0_1_, giftcertif0_.price as price7_0_1_, tags1_.gift_certificate_id as gift_cer1_3_3_, tag2_.tag_id as tag_id2_3_3_, tag2_.tag_id as tag_id1_2_0_, tag2_.name as name2_2_0_ from gift_certificate giftcertif0_ left outer join tag_has_gift_certificate tags1_ on giftcertif0_.certificate_id=tags1_.gift_certificate_id left outer join tag tag2_ on tags1_.tag_id=tag2_.tag_id where giftcertif0_.certificate_id=?
+≠23:51:03.862 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_REFRESH on entity com.epam.esm.model.GiftCertificate: select giftcertif0_.certificate_id as certific1_0_1_, giftcertif0_.create_date as create_d2_0_1_, giftcertif0_.description as descript3_0_1_, giftcertif0_.duration as duration4_0_1_, giftcertif0_.last_update_date as last_upd5_0_1_, giftcertif0_.name as name6_0_1_, giftcertif0_.price as price7_0_1_, tags1_.gift_certificate_id as gift_cer1_3_3_, tag2_.tag_id as tag_id2_3_3_, tag2_.tag_id as tag_id1_2_0_, tag2_.name as name2_2_0_ from gift_certificate giftcertif0_ left outer join tag_has_gift_certificate tags1_ on giftcertif0_.certificate_id=tags1_.gift_certificate_id left outer join tag tag2_ on tags1_.tag_id=tag2_.tag_id where giftcertif0_.certificate_id=?
+â23:51:03.863 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister - Static SQL for entity: com.epam.esm.model.User
+ñ23:51:03.864 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Version select: select user_id from users where user_id =?
+Ë23:51:03.864 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Snapshot select: select user_.user_id, user_.address as address2_4_, user_.date_of_birth as date_of_3_4_, user_.email as email4_4_, user_.first_name as first_na5_4_, user_.last_name as last_nam6_4_, user_.password as password7_4_ from users user_ where user_.user_id=?
+ﬁ23:51:03.865 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Insert 0: insert into users (address, date_of_birth, email, first_name, last_name, password, user_id) values (?, ?, ?, ?, ?, ?, ?)
+—23:51:03.865 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Update 0: update users set address=?, date_of_birth=?, email=?, first_name=?, last_name=?, password=? where user_id=?
+á23:51:03.865 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Delete 0: delete from users where user_id=?
+Ë23:51:03.866 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Identity insert: insert into users (user_id, address, date_of_birth, email, first_name, last_name, password) values (null, ?, ?, ?, ?, ?, ?)
+◊23:51:03.866 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@661e09c8]
+~23:51:03.867 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : address
+Ç23:51:03.867 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : dateOfBirth
+|23:51:03.867 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : email
+Ä23:51:03.868 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : firstName
+23:51:03.868 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : lastName
+}23:51:03.868 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orders
+⁄23:51:03.869 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@bd74804]
+◊23:51:03.869 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@6206a8ba]
+23:51:03.869 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : password
+ô23:51:03.870 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.870 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+Ñ23:51:03.871 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.User)
+    - Returns
+o       - EntityReturnImpl(entity=com.epam.esm.model.User, querySpaceUid=<gen:0>, path=com.epam.esm.model.User)
+ê          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.User.orders, querySpaceUid=<gen:1>, path=com.epam.esm.model.User.orders)
+≤             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Order, querySpaceUid=<gen:2>, path=com.epam.esm.model.User.orders.<elements>)
+    - QuerySpaces
+K       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.User)
+-          - SQL table alias mapping - user0_
+          - alias suffix - 0_
+3          - suffixed key columns - {user_id1_4_0_}
+
+¨23:51:03.872 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.User [NONE]: select user0_.user_id as user_id1_4_0_, user0_.address as address2_4_0_, user0_.date_of_birth as date_of_3_4_0_, user0_.email as email4_4_0_, user0_.first_name as first_na5_4_0_, user0_.last_name as last_nam6_4_0_, user0_.password as password7_4_0_ from users user0_ where user0_.user_id=?
+◊23:51:03.873 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@7440ad7b]
+~23:51:03.874 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : address
+Ç23:51:03.874 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : dateOfBirth
+|23:51:03.874 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : email
+Ä23:51:03.875 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : firstName
+23:51:03.875 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : lastName
+}23:51:03.875 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orders
+€23:51:03.876 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@7c4ad760]
+◊23:51:03.876 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@2bdef32b]
+23:51:03.877 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : password
+ô23:51:03.877 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.877 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+Ñ23:51:03.878 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.User)
+    - Returns
+o       - EntityReturnImpl(entity=com.epam.esm.model.User, querySpaceUid=<gen:0>, path=com.epam.esm.model.User)
+ê          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.User.orders, querySpaceUid=<gen:1>, path=com.epam.esm.model.User.orders)
+≤             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Order, querySpaceUid=<gen:2>, path=com.epam.esm.model.User.orders.<elements>)
+    - QuerySpaces
+K       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.User)
+-          - SQL table alias mapping - user0_
+          - alias suffix - 0_
+3          - suffixed key columns - {user_id1_4_0_}
+
+¨23:51:03.878 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.User [READ]: select user0_.user_id as user_id1_4_0_, user0_.address as address2_4_0_, user0_.date_of_birth as date_of_3_4_0_, user0_.email as email4_4_0_, user0_.first_name as first_na5_4_0_, user0_.last_name as last_nam6_4_0_, user0_.password as password7_4_0_ from users user0_ where user0_.user_id=?
+Ï23:51:03.879 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_MERGE on entity com.epam.esm.model.User: select user0_.user_id as user_id1_4_1_, user0_.address as address2_4_1_, user0_.date_of_birth as date_of_3_4_1_, user0_.email as email4_4_1_, user0_.first_name as first_na5_4_1_, user0_.last_name as last_nam6_4_1_, user0_.password as password7_4_1_, orders1_.user_id as user_id5_1_3_, orders1_.order_id as order_id1_1_3_, orders1_.order_id as order_id1_1_0_, orders1_.cost as cost2_1_0_, orders1_.certificate_id as certific4_1_0_, orders1_.order_date as order_da3_1_0_, orders1_.user_id as user_id5_1_0_ from users user0_ left outer join orders orders1_ on user0_.user_id=orders1_.user_id where user0_.user_id=?
+Ó23:51:03.880 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_REFRESH on entity com.epam.esm.model.User: select user0_.user_id as user_id1_4_1_, user0_.address as address2_4_1_, user0_.date_of_birth as date_of_3_4_1_, user0_.email as email4_4_1_, user0_.first_name as first_na5_4_1_, user0_.last_name as last_nam6_4_1_, user0_.password as password7_4_1_, orders1_.user_id as user_id5_1_3_, orders1_.order_id as order_id1_1_3_, orders1_.order_id as order_id1_1_0_, orders1_.cost as cost2_1_0_, orders1_.certificate_id as certific4_1_0_, orders1_.order_date as order_da3_1_0_, orders1_.user_id as user_id5_1_0_ from users user0_ left outer join orders orders1_ on user0_.user_id=orders1_.user_id where user0_.user_id=?
+ä23:51:03.881 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister - Static SQL for entity: com.epam.esm.model.Order
+ô23:51:03.881 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Version select: select order_id from orders where order_id =?
+∞23:51:03.881 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Snapshot select: select order_.order_id, order_.cost as cost2_1_, order_.certificate_id as certific4_1_, order_.order_date as order_da3_1_, order_.user_id as user_id5_1_ from orders order_ where order_.order_id=?
+≈23:51:03.881 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Insert 0: insert into orders (cost, certificate_id, order_date, user_id, order_id) values (?, ?, ?, ?, ?)
+∫23:51:03.881 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Update 0: update orders set cost=?, certificate_id=?, order_date=?, user_id=? where order_id=?
+â23:51:03.881 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Delete 0: delete from orders where order_id=?
+œ23:51:03.881 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Identity insert: insert into orders (order_id, cost, certificate_id, order_date, user_id) values (null, ?, ?, ?, ?)
+◊23:51:03.882 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@5a04a85e]
+{23:51:03.882 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : cost
+Ü23:51:03.882 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate
+◊23:51:03.882 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@5c924378]
+ë23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.createDate
+í23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.description
+è23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.duration
+ï23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.lastUpdateDate
+ã23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.name
+ç23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.orders
+ô23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : giftCertificate.orders
+å23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.price
+ã23:51:03.887 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.tags
+€23:51:03.888 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@46333a44]
+◊23:51:03.888 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:3> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@5813b9a7]
+Ä23:51:03.889 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orderDate
+{23:51:03.889 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user
+◊23:51:03.889 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:4> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@72a51c0b]
+É23:51:03.889 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.address
+á23:51:03.889 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.dateOfBirth
+Å23:51:03.889 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.email
+Ö23:51:03.889 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.firstName
+Ñ23:51:03.889 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.lastName
+Ç23:51:03.890 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.orders
+é23:51:03.890 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : user.orders
+Ñ23:51:03.890 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.password
+ô23:51:03.890 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.890 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+Ö23:51:03.894 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.Order)
+    - Returns
+q       - EntityReturnImpl(entity=com.epam.esm.model.Order, querySpaceUid=<gen:0>, path=com.epam.esm.model.Order)
+ñ          - EntityAttributeFetchImpl(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:1>, path=com.epam.esm.model.Order.giftCertificate)
+´             - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.tags, querySpaceUid=<gen:2>, path=com.epam.esm.model.Order.giftCertificate.tags)
+¬                - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:3>, path=com.epam.esm.model.Order.giftCertificate.tags.<elements>)
+Ä          - EntityAttributeFetchImpl(entity=com.epam.esm.model.User, querySpaceUid=<gen:4>, path=com.epam.esm.model.Order.user)
+    - QuerySpaces
+L       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.Order)
+.          - SQL table alias mapping - order0_
+          - alias suffix - 0_
+4          - suffixed key columns - {order_id1_1_0_}
+O          - JOIN (JoinDefinedByMetadata(giftCertificate)) : <gen:0> -> <gen:1>
+\             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.epam.esm.model.GiftCertificate)
+9                - SQL table alias mapping - giftcertif1_
+$                - alias suffix - 1_
+:                - suffixed key columns - {certific1_0_1_}
+D          - JOIN (JoinDefinedByMetadata(user)) : <gen:0> -> <gen:4>
+Q             - EntityQuerySpaceImpl(uid=<gen:4>, entity=com.epam.esm.model.User)
+3                - SQL table alias mapping - user2_
+$                - alias suffix - 2_
+9                - suffixed key columns - {user_id1_4_2_}
+
+¶23:51:03.895 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.Order [NONE]: select order0_.order_id as order_id1_1_0_, order0_.cost as cost2_1_0_, order0_.certificate_id as certific4_1_0_, order0_.order_date as order_da3_1_0_, order0_.user_id as user_id5_1_0_, giftcertif1_.certificate_id as certific1_0_1_, giftcertif1_.create_date as create_d2_0_1_, giftcertif1_.description as descript3_0_1_, giftcertif1_.duration as duration4_0_1_, giftcertif1_.last_update_date as last_upd5_0_1_, giftcertif1_.name as name6_0_1_, giftcertif1_.price as price7_0_1_, user2_.user_id as user_id1_4_2_, user2_.address as address2_4_2_, user2_.date_of_birth as date_of_3_4_2_, user2_.email as email4_4_2_, user2_.first_name as first_na5_4_2_, user2_.last_name as last_nam6_4_2_, user2_.password as password7_4_2_ from orders order0_ left outer join gift_certificate giftcertif1_ on order0_.certificate_id=giftcertif1_.certificate_id inner join users user2_ on order0_.user_id=user2_.user_id where order0_.order_id=?
+◊23:51:03.895 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@23e79452]
+{23:51:03.895 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : cost
+Ü23:51:03.895 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate
+◊23:51:03.895 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@3c63c288]
+ë23:51:03.895 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.createDate
+í23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.description
+è23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.duration
+ï23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.lastUpdateDate
+ã23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.name
+ç23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.orders
+ô23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : giftCertificate.orders
+å23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.price
+ã23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.tags
+€23:51:03.896 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@145310ec]
+◊23:51:03.896 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:3> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@14d709f1]
+Ä23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orderDate
+{23:51:03.896 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user
+◊23:51:03.897 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:4> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@3602fe61]
+É23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.address
+á23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.dateOfBirth
+Å23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.email
+Ö23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.firstName
+Ñ23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.lastName
+Ç23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.orders
+é23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : user.orders
+Ñ23:51:03.897 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.password
+ô23:51:03.897 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.897 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+Ö23:51:03.898 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.Order)
+    - Returns
+q       - EntityReturnImpl(entity=com.epam.esm.model.Order, querySpaceUid=<gen:0>, path=com.epam.esm.model.Order)
+ñ          - EntityAttributeFetchImpl(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:1>, path=com.epam.esm.model.Order.giftCertificate)
+´             - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.tags, querySpaceUid=<gen:2>, path=com.epam.esm.model.Order.giftCertificate.tags)
+¬                - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:3>, path=com.epam.esm.model.Order.giftCertificate.tags.<elements>)
+Ä          - EntityAttributeFetchImpl(entity=com.epam.esm.model.User, querySpaceUid=<gen:4>, path=com.epam.esm.model.Order.user)
+    - QuerySpaces
+L       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.Order)
+.          - SQL table alias mapping - order0_
+          - alias suffix - 0_
+4          - suffixed key columns - {order_id1_1_0_}
+O          - JOIN (JoinDefinedByMetadata(giftCertificate)) : <gen:0> -> <gen:1>
+\             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.epam.esm.model.GiftCertificate)
+9                - SQL table alias mapping - giftcertif1_
+$                - alias suffix - 1_
+:                - suffixed key columns - {certific1_0_1_}
+D          - JOIN (JoinDefinedByMetadata(user)) : <gen:0> -> <gen:4>
+Q             - EntityQuerySpaceImpl(uid=<gen:4>, entity=com.epam.esm.model.User)
+3                - SQL table alias mapping - user2_
+$                - alias suffix - 2_
+9                - suffixed key columns - {user_id1_4_2_}
+
+¶23:51:03.899 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.Order [READ]: select order0_.order_id as order_id1_1_0_, order0_.cost as cost2_1_0_, order0_.certificate_id as certific4_1_0_, order0_.order_date as order_da3_1_0_, order0_.user_id as user_id5_1_0_, giftcertif1_.certificate_id as certific1_0_1_, giftcertif1_.create_date as create_d2_0_1_, giftcertif1_.description as descript3_0_1_, giftcertif1_.duration as duration4_0_1_, giftcertif1_.last_update_date as last_upd5_0_1_, giftcertif1_.name as name6_0_1_, giftcertif1_.price as price7_0_1_, user2_.user_id as user_id1_4_2_, user2_.address as address2_4_2_, user2_.date_of_birth as date_of_3_4_2_, user2_.email as email4_4_2_, user2_.first_name as first_na5_4_2_, user2_.last_name as last_nam6_4_2_, user2_.password as password7_4_2_ from orders order0_ left outer join gift_certificate giftcertif1_ on order0_.certificate_id=giftcertif1_.certificate_id inner join users user2_ on order0_.user_id=user2_.user_id where order0_.order_id=?
+Ó23:51:03.900 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_MERGE on entity com.epam.esm.model.Order: select order0_.order_id as order_id1_1_0_, order0_.cost as cost2_1_0_, order0_.certificate_id as certific4_1_0_, order0_.order_date as order_da3_1_0_, order0_.user_id as user_id5_1_0_ from orders order0_ where order0_.order_id=?
+23:51:03.900 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_REFRESH on entity com.epam.esm.model.Order: select order0_.order_id as order_id1_1_0_, order0_.cost as cost2_1_0_, order0_.certificate_id as certific4_1_0_, order0_.order_date as order_da3_1_0_, order0_.user_id as user_id5_1_0_ from orders order0_ where order0_.order_id=?
+à23:51:03.901 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister - Static SQL for entity: com.epam.esm.model.Tag
+í23:51:03.901 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Version select: select tag_id from tag where tag_id =?
+∏23:51:03.901 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Snapshot select: select tag_.tag_id, tag_.name as name2_2_ from tag tag_ where tag_.tag_id=?
+í23:51:03.901 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Insert 0: insert into tag (name, tag_id) values (?, ?)
+ä23:51:03.901 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Update 0: update tag set name=? where tag_id=?
+Ñ23:51:03.901 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Delete 0: delete from tag where tag_id=?
+ú23:51:03.901 [Test worker] DEBUG org.hibernate.persister.entity.AbstractEntityPersister -  Identity insert: insert into tag (tag_id, name) values (null, ?)
+◊23:51:03.901 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@7b14d507]
+É23:51:03.901 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : certificates
+€23:51:03.901 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@7670de66]
+◊23:51:03.901 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@62d39835]
+{23:51:03.902 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : name
+ô23:51:03.902 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.902 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+É23:51:03.902 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.Tag)
+    - Returns
+m       - EntityReturnImpl(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:0>, path=com.epam.esm.model.Tag)
+ö          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.Tag.certificates, querySpaceUid=<gen:1>, path=com.epam.esm.model.Tag.certificates)
+¡             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:2>, path=com.epam.esm.model.Tag.certificates.<elements>)
+    - QuerySpaces
+J       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.Tag)
+,          - SQL table alias mapping - tag0_
+          - alias suffix - 0_
+2          - suffixed key columns - {tag_id1_2_0_}
+
+Î23:51:03.903 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.Tag [NONE]: select tag0_.tag_id as tag_id1_2_0_, tag0_.name as name2_2_0_ from tag tag0_ where tag0_.tag_id=?
+◊23:51:03.903 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@3f32d585]
+É23:51:03.903 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : certificates
+€23:51:03.903 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@1e28715e]
+◊23:51:03.903 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@6044409e]
+{23:51:03.903 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : name
+ô23:51:03.903 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.904 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+É23:51:03.906 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(entity=com.epam.esm.model.Tag)
+    - Returns
+m       - EntityReturnImpl(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:0>, path=com.epam.esm.model.Tag)
+ö          - CollectionAttributeFetchImpl(collection=com.epam.esm.model.Tag.certificates, querySpaceUid=<gen:1>, path=com.epam.esm.model.Tag.certificates)
+¡             - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:2>, path=com.epam.esm.model.Tag.certificates.<elements>)
+    - QuerySpaces
+J       - EntityQuerySpaceImpl(uid=<gen:0>, entity=com.epam.esm.model.Tag)
+,          - SQL table alias mapping - tag0_
+          - alias suffix - 0_
+2          - suffixed key columns - {tag_id1_2_0_}
+
+Î23:51:03.907 [Test worker] DEBUG org.hibernate.loader.entity.plan.EntityLoader - Static select for entity com.epam.esm.model.Tag [READ]: select tag0_.tag_id as tag_id1_2_0_, tag0_.name as name2_2_0_ from tag tag0_ where tag0_.tag_id=?
+È23:51:03.907 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_MERGE on entity com.epam.esm.model.Tag: select tag0_.tag_id as tag_id1_2_0_, tag0_.name as name2_2_0_ from tag tag0_ where tag0_.tag_id=?
+Î23:51:03.907 [Test worker] DEBUG org.hibernate.loader.Loader - Static select for action ACTION_REFRESH on entity com.epam.esm.model.Tag: select tag0_.tag_id as tag_id1_2_0_, tag0_.name as name2_2_0_ from tag tag0_ where tag0_.tag_id=?
+€23:51:03.920 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@1140f601]
+◊23:51:03.920 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@7e6eb7bf]
+{23:51:03.932 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : cost
+Ü23:51:03.933 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate
+í23:51:03.933 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : giftCertificate
+Ä23:51:03.933 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orderDate
+{23:51:03.933 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user
+◊23:51:03.933 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@7fe0e174]
+É23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.address
+á23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.dateOfBirth
+Å23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.email
+Ö23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.firstName
+Ñ23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.lastName
+Ç23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.orders
+é23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : user.orders
+Ñ23:51:03.934 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user.password
+ô23:51:03.934 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.939 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+ö23:51:03.941 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(collection=com.epam.esm.model.GiftCertificate.orders)
+    - Returns
+ù       - CollectionReturnImpl(collection=com.epam.esm.model.GiftCertificate.orders, querySpaceUid=<gen:0>, path=[com.epam.esm.model.GiftCertificate.orders])
+º          - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Order, querySpaceUid=<gen:1>, path=[com.epam.esm.model.GiftCertificate.orders].<elements>)
+°             - EntityAttributeFetchImpl(entity=com.epam.esm.model.User, querySpaceUid=<gen:2>, path=[com.epam.esm.model.GiftCertificate.orders].<elements>.user)
+    - QuerySpaces
+e       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=com.epam.esm.model.GiftCertificate.orders)
+/          - SQL table alias mapping - orders0_
+          - alias suffix - 0_
+4          - suffixed key columns - {certific4_1_0_}
+-          - entity-element alias suffix - 1_
+C          - 1_entity-element suffixed key columns - order_id1_1_1_
+H          - JOIN (JoinDefinedByMetadata(elements)) : <gen:0> -> <gen:1>
+R             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.epam.esm.model.Order)
+5                - SQL table alias mapping - orders0_
+$                - alias suffix - 1_
+:                - suffixed key columns - {order_id1_1_1_}
+J                - JOIN (JoinDefinedByMetadata(user)) : <gen:1> -> <gen:2>
+W                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=com.epam.esm.model.User)
+9                      - SQL table alias mapping - user1_
+*                      - alias suffix - 2_
+?                      - suffixed key columns - {user_id1_4_2_}
+
+ë23:51:03.942 [Test worker] DEBUG org.hibernate.loader.collection.plan.CollectionLoader - Static select for collection com.epam.esm.model.GiftCertificate.orders: select orders0_.certificate_id as certific4_1_0_, orders0_.order_id as order_id1_1_0_, orders0_.order_id as order_id1_1_1_, orders0_.cost as cost2_1_1_, orders0_.certificate_id as certific4_1_1_, orders0_.order_date as order_da3_1_1_, orders0_.user_id as user_id5_1_1_, user1_.user_id as user_id1_4_2_, user1_.address as address2_4_2_, user1_.date_of_birth as date_of_3_4_2_, user1_.email as email4_4_2_, user1_.first_name as first_na5_4_2_, user1_.last_name as last_nam6_4_2_, user1_.password as password7_4_2_ from orders orders0_ inner join users user1_ on orders0_.user_id=user1_.user_id where orders0_.certificate_id=?
+€23:51:03.942 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@32985809]
+◊23:51:03.942 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@456fc97d]
+É23:51:03.942 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : certificates
+è23:51:03.943 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : certificates
+{23:51:03.943 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : name
+ô23:51:03.947 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.948 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+ò23:51:03.949 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(collection=com.epam.esm.model.GiftCertificate.tags)
+    - Returns
+ô       - CollectionReturnImpl(collection=com.epam.esm.model.GiftCertificate.tags, querySpaceUid=<gen:0>, path=[com.epam.esm.model.GiftCertificate.tags])
+∏          - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:1>, path=[com.epam.esm.model.GiftCertificate.tags].<elements>)
+    - QuerySpaces
+c       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=com.epam.esm.model.GiftCertificate.tags)
+-          - SQL table alias mapping - tags0_
+          - alias suffix - 0_
+4          - suffixed key columns - {gift_cer1_3_0_}
+-          - entity-element alias suffix - 1_
+A          - 1_entity-element suffixed key columns - tag_id1_2_1_
+H          - JOIN (JoinDefinedByMetadata(elements)) : <gen:0> -> <gen:1>
+P             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.epam.esm.model.Tag)
+2                - SQL table alias mapping - tag1_
+$                - alias suffix - 1_
+8                - suffixed key columns - {tag_id1_2_1_}
+
+•23:51:03.949 [Test worker] DEBUG org.hibernate.loader.collection.plan.CollectionLoader - Static select for collection com.epam.esm.model.GiftCertificate.tags: select tags0_.gift_certificate_id as gift_cer1_3_0_, tags0_.tag_id as tag_id2_3_0_, tag1_.tag_id as tag_id1_2_1_, tag1_.name as name2_2_1_ from tag_has_gift_certificate tags0_ inner join tag tag1_ on tags0_.tag_id=tag1_.tag_id where tags0_.gift_certificate_id=?
+€23:51:03.949 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@39115cf1]
+◊23:51:03.949 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@12c9851c]
+{23:51:03.949 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : cost
+Ü23:51:03.949 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate
+◊23:51:03.949 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@27152597]
+ë23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.createDate
+í23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.description
+è23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.duration
+ï23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.lastUpdateDate
+ã23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.name
+ç23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.orders
+ô23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : giftCertificate.orders
+å23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.price
+ã23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : giftCertificate.tags
+€23:51:03.950 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:3> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@6c01da92]
+◊23:51:03.950 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:4> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@786ceb6f]
+Ä23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orderDate
+{23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : user
+á23:51:03.950 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : user
+ô23:51:03.950 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.951 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+è23:51:03.952 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(collection=com.epam.esm.model.User.orders)
+    - Returns
+á       - CollectionReturnImpl(collection=com.epam.esm.model.User.orders, querySpaceUid=<gen:0>, path=[com.epam.esm.model.User.orders])
+±          - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Order, querySpaceUid=<gen:1>, path=[com.epam.esm.model.User.orders].<elements>)
+¨             - EntityAttributeFetchImpl(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:2>, path=[com.epam.esm.model.User.orders].<elements>.giftCertificate)
+¡                - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.tags, querySpaceUid=<gen:3>, path=[com.epam.esm.model.User.orders].<elements>.giftCertificate.tags)
+ÿ                   - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Tag, querySpaceUid=<gen:4>, path=[com.epam.esm.model.User.orders].<elements>.giftCertificate.tags.<elements>)
+    - QuerySpaces
+Z       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=com.epam.esm.model.User.orders)
+/          - SQL table alias mapping - orders0_
+          - alias suffix - 0_
+3          - suffixed key columns - {user_id5_1_0_}
+-          - entity-element alias suffix - 1_
+C          - 1_entity-element suffixed key columns - order_id1_1_1_
+H          - JOIN (JoinDefinedByMetadata(elements)) : <gen:0> -> <gen:1>
+R             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.epam.esm.model.Order)
+5                - SQL table alias mapping - orders0_
+$                - alias suffix - 1_
+:                - suffixed key columns - {order_id1_1_1_}
+U                - JOIN (JoinDefinedByMetadata(giftCertificate)) : <gen:1> -> <gen:2>
+b                   - EntityQuerySpaceImpl(uid=<gen:2>, entity=com.epam.esm.model.GiftCertificate)
+?                      - SQL table alias mapping - giftcertif1_
+*                      - alias suffix - 2_
+@                      - suffixed key columns - {certific1_0_2_}
+
+”23:51:03.952 [Test worker] DEBUG org.hibernate.loader.collection.plan.CollectionLoader - Static select for collection com.epam.esm.model.User.orders: select orders0_.user_id as user_id5_1_0_, orders0_.order_id as order_id1_1_0_, orders0_.order_id as order_id1_1_1_, orders0_.cost as cost2_1_1_, orders0_.certificate_id as certific4_1_1_, orders0_.order_date as order_da3_1_1_, orders0_.user_id as user_id5_1_1_, giftcertif1_.certificate_id as certific1_0_2_, giftcertif1_.create_date as create_d2_0_2_, giftcertif1_.description as descript3_0_2_, giftcertif1_.duration as duration4_0_2_, giftcertif1_.last_update_date as last_upd5_0_2_, giftcertif1_.name as name6_0_2_, giftcertif1_.price as price7_0_2_ from orders orders0_ left outer join gift_certificate giftcertif1_ on orders0_.certificate_id=giftcertif1_.certificate_id where orders0_.user_id=?
+€23:51:03.952 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:0> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@765b5068]
+◊23:51:03.952 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:1> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@5af5997a]
+Å23:51:03.952 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : createDate
+Ç23:51:03.952 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : description
+23:51:03.952 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : duration
+Ö23:51:03.952 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : lastUpdateDate
+{23:51:03.953 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : name
+}23:51:03.953 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : orders
+⁄23:51:03.953 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:2> -> org.hibernate.loader.plan.build.internal.spaces.CollectionQuerySpaceImpl@b9e728d]
+◊23:51:03.953 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.spaces.QuerySpacesImpl - Adding QuerySpace : uid = <gen:3> -> org.hibernate.loader.plan.build.internal.spaces.EntityQuerySpaceImpl@7d5604cd]
+|23:51:03.953 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : price
+{23:51:03.953 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Visiting attribute path : tags
+á23:51:03.953 [Test worker] DEBUG org.hibernate.persister.walking.spi.MetamodelGraphWalker - Property path deemed to be circular : tags
+ô23:51:03.953 [Test worker] DEBUG org.hibernate.loader.plan.build.internal.FetchStyleLoadPlanBuildingAssociationVisitationStrategy - Building LoadPlan...
+à23:51:03.953 [Test worker] DEBUG org.hibernate.loader.plan.exec.internal.LoadQueryJoinAndFetchProcessor - processing queryspace <gen:0>
+î23:51:03.954 [Test worker] DEBUG org.hibernate.loader.plan.build.spi.LoadPlanTreePrinter - LoadPlan(collection=com.epam.esm.model.Tag.certificates)
+    - Returns
+ë       - CollectionReturnImpl(collection=com.epam.esm.model.Tag.certificates, querySpaceUid=<gen:0>, path=[com.epam.esm.model.Tag.certificates])
+¿          - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.GiftCertificate, querySpaceUid=<gen:1>, path=[com.epam.esm.model.Tag.certificates].<elements>)
+∑             - CollectionAttributeFetchImpl(collection=com.epam.esm.model.GiftCertificate.orders, querySpaceUid=<gen:2>, path=[com.epam.esm.model.Tag.certificates].<elements>.orders)
+Œ                - (collection element) CollectionFetchableElementEntityGraph(entity=com.epam.esm.model.Order, querySpaceUid=<gen:3>, path=[com.epam.esm.model.Tag.certificates].<elements>.orders.<elements>)
+    - QuerySpaces
+_       - CollectionQuerySpaceImpl(uid=<gen:0>, collection=com.epam.esm.model.Tag.certificates)
+3          - SQL table alias mapping - certificat0_
+          - alias suffix - 0_
+2          - suffixed key columns - {tag_id2_3_0_}
+-          - entity-element alias suffix - 1_
+C          - 1_entity-element suffixed key columns - certific1_0_1_
+H          - JOIN (JoinDefinedByMetadata(elements)) : <gen:0> -> <gen:1>
+\             - EntityQuerySpaceImpl(uid=<gen:1>, entity=com.epam.esm.model.GiftCertificate)
+9                - SQL table alias mapping - giftcertif1_
+$                - alias suffix - 1_
+:                - suffixed key columns - {certific1_0_1_}
+
+œ23:51:03.954 [Test worker] DEBUG org.hibernate.loader.collection.plan.CollectionLoader - Static select for collection com.epam.esm.model.Tag.certificates: select certificat0_.tag_id as tag_id2_3_0_, certificat0_.gift_certificate_id as gift_cer1_3_0_, giftcertif1_.certificate_id as certific1_0_1_, giftcertif1_.create_date as create_d2_0_1_, giftcertif1_.description as descript3_0_1_, giftcertif1_.duration as duration4_0_1_, giftcertif1_.last_update_date as last_upd5_0_1_, giftcertif1_.name as name6_0_1_, giftcertif1_.price as price7_0_1_ from tag_has_gift_certificate certificat0_ inner join gift_certificate giftcertif1_ on certificat0_.gift_certificate_id=giftcertif1_.certificate_id where certificat0_.tag_id=?
+d23:51:04.130 [Test worker] DEBUG org.hibernate.SQL - drop table if exists gift_certificate CASCADE 
+:Hibernate: drop table if exists gift_certificate CASCADE 
+ò23:51:04.133 [Test worker] INFO org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6ad5ef78] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Z23:51:04.137 [Test worker] DEBUG org.hibernate.SQL - drop table if exists orders CASCADE 
+0Hibernate: drop table if exists orders CASCADE 
+W23:51:04.138 [Test worker] DEBUG org.hibernate.SQL - drop table if exists tag CASCADE 
+-Hibernate: drop table if exists tag CASCADE 
+l23:51:04.138 [Test worker] DEBUG org.hibernate.SQL - drop table if exists tag_has_gift_certificate CASCADE 
+BHibernate: drop table if exists tag_has_gift_certificate CASCADE 
+Y23:51:04.139 [Test worker] DEBUG org.hibernate.SQL - drop table if exists users CASCADE 
+/Hibernate: drop table if exists users CASCADE 
+±23:51:04.145 [Test worker] DEBUG org.hibernate.SQL - create table gift_certificate (certificate_id bigint generated by default as identity, create_date timestamp, description varchar(500), duration integer, last_update_date timestamp, name varchar(255), price decimal(19,2), primary key (certificate_id))
+áHibernate: create table gift_certificate (certificate_id bigint generated by default as identity, create_date timestamp, description varchar(500), duration integer, last_update_date timestamp, name varchar(255), price decimal(19,2), primary key (certificate_id))
+ó23:51:04.146 [Test worker] INFO org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@bee1cac] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Ó23:51:04.175 [Test worker] DEBUG org.hibernate.SQL - create table orders (order_id bigint generated by default as identity, cost decimal(19,2), order_date timestamp, certificate_id bigint, user_id bigint not null, primary key (order_id))
+ƒHibernate: create table orders (order_id bigint generated by default as identity, cost decimal(19,2), order_date timestamp, certificate_id bigint, user_id bigint not null, primary key (order_id))
+†23:51:04.177 [Test worker] DEBUG org.hibernate.SQL - create table tag (tag_id bigint generated by default as identity, name varchar(255), primary key (tag_id))
+vHibernate: create table tag (tag_id bigint generated by default as identity, name varchar(255), primary key (tag_id))
+ô23:51:04.181 [Test worker] DEBUG org.hibernate.SQL - create table tag_has_gift_certificate (gift_certificate_id bigint not null, tag_id bigint not null)
+oHibernate: create table tag_has_gift_certificate (gift_certificate_id bigint not null, tag_id bigint not null)
+ó23:51:04.188 [Test worker] DEBUG org.hibernate.SQL - create table users (user_id bigint generated by default as identity, address varchar(255), date_of_birth date, email varchar(255), first_name varchar(255), last_name varchar(255), password varchar(255), primary key (user_id))
+ÌHibernate: create table users (user_id bigint generated by default as identity, address varchar(255), date_of_birth date, email varchar(255), first_name varchar(255), last_name varchar(255), password varchar(255), primary key (user_id))
+¨23:51:04.198 [Test worker] DEBUG org.hibernate.SQL - alter table orders add constraint FKe2d2y2spc28e3ebauvjq9hva3 foreign key (certificate_id) references gift_certificate
+ÇHibernate: alter table orders add constraint FKe2d2y2spc28e3ebauvjq9hva3 foreign key (certificate_id) references gift_certificate
+ö23:51:04.220 [Test worker] DEBUG org.hibernate.SQL - alter table orders add constraint FK32ql8ubntj5uh44ph9659tiih foreign key (user_id) references users
+pHibernate: alter table orders add constraint FK32ql8ubntj5uh44ph9659tiih foreign key (user_id) references users
+©23:51:04.226 [Test worker] DEBUG org.hibernate.SQL - alter table tag_has_gift_certificate add constraint FKe4lsag3y2ryyd9nqcsgaux44r foreign key (tag_id) references tag
+Hibernate: alter table tag_has_gift_certificate add constraint FKe4lsag3y2ryyd9nqcsgaux44r foreign key (tag_id) references tag
+√23:51:04.232 [Test worker] DEBUG org.hibernate.SQL - alter table tag_has_gift_certificate add constraint FKjeiy5fmrifg9hvxn9kixirmye foreign key (gift_certificate_id) references gift_certificate
+ôHibernate: alter table tag_has_gift_certificate add constraint FKjeiy5fmrifg9hvxn9kixirmye foreign key (gift_certificate_id) references gift_certificate
+â23:51:04.254 [Test worker] INFO org.hibernate.tool.schema.internal.SchemaCreatorImpl - HHH000476: Executing import script 'file:/Users/sergeikristev/IdeaProjects/MJC_Run_October_2020/module2/gift-certificate-system/persistence/build/resources/test/data_script.sql'
+≠23:51:04.263 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $25', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '25', '365')
+ÉHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $25', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '25', '365')
+≠23:51:04.267 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $50', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '50', '365')
+ÉHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $50', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '50', '365')
+Ø23:51:04.268 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $100', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '100', '365')
+ÖHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Apple Gift Card $100', 'Use the Apple Gift Card to get products, accessories, apps, games, music, movies, TV shows, and more. Spend it on in-app content, books, subscriptions and even iCloud storage to secure files from all your Apple devices. This gift card does it all. And then some.', '100', '365')
+Ü23:51:04.269 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Domino‚Äôs¬Æ Pizza Gift Card $20', 'Domino''s¬Æ is more than pizza! Try our mouth-watering Bread Twists, Oven Baked Sandwiches, Pastas, Chicken, pizza & more. Order online at www.dominos.com for lunch, dinner or for your next event. No expiration date and no service fees. Can be redeemed at nearly 5,500 stores in the United States. For full details, visit www.dominos.com.', '20', '120')
+‹Hibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Domino‚Äôs¬Æ Pizza Gift Card $20', 'Domino''s¬Æ is more than pizza! Try our mouth-watering Bread Twists, Oven Baked Sandwiches, Pastas, Chicken, pizza & more. Order online at www.dominos.com for lunch, dinner or for your next event. No expiration date and no service fees. Can be redeemed at nearly 5,500 stores in the United States. For full details, visit www.dominos.com.', '20', '120')
+Ü23:51:04.273 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Domino‚Äôs¬Æ Pizza Gift Card $30', 'Domino''s¬Æ is more than pizza! Try our mouth-watering Bread Twists, Oven Baked Sandwiches, Pastas, Chicken, pizza & more. Order online at www.dominos.com for lunch, dinner or for your next event. No expiration date and no service fees. Can be redeemed at nearly 5,500 stores in the United States. For full details, visit www.dominos.com.', '30', '120')
+‹Hibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Domino‚Äôs¬Æ Pizza Gift Card $30', 'Domino''s¬Æ is more than pizza! Try our mouth-watering Bread Twists, Oven Baked Sandwiches, Pastas, Chicken, pizza & more. Order online at www.dominos.com for lunch, dinner or for your next event. No expiration date and no service fees. Can be redeemed at nearly 5,500 stores in the United States. For full details, visit www.dominos.com.', '30', '120')
+Ü23:51:04.277 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Domino‚Äôs¬Æ Pizza Gift Card $40', 'Domino''s¬Æ is more than pizza! Try our mouth-watering Bread Twists, Oven Baked Sandwiches, Pastas, Chicken, pizza & more. Order online at www.dominos.com for lunch, dinner or for your next event. No expiration date and no service fees. Can be redeemed at nearly 5,500 stores in the United States. For full details, visit www.dominos.com.', '40', '120')
+‹Hibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Domino‚Äôs¬Æ Pizza Gift Card $40', 'Domino''s¬Æ is more than pizza! Try our mouth-watering Bread Twists, Oven Baked Sandwiches, Pastas, Chicken, pizza & more. Order online at www.dominos.com for lunch, dinner or for your next event. No expiration date and no service fees. Can be redeemed at nearly 5,500 stores in the United States. For full details, visit www.dominos.com.', '40', '120')
+´23:51:04.279 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Google Play Gift Code $25', 'Power up in over 1M Android apps and games on Google Play, the world''s largest mobile gaming platform. Use a Google Play gift code to go further in your favorite games like Clash Royale or Pokemon Go or redeem your code for the latest apps, movies, music, books, and more. There‚Äôs no credit card required, and balances never expire. Treat yourself or give the gift of Play today.', '25', '365')
+ÅHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Google Play Gift Code $25', 'Power up in over 1M Android apps and games on Google Play, the world''s largest mobile gaming platform. Use a Google Play gift code to go further in your favorite games like Clash Royale or Pokemon Go or redeem your code for the latest apps, movies, music, books, and more. There‚Äôs no credit card required, and balances never expire. Treat yourself or give the gift of Play today.', '25', '365')
+´23:51:04.281 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Google Play Gift Code $50', 'Power up in over 1M Android apps and games on Google Play, the world''s largest mobile gaming platform. Use a Google Play gift code to go further in your favorite games like Clash Royale or Pokemon Go or redeem your code for the latest apps, movies, music, books, and more. There‚Äôs no credit card required, and balances never expire. Treat yourself or give the gift of Play today.', '50', '365')
+ÅHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Google Play Gift Code $50', 'Power up in over 1M Android apps and games on Google Play, the world''s largest mobile gaming platform. Use a Google Play gift code to go further in your favorite games like Clash Royale or Pokemon Go or redeem your code for the latest apps, movies, music, books, and more. There‚Äôs no credit card required, and balances never expire. Treat yourself or give the gift of Play today.', '50', '365')
+≠23:51:04.283 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Google Play Gift Code $100', 'Power up in over 1M Android apps and games on Google Play, the world''s largest mobile gaming platform. Use a Google Play gift code to go further in your favorite games like Clash Royale or Pokemon Go or redeem your code for the latest apps, movies, music, books, and more. There‚Äôs no credit card required, and balances never expire. Treat yourself or give the gift of Play today.', '100', '365')
+ÉHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Google Play Gift Code $100', 'Power up in over 1M Android apps and games on Google Play, the world''s largest mobile gaming platform. Use a Google Play gift code to go further in your favorite games like Clash Royale or Pokemon Go or redeem your code for the latest apps, movies, music, books, and more. There‚Äôs no credit card required, and balances never expire. Treat yourself or give the gift of Play today.', '100', '365')
+¬23:51:04.284 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Target GiftCard‚Ñ¢ $25', 'A Target GiftCard‚Ñ¢ is your opportunity to shop for thousands of items at more than 1,800 Target stores in the U.S. and online at Target.com. From toys and electronics to clothing and housewares, find exactly what you''re looking for at Target. No fees. No expiration. No kidding.', '25', '30')
+òHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Target GiftCard‚Ñ¢ $25', 'A Target GiftCard‚Ñ¢ is your opportunity to shop for thousands of items at more than 1,800 Target stores in the U.S. and online at Target.com. From toys and electronics to clothing and housewares, find exactly what you''re looking for at Target. No fees. No expiration. No kidding.', '25', '30')
+¬23:51:04.286 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Target GiftCard‚Ñ¢ $50', 'A Target GiftCard‚Ñ¢ is your opportunity to shop for thousands of items at more than 1,800 Target stores in the U.S. and online at Target.com. From toys and electronics to clothing and housewares, find exactly what you''re looking for at Target. No fees. No expiration. No kidding.', '50', '30')
+òHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Target GiftCard‚Ñ¢ $50', 'A Target GiftCard‚Ñ¢ is your opportunity to shop for thousands of items at more than 1,800 Target stores in the U.S. and online at Target.com. From toys and electronics to clothing and housewares, find exactly what you''re looking for at Target. No fees. No expiration. No kidding.', '50', '30')
+ƒ23:51:04.287 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Target GiftCard‚Ñ¢ $100', 'A Target GiftCard‚Ñ¢ is your opportunity to shop for thousands of items at more than 1,800 Target stores in the U.S. and online at Target.com. From toys and electronics to clothing and housewares, find exactly what you''re looking for at Target. No fees. No expiration. No kidding.', '100', '30')
+öHibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('Target GiftCard‚Ñ¢ $100', 'A Target GiftCard‚Ñ¢ is your opportunity to shop for thousands of items at more than 1,800 Target stores in the U.S. and online at Target.com. From toys and electronics to clothing and housewares, find exactly what you''re looking for at Target. No fees. No expiration. No kidding.', '100', '30')
+‘23:51:04.289 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('The Home Depot¬Æ eGift Card $25', 'Whether remodeling your kitchen or purchasing new appliances and power tools, The Home Depot¬Æ provides products and services for all your home improvement needs.', '25', '60')
+™Hibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('The Home Depot¬Æ eGift Card $25', 'Whether remodeling your kitchen or purchasing new appliances and power tools, The Home Depot¬Æ provides products and services for all your home improvement needs.', '25', '60')
+‘23:51:04.290 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('The Home Depot¬Æ eGift Card $50', 'Whether remodeling your kitchen or purchasing new appliances and power tools, The Home Depot¬Æ provides products and services for all your home improvement needs.', '50', '60')
+™Hibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('The Home Depot¬Æ eGift Card $50', 'Whether remodeling your kitchen or purchasing new appliances and power tools, The Home Depot¬Æ provides products and services for all your home improvement needs.', '50', '60')
+÷23:51:04.291 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO gift_certificate (name, description, price, duration) VALUES ('The Home Depot¬Æ eGift Card $100', 'Whether remodeling your kitchen or purchasing new appliances and power tools, The Home Depot¬Æ provides products and services for all your home improvement needs.', '100', '60')
+¨Hibernate: INSERT INTO gift_certificate (name, description, price, duration) VALUES ('The Home Depot¬Æ eGift Card $100', 'Whether remodeling your kitchen or purchasing new appliances and power tools, The Home Depot¬Æ provides products and services for all your home improvement needs.', '100', '60')
+]23:51:04.294 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Apple')
+3Hibernate: INSERT INTO tag (name) VALUES ('Apple')
+_23:51:04.295 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Dominos')
+5Hibernate: INSERT INTO tag (name) VALUES ('Dominos')
+c23:51:04.296 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Google Play')
+9Hibernate: INSERT INTO tag (name) VALUES ('Google Play')
+\23:51:04.298 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Toys')
+2Hibernate: INSERT INTO tag (name) VALUES ('Toys')
+f23:51:04.298 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('The Home Depot')
+<Hibernate: INSERT INTO tag (name) VALUES ('The Home Depot')
+c23:51:04.300 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Electronics')
+9Hibernate: INSERT INTO tag (name) VALUES ('Electronics')
+[23:51:04.301 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('App')
+1Hibernate: INSERT INTO tag (name) VALUES ('App')
+]23:51:04.302 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Music')
+3Hibernate: INSERT INTO tag (name) VALUES ('Music')
+]23:51:04.303 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Pizza')
+3Hibernate: INSERT INTO tag (name) VALUES ('Pizza')
+\23:51:04.305 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Food')
+2Hibernate: INSERT INTO tag (name) VALUES ('Food')
+]23:51:04.306 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Games')
+3Hibernate: INSERT INTO tag (name) VALUES ('Games')
+\23:51:04.308 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO tag (name) VALUES ('Home')
+2Hibernate: INSERT INTO tag (name) VALUES ('Home')
+Ó23:51:04.309 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Darby', 'Hilary', 'dhilary0@studiopress.com', 'BR2G4rN', '42 Bluestem Street', '2004-02-22')
+ƒHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Darby', 'Hilary', 'dhilary0@studiopress.com', 'BR2G4rN', '42 Bluestem Street', '2004-02-22')
+Ù23:51:04.314 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Valentino', 'Chaman', 'vchaman1@bravesites.com', '0ABODzewQDUC', '08 Packers Alley', '2004-03-31')
+ Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Valentino', 'Chaman', 'vchaman1@bravesites.com', '0ABODzewQDUC', '08 Packers Alley', '2004-03-31')
+23:51:04.315 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Nanete', 'Hadwen', 'nhadwen2@issuu.com', 'nI8NIXv9GnF7', '9 Forest Dale Circle', '2001-12-15')
+∆Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Nanete', 'Hadwen', 'nhadwen2@issuu.com', 'nI8NIXv9GnF7', '9 Forest Dale Circle', '2001-12-15')
+Í23:51:04.316 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lucias', 'Isaacs', 'lisaacs3@unc.edu', 'nxceGe', '7001 Maple Wood Avenue', '2001-04-08')
+¿Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lucias', 'Isaacs', 'lisaacs3@unc.edu', 'nxceGe', '7001 Maple Wood Avenue', '2001-04-08')
+Ú23:51:04.318 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Carrol', 'Pinwill', 'cpinwill4@dyndns.org', 'emBqhDlf', '63311 Norway Maple Park', '2005-08-09')
+»Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Carrol', 'Pinwill', 'cpinwill4@dyndns.org', 'emBqhDlf', '63311 Norway Maple Park', '2005-08-09')
+Ë23:51:04.319 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Farlee', 'Budcock', 'fbudcock5@nhs.uk', 'vERp6XAnB', '71361 2nd Street', '1997-03-19')
+æHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Farlee', 'Budcock', 'fbudcock5@nhs.uk', 'vERp6XAnB', '71361 2nd Street', '1997-03-19')
+Ò23:51:04.320 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Pincas', 'Senecaux', 'psenecaux6@skyrock.com', 'mRklWCX', '31519 Fallview Trail', '2006-07-15')
+«Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Pincas', 'Senecaux', 'psenecaux6@skyrock.com', 'mRklWCX', '31519 Fallview Trail', '2006-07-15')
+Ù23:51:04.321 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Beverie', 'Novacek', 'bnovacek7@tripadvisor.com', '48F1ZNK9ptw', '5 Riverside Park', '1996-01-23')
+ Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Beverie', 'Novacek', 'bnovacek7@tripadvisor.com', '48F1ZNK9ptw', '5 Riverside Park', '1996-01-23')
+Ë23:51:04.322 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lisha', 'Gyorgy', 'lgyorgy8@ft.com', 'CcBxI3iCY8P', '7367 Basil Avenue', '2010-02-04')
+æHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lisha', 'Gyorgy', 'lgyorgy8@ft.com', 'CcBxI3iCY8P', '7367 Basil Avenue', '2010-02-04')
+Ô23:51:04.324 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Erina', 'Grishmanov', 'egrishmanov9@nasa.gov', 'Bf9WwT3r7eKb', '10 Eliot Park', '1994-09-22')
+≈Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Erina', 'Grishmanov', 'egrishmanov9@nasa.gov', 'Bf9WwT3r7eKb', '10 Eliot Park', '1994-09-22')
+Ò23:51:04.325 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Sophronia', 'Birney', 'sbirneya@blogs.com', 'fyIguUR1', '410 Northwestern Point', '2004-11-03')
+«Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Sophronia', 'Birney', 'sbirneya@blogs.com', 'fyIguUR1', '410 Northwestern Point', '2004-11-03')
+˜23:51:04.327 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Gwenette', 'Brazelton', 'gbrazeltonb@reference.com', 'k60Cgo5WCkI', '32 Harbort Court', '2003-11-23')
+ÕHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Gwenette', 'Brazelton', 'gbrazeltonb@reference.com', 'k60Cgo5WCkI', '32 Harbort Court', '2003-11-23')
+˘23:51:04.331 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Clarette', 'Trahearn', 'ctrahearnc@google.com.hk', 'c685eLfYzyXl', '213 Loeprich Avenue', '1996-01-22')
+œHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Clarette', 'Trahearn', 'ctrahearnc@google.com.hk', 'c685eLfYzyXl', '213 Loeprich Avenue', '1996-01-22')
+Ê23:51:04.334 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Linea', 'Blaber', 'lblaberd@diigo.com', 'SkMYl79', '3276 Acker Place', '1998-08-07')
+ºHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Linea', 'Blaber', 'lblaberd@diigo.com', 'SkMYl79', '3276 Acker Place', '1998-08-07')
+Ô23:51:04.336 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Stanfield', 'Nevinson', 'snevinsone@cbc.ca', 'CrKwq3Zp', '06612 Fremont Alley', '2004-05-20')
+≈Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Stanfield', 'Nevinson', 'snevinsone@cbc.ca', 'CrKwq3Zp', '06612 Fremont Alley', '2004-05-20')
+Í23:51:04.338 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Elaina', 'Plain', 'eplainf@examiner.com', 'PanmOtQcz', '651 Elka Parkway', '1992-06-27')
+¿Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Elaina', 'Plain', 'eplainf@examiner.com', 'PanmOtQcz', '651 Elka Parkway', '1992-06-27')
+Ì23:51:04.340 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Ulrike', 'Pierri', 'upierrig@parallels.com', '32r0bPzrtMdy', '0 Jana Street', '2006-05-26')
+√Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Ulrike', 'Pierri', 'upierrig@parallels.com', '32r0bPzrtMdy', '0 Jana Street', '2006-05-26')
+Ô23:51:04.341 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hattie', 'Pilbeam', 'hpilbeamh@shinystat.com', 'Tuyl8LM', '40672 Morning Pass', '2010-03-17')
+≈Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hattie', 'Pilbeam', 'hpilbeamh@shinystat.com', 'Tuyl8LM', '40672 Morning Pass', '2010-03-17')
+Ò23:51:04.344 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Meara', 'Rounds', 'mroundsi@macromedia.com', 'xWjCaJbWV', '59186 Goodland Drive', '2001-10-06')
+«Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Meara', 'Rounds', 'mroundsi@macromedia.com', 'xWjCaJbWV', '59186 Goodland Drive', '2001-10-06')
+Ì23:51:04.345 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lanie', 'MacLennan', 'lmaclennanj@freewebs.com', 'sWKHpiG', '261 Clove Hill', '2002-11-09')
+√Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lanie', 'MacLennan', 'lmaclennanj@freewebs.com', 'sWKHpiG', '261 Clove Hill', '2002-11-09')
+Ì23:51:04.347 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Rebbecca', 'Doring', 'rdoringk@ucoz.com', 'xjXVKUaH', '1172 Glendale Avenue', '1998-11-22')
+√Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Rebbecca', 'Doring', 'rdoringk@ucoz.com', 'xjXVKUaH', '1172 Glendale Avenue', '1998-11-22')
+Û23:51:04.348 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Wendye', 'Skea', 'wskeal@mediafire.com', 'eIXpKpsiz3', '42 Village Green Junction', '2001-08-06')
+…Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Wendye', 'Skea', 'wskeal@mediafire.com', 'eIXpKpsiz3', '42 Village Green Junction', '2001-08-06')
+Ó23:51:04.350 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hort', 'D''Aeth', 'hdaethm@weather.com', 'Cc1R0nSGj1', '6926 Forest Junction', '2009-01-30')
+ƒHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hort', 'D''Aeth', 'hdaethm@weather.com', 'Cc1R0nSGj1', '6926 Forest Junction', '2009-01-30')
+Ë23:51:04.351 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Karissa', 'Cure', 'kcuren@reddit.com', 'qY4WSYJ', '9151 Eastlawn Place', '2008-11-11')
+æHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Karissa', 'Cure', 'kcuren@reddit.com', 'qY4WSYJ', '9151 Eastlawn Place', '2008-11-11')
+Î23:51:04.353 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Audre', 'Gentsch', 'agentscho@wsj.com', 'hwRq0X', '0775 Forest Dale Trail', '2000-08-28')
+¡Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Audre', 'Gentsch', 'agentscho@wsj.com', 'hwRq0X', '0775 Forest Dale Trail', '2000-08-28')
+Ò23:51:04.354 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Terrence', 'Forlong', 'tforlongp@yelp.com', 'CbB7hVv2Fdpx', '712 Dakota Parkway', '2002-02-05')
+«Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Terrence', 'Forlong', 'tforlongp@yelp.com', 'CbB7hVv2Fdpx', '712 Dakota Parkway', '2002-02-05')
+Ë23:51:04.355 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Imojean', 'Bosma', 'ibosmaq@java.com', 'C85hNPLz', '52977 Springs Hill', '2002-04-30')
+æHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Imojean', 'Bosma', 'ibosmaq@java.com', 'C85hNPLz', '52977 Springs Hill', '2002-04-30')
+Î23:51:04.356 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Fitzgerald', 'Hainey', 'fhaineyr@imdb.com', 'FamjZcp', '710 Knutson Drive', '2002-05-10')
+¡Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Fitzgerald', 'Hainey', 'fhaineyr@imdb.com', 'FamjZcp', '710 Knutson Drive', '2002-05-10')
+¯23:51:04.357 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Kathi', 'Scoggins', 'kscogginss@elegantthemes.com', 'MJwRZZ5Z2wc', '2014 Bunting Drive', '1993-11-15')
+ŒHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Kathi', 'Scoggins', 'kscogginss@elegantthemes.com', 'MJwRZZ5Z2wc', '2014 Bunting Drive', '1993-11-15')
+Ù23:51:04.359 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Chrissie', 'Mosedill', 'cmosedillt@businesswire.com', 'CFcl1pt', '13 Sachtjen Pass', '2002-10-15')
+ Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Chrissie', 'Mosedill', 'cmosedillt@businesswire.com', 'CFcl1pt', '13 Sachtjen Pass', '2002-10-15')
+˝23:51:04.361 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Jacquetta', 'Rottgers', 'jrottgersu@marketwatch.com', 'GR6ztqDt', '5487 Hazelcrest Junction', '2007-03-02')
+”Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Jacquetta', 'Rottgers', 'jrottgersu@marketwatch.com', 'GR6ztqDt', '5487 Hazelcrest Junction', '2007-03-02')
+Î23:51:04.363 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Tasia', 'Baxendale', 'tbaxendalev@dyndns.org', 'ZWu6hha', '4 Del Sol Park', '2007-05-17')
+¡Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Tasia', 'Baxendale', 'tbaxendalev@dyndns.org', 'ZWu6hha', '4 Del Sol Park', '2007-05-17')
+˘23:51:04.365 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Faunie', 'Banfield', 'fbanfieldw@theatlantic.com', 'ECtqcDz0iqEO', '8 Delaware Crossing', '1994-08-19')
+œHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Faunie', 'Banfield', 'fbanfieldw@theatlantic.com', 'ECtqcDz0iqEO', '8 Delaware Crossing', '1994-08-19')
+Ë23:51:04.367 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Dorris', 'Loxly', 'dloxlyx@uol.com.br', '0lHLX63J7BA', '77 Dorton Lane', '2007-08-08')
+æHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Dorris', 'Loxly', 'dloxlyx@uol.com.br', '0lHLX63J7BA', '77 Dorton Lane', '2007-08-08')
+Â23:51:04.370 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Freddy', 'Pack', 'fpacky@squidoo.com', '1qyDY8sI', '55 Gateway Park', '1993-07-05')
+ªHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Freddy', 'Pack', 'fpacky@squidoo.com', '1qyDY8sI', '55 Gateway Park', '1993-07-05')
+Ú23:51:04.371 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Max', 'Tideswell', 'mtideswellz@cloudflare.com', 'sdhYX9u8', '7 Coleman Junction', '1992-10-12')
+»Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Max', 'Tideswell', 'mtideswellz@cloudflare.com', 'sdhYX9u8', '7 Coleman Junction', '1992-10-12')
+˜23:51:04.373 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Trixy', 'Mitroshinov', 'tmitroshinov10@de.vu', 'uBGWmo9DjVe', '3 Brickson Park Center', '2007-10-28')
+ÕHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Trixy', 'Mitroshinov', 'tmitroshinov10@de.vu', 'uBGWmo9DjVe', '3 Brickson Park Center', '2007-10-28')
+Ô23:51:04.375 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Alphonso', 'Budik', 'abudik11@state.tx.us', 'cT5BzhkjM99B', '497 Chive Street', '1993-05-05')
+≈Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Alphonso', 'Budik', 'abudik11@state.tx.us', 'cT5BzhkjM99B', '497 Chive Street', '1993-05-05')
+Ì23:51:04.377 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hewe', 'Gyorgy', 'hgyorgy12@google.es', 'z8KIggRnbGlp', '53646 Ruskin Alley', '1999-01-29')
+√Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hewe', 'Gyorgy', 'hgyorgy12@google.es', 'z8KIggRnbGlp', '53646 Ruskin Alley', '1999-01-29')
+Û23:51:04.378 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Fidela', 'Kornousek', 'fkornousek13@myspace.com', 'rTYPOajXWVtS', '074 Dawn Court', '2007-07-23')
+…Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Fidela', 'Kornousek', 'fkornousek13@myspace.com', 'rTYPOajXWVtS', '074 Dawn Court', '2007-07-23')
+ﬂ23:51:04.383 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Roseline', 'Hess', 'rhess14@gov.uk', 'dfUxLw', '48 Rieder Way', '2005-08-18')
+µHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Roseline', 'Hess', 'rhess14@gov.uk', 'dfUxLw', '48 Rieder Way', '2005-08-18')
+Â23:51:04.387 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Easter', 'Chase', 'echase15@umich.edu', '8cbMAmw5Fu', '5 Vera Alley', '2010-03-24')
+ªHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Easter', 'Chase', 'echase15@umich.edu', '8cbMAmw5Fu', '5 Vera Alley', '2010-03-24')
+Ù23:51:04.388 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Melosa', 'Clemenson', 'mclemenson16@wunderground.com', 'ls2i3vLZ', '45 Veith Court', '2003-01-23')
+ Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Melosa', 'Clemenson', 'mclemenson16@wunderground.com', 'ls2i3vLZ', '45 Veith Court', '2003-01-23')
+23:51:04.389 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Wainwright', 'Casillis', 'wcasillis17@unblog.fr', 'WjKxea', '67 Mandrake Trail', '2003-12-25')
+∆Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Wainwright', 'Casillis', 'wcasillis17@unblog.fr', 'WjKxea', '67 Mandrake Trail', '2003-12-25')
+Ù23:51:04.390 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lorilyn', 'Sotheron', 'lsotheron18@vk.com', 'ZPVbkacaOW', '21 Ronald Regan Terrace', '2000-01-16')
+ Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lorilyn', 'Sotheron', 'lsotheron18@vk.com', 'ZPVbkacaOW', '21 Ronald Regan Terrace', '2000-01-16')
+Ú23:51:04.390 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Uta', 'Spittal', 'uspittal19@independent.co.uk', 'UWFKGm61yi', '95 Jenna Terrace', '1994-04-06')
+»Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Uta', 'Spittal', 'uspittal19@independent.co.uk', 'UWFKGm61yi', '95 Jenna Terrace', '1994-04-06')
+›23:51:04.391 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Asa', 'Parkey', 'aparkey1a@si.edu', '6Qekhe', '8 Marcy Road', '2005-10-24')
+≥Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Asa', 'Parkey', 'aparkey1a@si.edu', '6Qekhe', '8 Marcy Road', '2005-10-24')
+˙23:51:04.395 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Adrea', 'Billsberry', 'abillsberry1b@state.tx.us', 'GhEgLOH7', '69892 Sunnyside Crossing', '1991-03-19')
+–Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Adrea', 'Billsberry', 'abillsberry1b@state.tx.us', 'GhEgLOH7', '69892 Sunnyside Crossing', '1991-03-19')
+ˆ23:51:04.397 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hadleigh', 'Crooke', 'hcrooke1c@biblegateway.com', 'T2QKIskpmNOP', '59 Marcy Terrace', '2009-02-19')
+ÃHibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Hadleigh', 'Crooke', 'hcrooke1c@biblegateway.com', 'T2QKIskpmNOP', '59 Marcy Terrace', '2009-02-19')
+Ò23:51:04.401 [Test worker] DEBUG org.hibernate.SQL - insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Jessie', 'Rounsefell', 'jrounsefell1d@mapy.cz', 'AH5vUfxjiD', '93423 Toban Pass', '2004-01-17')
+«Hibernate: insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Jessie', 'Rounsefell', 'jrounsefell1d@mapy.cz', 'AH5vUfxjiD', '93423 Toban Pass', '2004-01-17')
+Ä23:51:04.404 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO orders (certificate_id, cost, user_id) VALUES ('1', '25', '1')
+VHibernate: INSERT INTO orders (certificate_id, cost, user_id) VALUES ('1', '25', '1')
+Ä23:51:04.405 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '1')
+VHibernate: INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '1')
+Ä23:51:04.406 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '1')
+VHibernate: INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '1')
+Å23:51:04.407 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '100', '1')
+WHibernate: INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '100', '1')
+Ä23:51:04.410 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '2')
+VHibernate: INSERT INTO orders (certificate_id, cost, user_id) VALUES ('2', '50', '2')
+Å23:51:04.412 [Test worker] DEBUG org.hibernate.SQL - INSERT INTO orders (certificate_id, cost, user_id) VALUES ('3', '100', '3')
+WHibernate: INSERT INTO orders (certificate_id, cost, user_id) VALUES ('3', '100', '3')
+ü23:51:04.420 [Test worker] DEBUG org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - No JtaPlatform was specified, checking resolver
+Ä23:51:04.423 [Test worker] DEBUG org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformResolverInitiator - No JtaPlatformResolver was specified, using default [org.hibernate.engine.transaction.jta.platform.internal.StandardJtaPlatformResolver]
+Í23:51:04.441 [Test worker] DEBUG org.hibernate.engine.transaction.jta.platform.internal.StandardJtaPlatformResolver - Could not resolve JtaPlatform, using default [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+‚23:51:04.441 [Test worker] INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+m23:51:04.443 [Test worker] DEBUG org.hibernate.query.spi.NamedQueryRepository - Checking 0 named HQL queries
+m23:51:04.444 [Test worker] DEBUG org.hibernate.query.spi.NamedQueryRepository - Checking 0 named SQL queries
+Æ23:51:04.473 [Test worker] DEBUG org.hibernate.internal.SessionFactoryRegistry - Initializing SessionFactoryRegistry : org.hibernate.internal.SessionFactoryRegistry@28b9f3e3
+û23:51:04.480 [Test worker] DEBUG org.hibernate.internal.SessionFactoryRegistry - Registering SessionFactory: effef905-e281-4053-8f90-39df2ee2ccab (<unnamed>)
+ç23:51:04.480 [Test worker] DEBUG org.hibernate.internal.SessionFactoryRegistry - Not binding SessionFactory to JNDI, no JNDI name configured

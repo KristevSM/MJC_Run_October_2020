@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.epam.esm.service.GiftCertificateServiceImplTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-11-25T13:26:43" hostname="MacBook-Air-Sergei.local" time="2.219">
+  <properties/>
+  <testcase name="shouldSaveNewCertificate()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="1.938"/>
+  <testcase name="shouldReturnEmptyListWhenCertificateByTagNameNotFound()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.008"/>
+  <testcase name="shouldFindCertificatesByTagName()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.193"/>
+  <testcase name="shouldFindCertificatesByTagNames()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.008"/>
+  <testcase name="shouldUpdateCertificate()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.015"/>
+  <testcase name="shouldReturnAllCertificates()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.006"/>
+  <testcase name="shouldDeleteCertificate()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.007"/>
+  <testcase name="shouldThrowExceptionDeleteCertificate()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.009"/>
+  <testcase name="shouldThrowExceptionWhenCertificateByIdNotFound()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.007"/>
+  <testcase name="shouldFindCertificateById()" classname="com.epam.esm.service.GiftCertificateServiceImplTest" time="0.005"/>
+  <system-out><![CDATA[[]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
