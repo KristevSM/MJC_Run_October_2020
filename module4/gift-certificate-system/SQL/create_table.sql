@@ -110,6 +110,39 @@ CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`users` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `gift_certificate_service`.`user_role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`user_role` (
+  `user_role_id` BIGINT(10) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`user_role_id`),
+  UNIQUE INDEX `id_UNIQUE` (`user_role_id` ASC) VISIBLE,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `gift_certificate_service`.`users_has_user_role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `gift_certificate_service`.`users_has_user_role` (
+  `user_id` BIGINT(10) NOT NULL,
+  `user_role_id` BIGINT(10) NOT NULL,
+  PRIMARY KEY (`user_id`, `user_role_id`),
+  INDEX `fk_users_has_user_role_user_role1_idx` (`user_role_id` ASC) VISIBLE,
+  INDEX `fk_users_has_user_role_users1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_users_has_user_role_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `gift_certificate_service`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_user_role_user_role1`
+    FOREIGN KEY (`user_role_id`)
+    REFERENCES `gift_certificate_service`.`user_role` (`user_role_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
