@@ -24,6 +24,6 @@ sourceCompatibility = 1.8
 repositories { mavenCentral() }
 
 dependencies {
-    compile project(':persistence')
+    compile project(':core')
 
 }

@@ -42,7 +42,7 @@ subprojects {
     }
 }
 
-project(':persistence') {
+project(':core') {
     dependencies {
 
         // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc
@@ -63,10 +63,10 @@ project(':persistence') {
     }
 }
 
-project(':web') {
+project(':api') {
     dependencies {
 
-        compile project(':persistence')
+        compile project(':core')
         compile('org.springframework.boot:spring-boot-starter-actuator')
         compile('org.springframework.boot:spring-boot-starter-web')
 
