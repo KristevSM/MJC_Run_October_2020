@@ -1,8 +1,12 @@
 package com.epam.esm.service;
 
+import com.epam.esm.converter.TagConverter;
+import com.epam.esm.dto.TagDTO;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.exception.TagNotFoundException;
+import com.epam.esm.exception.UserNotFoundException;
 import com.epam.esm.model.Tag;
+import com.epam.esm.model.User;
 import com.epam.esm.repository.TagRepository;
 import com.epam.esm.repository.UserRepository;
 import com.epam.esm.validator.TagValidator;
@@ -14,35 +18,44 @@ import org.springframework.validation.BindingResult;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
     private final TagValidator tagValidator;
+    private final TagConverter tagConverter;
 
     @Autowired
-    public TagServiceImpl(TagRepository tagRepository, TagValidator tagValidator) {
+    public TagServiceImpl(TagRepository tagRepository, TagValidator tagValidator, TagConverter tagConverter) {
         this.tagRepository = tagRepository;
         this.tagValidator = tagValidator;
+        this.tagConverter = tagConverter;
     }
 
     @Override
-    public List<Tag> findAllTags(Long page, Long pageSize) {
-        return tagRepository.findAll();
+    public List<TagDTO> findAllTags(Long page, Long pageSize) {
+        List<Tag> tagList = tagRepository.findAll();
+        return tagList.stream()
+                .map(tagConverter::convertTagDtoFromTag)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Tag findTagById(Long id) {
-        return tagRepository.findById(id).orElseThrow(() -> new TagNotFoundException(MessageFormat
-                .format("Tag with id: {0} not found", id)));    }
+    public TagDTO findTagById(Long id) {
+        Tag tag = tagRepository.findById(id).orElseThrow(() -> new TagNotFoundException(MessageFormat
+                .format("Tag with id: {0} not found", id)));
+        return tagConverter.convertTagDtoFromTag(tag);
+    }
 
     @Override
-    public Long saveTag(Tag tag) {
-        Optional<Tag> tagOptional = tagRepository.findByName(tag.getName());
+    public Long saveTag(TagDTO tagDTO) {
+        Optional<Tag> tagOptional = tagRepository.findByName(tagDTO.getName());
         if (tagOptional.isPresent()) {
-            throw new IllegalArgumentException(MessageFormat.format("Tag with name: {0} already exists", tag.getName()));
+            throw new IllegalArgumentException(MessageFormat.format("Tag with name: {0} already exists", tagDTO.getName()));
         }
+        Tag tag = tagConverter.convertTagFromTagDTO(tagDTO);
         BindingResult result = new BeanPropertyBindingResult(tag, "tag");
         tagValidator.validate(tag, result);
         if (result.hasErrors()) {
@@ -55,7 +68,8 @@ public class TagServiceImpl implements TagService {
         return newTag.getId();    }
 
     @Override
-    public void updateTag(Tag tag) {
+    public void updateTag(TagDTO tagDTO) {
+        Tag tag = tagConverter.convertTagFromTagDTO(tagDTO);
         BindingResult result = new BeanPropertyBindingResult(tag, "tag");
         tagValidator.validate(tag, result);
         if (result.hasErrors()) {
@@ -80,7 +94,9 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag getUsersMostWidelyUsedTag() {
-        return tagRepository.getUsersMostWidelyUsedTag().orElseThrow(() ->
-                new TagNotFoundException("Tag not found"));    }
+    public TagDTO getUsersMostWidelyUsedTag() {
+        Tag tag = tagRepository.getUsersMostWidelyUsedTag().orElseThrow(() ->
+                new TagNotFoundException("Tag not found"));
+        return tagConverter.convertTagDtoFromTag(tag);
+    }
 }

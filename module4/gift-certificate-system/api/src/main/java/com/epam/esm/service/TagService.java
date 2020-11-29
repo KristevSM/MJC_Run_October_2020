@@ -1,20 +1,21 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dto.TagDTO;
 import com.epam.esm.model.Tag;
 
 import java.util.List;
 
 public interface TagService {
 
-    List<Tag> findAllTags(Long page, Long pageSize);
+    List<TagDTO> findAllTags(Long page, Long pageSize);
 
-    Tag findTagById(Long id);
+    TagDTO findTagById(Long id);
 
-    Long saveTag(Tag tag);
+    Long saveTag(TagDTO tagDTO);
 
-    void updateTag(Tag tag);
+    void updateTag(TagDTO tagDTO);
 
     void deleteTag(Long id);
 
-    Tag getUsersMostWidelyUsedTag();
+    TagDTO getUsersMostWidelyUsedTag();
 }

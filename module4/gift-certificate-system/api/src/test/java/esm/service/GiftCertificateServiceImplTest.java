@@ -1,6 +1,5 @@
 package esm.service;
 
-import com.epam.esm.dao.*;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;

@@ -1,5 +1,6 @@
 package com.epam.esm.service;
 
+import com.epam.esm.dto.OrderDTO;
 import com.epam.esm.model.Order;
 import com.epam.esm.model.User;
 import com.epam.esm.repository.GiftCertificateRepository;
@@ -23,21 +24,21 @@ class OrderServiceImplTest {
 
     @Test
     public void shouldFindAllOrders() {
-        List<Order> orders = orderService.getAllOrders(1L, 20L);
+        List<OrderDTO> orders = orderService.getAllOrders(1L, 20L);
         assertEquals(5L, orders.size());
     }
 
     @Test
     void shouldFindOrderById() {
-        Order order1 = orderService.getOrderById(1L);
-        Order order2 = orderService.getOrderById(2L);
+        OrderDTO order1 = orderService.getOrderById(1L);
+        OrderDTO order2 = orderService.getOrderById(2L);
         assertEquals(1L, order1.getId());
         assertEquals(2L, order2.getId());
     }
 
     @Test
     void shouldMakeOrder() {
-        Order order = orderService.makeOrder(1L, 2L);
+        OrderDTO order = orderService.makeOrder(1L, 2L);
         assertEquals(6L, order.getId());
     }
 }

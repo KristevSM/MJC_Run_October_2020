@@ -1,7 +1,6 @@
 package esm.service;
 
-import com.epam.esm.dao.TagDao;
-import com.epam.esm.dao.TagDaoImpl;
+
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.TagService;

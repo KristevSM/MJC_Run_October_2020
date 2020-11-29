@@ -1,6 +1,6 @@
 package com.epam.esm.repository;
 
-import com.epam.esm.dao.CertificateSearchQuery;
+import com.epam.esm.repository.CertificateSearchQuery;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;

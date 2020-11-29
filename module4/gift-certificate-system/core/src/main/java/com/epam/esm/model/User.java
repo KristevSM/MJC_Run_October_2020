@@ -10,14 +10,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor()
 @Builder
 @Entity
 @Table(name = "users")
-public class User extends RepresentationModel<User> implements Serializable {
+public class User implements Serializable {
 
     private static final long serialVersionUID = -1L;
     @Id
@@ -36,7 +35,6 @@ public class User extends RepresentationModel<User> implements Serializable {
     private String address;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

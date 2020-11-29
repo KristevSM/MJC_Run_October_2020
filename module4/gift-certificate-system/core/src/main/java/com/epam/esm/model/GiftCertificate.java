@@ -1,7 +1,5 @@
 package com.epam.esm.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
@@ -11,14 +9,14 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor()
+@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "gift_certificate")
-public class GiftCertificate extends RepresentationModel<GiftCertificate> implements Serializable {
+public class GiftCertificate implements Serializable {
 
     private static final long serialVersionUID = -1L;
     @Id
@@ -31,10 +29,8 @@ public class GiftCertificate extends RepresentationModel<GiftCertificate> implem
     private String description;
     @Column(name = "price")
     private BigDecimal price;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
     @Column(name = "create_date")
     private ZonedDateTime createDate;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = JsonFormat.DEFAULT_TIMEZONE)
     @Column(name = "last_update_date")
     private ZonedDateTime lastUpdateDate;
     @Column(name = "duration")
@@ -47,7 +43,6 @@ public class GiftCertificate extends RepresentationModel<GiftCertificate> implem
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "giftCertificate")
     private List<Order> orders;
 }

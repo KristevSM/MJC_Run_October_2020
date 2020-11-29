@@ -1,5 +1,7 @@
 package com.epam.esm.service;
 
+import com.epam.esm.converter.OrderConverter;
+import com.epam.esm.dto.OrderDTO;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.OrderNotFoundException;
 import com.epam.esm.exception.UserNotFoundException;
@@ -10,39 +12,46 @@ import com.epam.esm.repository.GiftCertificateRepository;
 import com.epam.esm.repository.OrderRepository;
 import com.epam.esm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
+    private final OrderConverter orderConverter;
     private final UserRepository userRepository;
     private final GiftCertificateRepository giftCertificateRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, GiftCertificateRepository giftCertificateRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderConverter orderConverter, UserRepository userRepository, GiftCertificateRepository giftCertificateRepository) {
         this.orderRepository = orderRepository;
+        this.orderConverter = orderConverter;
         this.userRepository = userRepository;
         this.giftCertificateRepository = giftCertificateRepository;
     }
 
     @Override
-    public List<Order> getAllOrders(Long page, Long pageSize) {
-        return orderRepository.findAll();
+    public List<OrderDTO> getAllOrders(Long page, Long pageSize) {
+        List<Order> orderList = orderRepository.findAll();
+        return orderList.stream()
+                .map(orderConverter::convertOrderDTOFromOrder)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(MessageFormat
-                .format("Order with id: {0} not found", id)));    }
+    public OrderDTO getOrderById(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(MessageFormat
+                .format("Order with id: {0} not found", id)));
+        return orderConverter.convertOrderDTOFromOrder(order);
+    }
 
     @Override
-    public Order makeOrder(Long userId, Long certificateId) {
+    public OrderDTO makeOrder(Long userId, Long certificateId) {
         GiftCertificate certificate = giftCertificateRepository.findById(certificateId).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
                 .format("Gift certificate with id: {0} not found", certificateId)));
 
@@ -57,7 +66,8 @@ public class OrderServiceImpl implements OrderService{
         Order newOrder= orderRepository.save(order);
         Order orderFromDao = orderRepository.findById(newOrder.getId()).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                 .format("Order with id: {0} not found", newOrder.getId())));
-        return orderFromDao;    }
+        return orderConverter.convertOrderDTOFromOrder(orderFromDao);
+    }
 
     @Override
     public void removeOrder(Long orderId) {
@@ -67,9 +77,12 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<Order> getUserOrders(Long userId, Long page, Long pageSize) {
+    public List<OrderDTO> getUserOrders(Long userId, Long page, Long pageSize) {
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", userId)));
-        return orderRepository.findByUserId(userId);    }
+        List<Order> orderList = orderRepository.findByUserId(userId);
+        return orderList.stream()
+                .map(orderConverter::convertOrderDTOFromOrder)
+                .collect(Collectors.toList());}
 
 }

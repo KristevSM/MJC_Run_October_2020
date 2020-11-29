@@ -1,5 +1,6 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.dto.TagDTO;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.ValidationUtils;
@@ -57,21 +58,21 @@ public class TagController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/tags", produces = {"application/hal+json"})
-    public CollectionModel<Tag> findAllTags(@RequestParam(value = "page") Optional<Long> page,
-                                             @RequestParam(value = "page_size") Optional<Long> pageSize) {
+    public CollectionModel<TagDTO> findAllTags(@RequestParam(value = "page") Optional<Long> page,
+                                               @RequestParam(value = "page_size") Optional<Long> pageSize) {
         Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
         Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<Tag> tagList = tagService.findAllTags(pageNumber, pageSizeNumber);
-        for (Tag tag : tagList) {
+        List<TagDTO> tagDTOList = tagService.findAllTags(pageNumber, pageSizeNumber);
+        for (TagDTO tagDTO : tagDTOList) {
             Link selfLink = linkTo(methodOn(TagController.class)
-                    .findTagById(tag.getId())).withSelfRel();
-            tag.add(selfLink);
+                    .findTagById(tagDTO.getId())).withSelfRel();
+            tagDTO.add(selfLink);
         }
         Link link = linkTo(TagController.class).slash("tags").withSelfRel();
-        return new CollectionModel<>(tagList, link);    }
+        return new CollectionModel<>(tagDTOList, link);    }
 
     /**
      * Gets tag by id.
@@ -81,15 +82,15 @@ public class TagController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "tags/{id}", produces = {"application/hal+json"})
-    public Tag findTagById(@PathVariable Long id) {
-        Tag tag = tagService.findTagById(id);
+    public TagDTO findTagById(@PathVariable Long id) {
+        TagDTO tagDTO = tagService.findTagById(id);
         Link selfLink = linkTo(methodOn(TagController.class)
-                .findTagById(tag.getId())).withSelfRel();
+                .findTagById(tagDTO.getId())).withSelfRel();
         Link tagsLink = linkTo(methodOn(TagController.class)
                 .findAllTags(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("tags");
-        tag.add(tagsLink);
-        tag.add(selfLink);
-        return tag;
+        tagDTO.add(tagsLink);
+        tagDTO.add(selfLink);
+        return tagDTO;
     }
 
     /**
@@ -98,15 +99,15 @@ public class TagController {
      * The tag is saved through the <i>tagService</i>.
      * Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
-     * @param tag             Tag instance.
+     * @param tagDTO             Tag instance.
      * @param ucBuilder       UriComponentsBuilder instance.
      * @return ResponseEntity.
      */
     @PostMapping(path = "/tags", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Tag> addTag(@RequestBody @Valid Tag tag,
+    public ResponseEntity<TagDTO> addTag(@RequestBody @Valid TagDTO tagDTO,
                                       UriComponentsBuilder ucBuilder) {
 
-            Long tagId = tagService.saveTag(tag);
+            Long tagId = tagService.saveTag(tagDTO);
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(ucBuilder.path("/tags/{id}").buildAndExpand(tagId).toUri());
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -125,12 +126,12 @@ public class TagController {
      * @return ResponseEntity.
      */
     @PatchMapping(path = "tags/{id}", consumes = "application/json-patch+json")
-    public ResponseEntity<Tag> updateTag(@PathVariable Long id,
+    public ResponseEntity<TagDTO> updateTag(@PathVariable Long id,
                                          @RequestBody JsonPatch patch,
                                          UriComponentsBuilder ucBuilder) {
         try {
-            Tag oldTag = tagService.findTagById(id);
-            Tag tagPatched = applyPatchToTag(patch, oldTag);
+            TagDTO oldTag = tagService.findTagById(id);
+            TagDTO tagPatched = applyPatchToTag(patch, oldTag);
 
                 tagService.updateTag(tagPatched);
                 HttpHeaders headers = new HttpHeaders();
@@ -163,13 +164,13 @@ public class TagController {
      * @param targetTag         Tag instance
      * @return patched Tag instance.
      */
-    private Tag applyPatchToTag(
-            JsonPatch patch, Tag targetTag) throws JsonPatchException, JsonProcessingException {
+    private TagDTO applyPatchToTag(
+            JsonPatch patch, TagDTO targetTag) throws JsonPatchException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
         JsonNode patched = patch.apply(objectMapper.convertValue(targetTag, JsonNode.class));
-        return objectMapper.treeToValue(patched, Tag.class);
+        return objectMapper.treeToValue(patched, TagDTO.class);
     }
 
     /**
@@ -179,14 +180,14 @@ public class TagController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/tags/popular", produces = {"application/hal+json"})
-    public Tag getUsersMostWidelyUsedTag() {
-        Tag tag = tagService.getUsersMostWidelyUsedTag();
+    public TagDTO getUsersMostWidelyUsedTag() {
+        TagDTO tagDTO = tagService.getUsersMostWidelyUsedTag();
         Link selfLink = linkTo(methodOn(TagController.class)
-                .findTagById(tag.getId())).withSelfRel();
+                .findTagById(tagDTO.getId())).withSelfRel();
         Link tagsLink = linkTo(methodOn(TagController.class)
                 .findAllTags(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("tags");
-        tag.add(tagsLink);
-        tag.add(selfLink);
-        return tag;
+        tagDTO.add(tagsLink);
+        tagDTO.add(selfLink);
+        return tagDTO;
     }
 }

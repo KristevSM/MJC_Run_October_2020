@@ -1,5 +1,6 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.dto.UserDTO;
 import com.epam.esm.model.User;
 import com.epam.esm.service.UserService;
 import com.epam.esm.validator.ValidationUtils;
@@ -49,26 +50,26 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users", produces = {"application/hal+json"})
-    public CollectionModel<User> findAllUsers(@RequestParam(value = "page") Optional<Long> page,
+    public CollectionModel<UserDTO> findAllUsers(@RequestParam(value = "page") Optional<Long> page,
                                               @RequestParam(value = "page_size") Optional<Long> pageSize) {
         long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
         long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<User> userList = userService.getAllUsers(pageNumber, pageSizeNumber);
+        List<UserDTO> userDTOList = userService.getAllUsers(pageNumber, pageSizeNumber);
 //        long totalCount = userService.findUsersTotalCount();
 //        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
 
-        for (User user : userList) {
+        for (UserDTO userDTO : userDTOList) {
             Link selfLink = linkTo(methodOn(UserController.class)
-                    .findUserById(user.getId())).withRel("currentUser");
-            user.add(selfLink);
+                    .findUserById(userDTO.getId())).withRel("currentUser");
+            userDTO.add(selfLink);
         }
 
         Link usersLink = linkTo(UserController.class).slash("users").withRel("usersList");
 
-        CollectionModel<User> collectionModel = new CollectionModel(userList, usersLink);
+        CollectionModel<UserDTO> collectionModel = new CollectionModel(userDTOList, usersLink);
         if (pageNumber > 1) {
             Link previousPage = linkTo(methodOn(UserController.class)
                     .findAllUsers(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
@@ -90,15 +91,15 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}", produces = {"application/hal+json"})
-    public User findUserById(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    public UserDTO findUserById(@PathVariable Long id) {
+        UserDTO userDTO = userService.getUserById(id);
         Link selfLink = linkTo(methodOn(UserController.class)
-                .findUserById(user.getId())).withRel("currentUser");
+                .findUserById(userDTO.getId())).withRel("currentUser");
         Link ordersLink = linkTo(methodOn(OrderController.class)
-                .getUserOrders(user.getId(), Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("usersOrders");
-        user.add(ordersLink);
-        user.add(selfLink);
-        return user;
+                .getUserOrders(userDTO.getId(), Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("usersOrders");
+        userDTO.add(ordersLink);
+        userDTO.add(selfLink);
+        return userDTO;
     }
 
 }

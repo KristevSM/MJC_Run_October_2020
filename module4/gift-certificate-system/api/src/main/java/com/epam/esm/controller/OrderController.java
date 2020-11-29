@@ -1,5 +1,6 @@
 package com.epam.esm.controller;
 
+import com.epam.esm.dto.OrderDTO;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.Order;
 import com.epam.esm.service.OrderService;
@@ -48,24 +49,24 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/orders", produces = {"application/hal+json"})
-    public CollectionModel<Order> findAllOrders(@RequestParam(value = "page") Optional<Long> page,
+    public CollectionModel<OrderDTO> findAllOrders(@RequestParam(value = "page") Optional<Long> page,
                                                 @RequestParam(value = "page_size") Optional<Long> pageSize) {
         long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
         long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<Order> orderList = orderService.getAllOrders(pageNumber, pageSizeNumber);
+        List<OrderDTO> orderList = orderService.getAllOrders(pageNumber, pageSizeNumber);
 //        long totalCount = orderService.findOrderTotalCount();
 //        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
-        for (Order order : orderList) {
+        for (OrderDTO orderDTO : orderList) {
             Link selfLink = linkTo(methodOn(OrderController.class)
-                    .findOrderById(order.getId())).withRel("currentOrder");
-            order.add(selfLink);
+                    .findOrderById(orderDTO.getId())).withRel("currentOrder");
+            orderDTO.add(selfLink);
         }
 
         Link orders = linkTo(OrderController.class).slash("orders").withRel("ordersList");
 
-        CollectionModel<Order> collectionModel = new CollectionModel(orderList, orders);
+        CollectionModel<OrderDTO> collectionModel = new CollectionModel(orderList, orders);
         if (pageNumber > 1) {
             Link previousPage = linkTo(methodOn(OrderController.class)
                     .findAllOrders(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
@@ -87,30 +88,30 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/orders/{id}", produces = {"application/hal+json"})
-    public Order findOrderById(@PathVariable Long id) {
-        Order order = orderService.getOrderById(id);
-        return addHateoasLinksToOrder(order);
+    public OrderDTO findOrderById(@PathVariable Long id) {
+        OrderDTO orderDTO = orderService.getOrderById(id);
+        return addHateoasLinksToOrder(orderDTO);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/orders")
-    public Order makeOrder(@RequestParam(value = "user_id") Optional<Long> userId,
+    public OrderDTO makeOrder(@RequestParam(value = "user_id") Optional<Long> userId,
                            @RequestParam(value = "certificate_id") Optional<Long> certificateId) {
 
         long userIdFromRequest = userId.orElseThrow(() -> new InvalidInputDataException("Missing value for the userId parameter"));
         long certificateIdFromRequest = certificateId.orElseThrow(() -> new InvalidInputDataException("Missing value for the certificateId parameter"));
-        Order order = orderService.makeOrder(userIdFromRequest, certificateIdFromRequest);
-        return addHateoasLinksToOrder(order);
+        OrderDTO orderDTO = orderService.makeOrder(userIdFromRequest, certificateIdFromRequest);
+        return addHateoasLinksToOrder(orderDTO);
     }
 
-    private Order addHateoasLinksToOrder(Order order) {
+    private OrderDTO addHateoasLinksToOrder(OrderDTO orderDTO) {
         Link selfLink = linkTo(methodOn(OrderController.class)
-                .findOrderById(order.getId())).withRel("currentOrder");
+                .findOrderById(orderDTO.getId())).withRel("currentOrder");
         Link ordersLink = linkTo(methodOn(OrderController.class)
                 .findAllOrders(Optional.of(DEFAULT_PAGE_NUMBER), Optional.of(DEFAULT_PAGE_SIZE))).withRel("ordersList");
-        order.add(ordersLink);
-        order.add(selfLink);
-        return order;
+        orderDTO.add(ordersLink);
+        orderDTO.add(selfLink);
+        return orderDTO;
     }
 
     /**
@@ -123,7 +124,7 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}/orders", produces = {"application/hal+json"})
-    public CollectionModel<Order> getUserOrders(@PathVariable Long id,
+    public CollectionModel<OrderDTO> getUserOrders(@PathVariable Long id,
                                                 @RequestParam(value = "page") Optional<Long> page,
                                                 @RequestParam(value = "page_size") Optional<Long> pageSize
     ) {
@@ -131,16 +132,16 @@ public class OrderController {
         long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
-        List<Order> orderList = orderService.getUserOrders(id, pageNumber, pageSizeNumber);
+        List<OrderDTO> orderDTOList = orderService.getUserOrders(id, pageNumber, pageSizeNumber);
 //        long totalCount = orderService.findOrderTotalCountByUserId(id);
 //        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
-        for (Order order : orderList) {
+        for (OrderDTO orderDTO : orderDTOList) {
             Link selfLink = linkTo(methodOn(OrderController.class)
-                    .findOrderById(order.getId())).withRel("order");
-            order.add(selfLink);
+                    .findOrderById(orderDTO.getId())).withRel("order");
+            orderDTO.add(selfLink);
         }
 
-        CollectionModel<Order> collectionModel = new CollectionModel(orderList);
+        CollectionModel<OrderDTO> collectionModel = new CollectionModel(orderDTOList);
         if (pageNumber > 1) {
             Link previousPage = linkTo(methodOn(OrderController.class)
                     .getUserOrders(id, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");

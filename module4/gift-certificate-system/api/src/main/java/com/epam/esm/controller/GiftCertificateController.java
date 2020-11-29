@@ -1,9 +1,11 @@
 package com.epam.esm.controller;
 
-import com.epam.esm.dao.CertificateSearchQuery;
+import com.epam.esm.dto.GiftCertificateDTO;
+import com.epam.esm.dto.TagDTO;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Tag;
+import com.epam.esm.repository.CertificateSearchQuery;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.CertificateSearchValidator;
 import com.epam.esm.validator.ValidationUtils;
@@ -20,7 +22,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -29,7 +30,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,14 +69,14 @@ public class GiftCertificateController {
      * If new tags are passed during creation certificate, they saved throw <i>tagService</i>Is returning
      * <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
-     * @param giftCertificate GiftCertificate instance.
-     * @param ucBuilder       UriComponentsBuilder instance.
+     * @param giftCertificateDTO GiftCertificate instance.
+     * @param ucBuilder          UriComponentsBuilder instance.
      * @return ResponseEntity.
      */
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<GiftCertificate> addGiftCertificate(@RequestBody @Valid GiftCertificate giftCertificate,
-                                                              UriComponentsBuilder ucBuilder) {
-        Long certificateId = giftCertificateService.saveCertificate(giftCertificate);
+    public ResponseEntity<GiftCertificateDTO> addGiftCertificate(@RequestBody @Valid GiftCertificateDTO giftCertificateDTO,
+                                                                 UriComponentsBuilder ucBuilder) {
+        Long certificateId = giftCertificateService.saveCertificate(giftCertificateDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificateId).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
@@ -95,12 +95,12 @@ public class GiftCertificateController {
      * @return ResponseEntity.
      */
     @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
-    public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
-                                                                 @RequestBody JsonPatch patch,
-                                                                 UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<GiftCertificateDTO> updateGiftCertificate(@PathVariable Long id,
+                                                                    @RequestBody JsonPatch patch,
+                                                                    UriComponentsBuilder ucBuilder) {
         try {
-            GiftCertificate oldCertificate = giftCertificateService.findCertificateById(id);
-            GiftCertificate certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
+            GiftCertificateDTO oldCertificate = giftCertificateService.findCertificateById(id);
+            GiftCertificateDTO certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
             giftCertificateService.updateCertificate(certificatePatched);
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
@@ -110,29 +110,6 @@ public class GiftCertificateController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    //    /**
-//     * Updates gift certificate.
-//     * <p>
-//     * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
-//     * the patchTags(oldCertificate, certificatePatched) method. Then the certificate updates throw <i>giftCertificateService</i>.
-//     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
-//     *
-//     * @param id                        GiftCertificate id.
-//     * @param certificatePatched        GiftCertificate instance.
-//     * @param ucBuilder                 UriComponentsBuilder instance.
-//     * @return ResponseEntity.
-//     */
-//    @PatchMapping(path = "certificates/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<GiftCertificate> updateGiftCertificate(@PathVariable Long id,
-//                                                                 @RequestBody @Valid GiftCertificate certificatePatched,
-//                                                                 UriComponentsBuilder ucBuilder) {
-//        giftCertificateService.findCertificateById(id);
-//        giftCertificateService.updateCertificate(certificatePatched);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
-//        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
-//    }
 
     /**
      * Deletes gift certificate by id.
@@ -153,18 +130,18 @@ public class GiftCertificateController {
      * @return GiftCertificate instance.
      */
     @GetMapping(value = "certificates/{id}", produces = {"application/hal+json"})
-    public GiftCertificate findCertificateById(@PathVariable Long id) {
-        GiftCertificate certificate = giftCertificateService.findCertificateById(id);
-        List<Tag> tags = certificate.getTags();
+    public GiftCertificateDTO findCertificateById(@PathVariable Long id) {
+        GiftCertificateDTO certificateDTO = giftCertificateService.findCertificateById(id);
+        List<TagDTO> tags = certificateDTO.getTags();
         tags.forEach(tag -> {
             Link selfLink = linkTo(methodOn(TagController.class)
                     .findTagById(tag.getId())).withSelfRel();
             tag.add(selfLink);
         });
         Link selfLink = linkTo(methodOn(GiftCertificateController.class)
-                .findCertificateById(certificate.getId())).withSelfRel();
-        certificate.add(selfLink);
-        return certificate;
+                .findCertificateById(certificateDTO.getId())).withSelfRel();
+        certificateDTO.add(selfLink);
+        return certificateDTO;
     }
 
     /**
@@ -184,20 +161,20 @@ public class GiftCertificateController {
      */
     @GetMapping(value = "/certificates", produces = {"application/hal+json"})
     @ResponseStatus(HttpStatus.OK)
-    public CollectionModel<GiftCertificate> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
-                                                             @RequestParam(value = "part_of_name") Optional<String> partOfName,
-                                                             @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
-                                                             @RequestParam(value = "sort") Optional<String> sortParameter,
-                                                             @RequestParam(value = "sort_order") Optional<String> sortOrder,
-                                                             @RequestParam(value = "page") Optional<Long> page,
-                                                             @RequestParam(value = "page_size") Optional<Long> pageSize
+    public CollectionModel<GiftCertificateDTO> findCertificates(@RequestParam(value = "tag_name") Optional<String> tagName,
+                                                                @RequestParam(value = "part_of_name") Optional<String> partOfName,
+                                                                @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
+                                                                @RequestParam(value = "sort") Optional<String> sortParameter,
+                                                                @RequestParam(value = "sort_order") Optional<String> sortOrder,
+                                                                @RequestParam(value = "page") Optional<Long> page,
+                                                                @RequestParam(value = "page_size") Optional<Long> pageSize
     ) {
         Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
         Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<GiftCertificate> certificateList;
+        List<GiftCertificateDTO> certificateList;
 
         CertificateSearchQuery query = new CertificateSearchQuery();
         tagName.ifPresent(query::setTagName);
@@ -216,7 +193,7 @@ public class GiftCertificateController {
         }
         certificateList = giftCertificateService.getCertificates(query, pageNumber, pageSizeNumber);
 
-        for (GiftCertificate certificate : certificateList) {
+        for (GiftCertificateDTO certificate : certificateList) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificateById(certificate.getId())).withSelfRel();
             certificate.add(selfLink);
@@ -234,14 +211,14 @@ public class GiftCertificateController {
      * @param targetCertificate GiftCertificate instance
      * @return patched GiftCertificate instance.
      */
-    private GiftCertificate applyPatchToGiftCertificate(JsonPatch patch, GiftCertificate targetCertificate)
+    private GiftCertificateDTO applyPatchToGiftCertificate(JsonPatch patch, GiftCertificateDTO targetCertificate)
             throws JsonPatchException, JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         JsonNode patched = patch.apply(objectMapper.convertValue(targetCertificate, JsonNode.class));
-        return objectMapper.treeToValue(patched, GiftCertificate.class);
+        return objectMapper.treeToValue(patched, GiftCertificateDTO.class);
     }
 
 
@@ -257,9 +234,9 @@ public class GiftCertificateController {
      */
     @GetMapping(value = "/certificates/search", produces = {"application/hal+json"})
     @ResponseStatus(HttpStatus.OK)
-    public CollectionModel<GiftCertificate> findCertificates(@RequestParam(value = "tag_name", defaultValue = "") List<String> tagNames,
-                                                             @RequestParam(value = "page") Optional<Long> page,
-                                                             @RequestParam(value = "page_size") Optional<Long> pageSize
+    public CollectionModel<GiftCertificateDTO> findCertificates(@RequestParam(value = "tag_name", defaultValue = "") List<String> tagNames,
+                                                                @RequestParam(value = "page") Optional<Long> page,
+                                                                @RequestParam(value = "page_size") Optional<Long> pageSize
     ) {
         if (tagNames.isEmpty()) {
             throw new InvalidInputDataException("Search query mustn't be empty");
@@ -269,8 +246,8 @@ public class GiftCertificateController {
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<GiftCertificate> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber, pageSizeNumber);
-        for (GiftCertificate certificate : certificates) {
+        List<GiftCertificateDTO> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber, pageSizeNumber);
+        for (GiftCertificateDTO certificate : certificates) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificateById(certificate.getId())).withSelfRel();
             certificate.add(selfLink);
@@ -291,12 +268,12 @@ public class GiftCertificateController {
      */
     @PostMapping(path = "/certificates/{id}/edit")
     @ResponseStatus(HttpStatus.OK)
-    public GiftCertificate updateSingleCertificateField(@PathVariable Long id,
-                                                        @RequestParam(value = "fieldName", defaultValue = "") String fieldName,
-                                                        @RequestParam(value = "fieldValue", defaultValue = "") String fieldValue) {
+    public GiftCertificateDTO updateSingleCertificateField(@PathVariable Long id,
+                                                           @RequestParam(value = "fieldName", defaultValue = "") String fieldName,
+                                                           @RequestParam(value = "fieldValue", defaultValue = "") String fieldValue) {
 
-        GiftCertificate certificate = giftCertificateService.updateSingleCertificateField(id, fieldName, fieldValue);
-        List<Tag> tags = certificate.getTags();
+        GiftCertificateDTO certificate = giftCertificateService.updateSingleCertificateField(id, fieldName, fieldValue);
+        List<TagDTO> tags = certificate.getTags();
         tags.forEach(tag -> {
             Link selfLink = linkTo(methodOn(TagController.class)
                     .findTagById(tag.getId())).withRel("tag");
