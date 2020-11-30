@@ -12,6 +12,7 @@ import java.util.List;
 
 public class GiftCertificateSpecification implements Specification<GiftCertificate> {
 
+    private static final long serialVersionUID = 2433825639488053849L;
     private final List<SearchCriteria> list;
 
     public void add(SearchCriteria criteria) {
@@ -66,7 +67,8 @@ public class GiftCertificateSpecification implements Specification<GiftCertifica
             }
         }
 
-        return builder.and(predicates.toArray(new Predicate[0]));    }
+        return builder.and(predicates.toArray(new Predicate[0]));
+    }
 
     @Override
     public Specification<GiftCertificate> and(Specification<GiftCertificate> other) {
