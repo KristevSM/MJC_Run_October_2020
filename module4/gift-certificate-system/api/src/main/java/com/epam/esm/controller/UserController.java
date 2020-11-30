@@ -5,6 +5,8 @@ import com.epam.esm.model.User;
 import com.epam.esm.service.UserService;
 import com.epam.esm.validator.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -50,14 +52,14 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users", produces = {"application/hal+json"})
-    public CollectionModel<UserDTO> findAllUsers(@RequestParam(value = "page") Optional<Long> page,
-                                              @RequestParam(value = "page_size") Optional<Long> pageSize) {
-        long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+    public CollectionModel<UserDTO> findAllUsers(@RequestParam(value = "page") Optional<Integer> page,
+                                              @RequestParam(value = "page_size") Optional<Integer> pageSize) {
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<UserDTO> userDTOList = userService.getAllUsers(pageNumber, pageSizeNumber);
+        List<UserDTO> userDTOList = userService.getAllUsers(pageNumber-1, pageSizeNumber);
 //        long totalCount = userService.findUsersTotalCount();
 //        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
 

@@ -11,6 +11,8 @@ import com.epam.esm.repository.TagRepository;
 import com.epam.esm.repository.UserRepository;
 import com.epam.esm.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -35,8 +37,9 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<TagDTO> findAllTags(Long page, Long pageSize) {
-        List<Tag> tagList = tagRepository.findAll();
+    public List<TagDTO> findAllTags(int page, int pageSize) {
+        Page<Tag> tagPage = tagRepository.findAll(PageRequest.of(page, pageSize));
+        List<Tag> tagList = tagPage.toList();
         return tagList.stream()
                 .map(tagConverter::convertTagDtoFromTag)
                 .collect(Collectors.toList());

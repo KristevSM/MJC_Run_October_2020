@@ -10,6 +10,8 @@ import com.epam.esm.model.User;
 import com.epam.esm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -36,8 +38,9 @@ public class UserServiceImpl implements UserService{
      * @return Users list.
      */
     @Override
-    public List<UserDTO> getAllUsers(Long page, Long pageSize) {
-        List<User> userList = userRepository.findAll();
+    public List<UserDTO> getAllUsers(int page, int pageSize) {
+        Page<User> userPage = userRepository.findAll(PageRequest.of(page, pageSize));
+        List<User> userList = userPage.toList();
         return userList.stream()
                 .map(userConverter::convertUserDTOFromUser)
                 .collect(Collectors.toList());

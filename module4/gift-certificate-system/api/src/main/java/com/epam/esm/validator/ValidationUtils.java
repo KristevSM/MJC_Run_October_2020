@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 @UtilityClass
 public final class ValidationUtils {
 
-    public static boolean checkPaginationData(Long page, Long pageSize) {
+    public static boolean checkPaginationData(int page, int pageSize) {
         if (page <= 0) {
             throw new InvalidInputDataException(MessageFormat.format("Invalid input data. Page: {0}", page));
         } else if (pageSize <= 0) {

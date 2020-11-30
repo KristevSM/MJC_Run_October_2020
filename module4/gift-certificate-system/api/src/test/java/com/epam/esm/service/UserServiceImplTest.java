@@ -22,7 +22,7 @@ class UserServiceImplTest {
 
     @Test
     void shouldGetAllUsers() {
-        List<UserDTO> userList = userService.getAllUsers(1L, 20L);
+        List<UserDTO> userList = userService.getAllUsers(1, 20);
         assertEquals(5, userList.size());
     }
 

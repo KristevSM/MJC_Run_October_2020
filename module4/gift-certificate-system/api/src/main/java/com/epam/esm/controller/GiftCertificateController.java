@@ -3,8 +3,6 @@ package com.epam.esm.controller;
 import com.epam.esm.dto.GiftCertificateDTO;
 import com.epam.esm.dto.TagDTO;
 import com.epam.esm.exception.InvalidInputDataException;
-import com.epam.esm.model.GiftCertificate;
-import com.epam.esm.model.Tag;
 import com.epam.esm.repository.CertificateSearchQuery;
 import com.epam.esm.service.GiftCertificateService;
 import com.epam.esm.validator.CertificateSearchValidator;
@@ -33,7 +31,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
-import static com.epam.esm.constants.AppConstants.*;
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_NUMBER;
+import static com.epam.esm.constants.AppConstants.DEFAULT_PAGE_SIZE;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -166,11 +165,11 @@ public class GiftCertificateController {
                                                                 @RequestParam(value = "part_of_description") Optional<String> partOfDescription,
                                                                 @RequestParam(value = "sort") Optional<String> sortParameter,
                                                                 @RequestParam(value = "sort_order") Optional<String> sortOrder,
-                                                                @RequestParam(value = "page") Optional<Long> page,
-                                                                @RequestParam(value = "page_size") Optional<Long> pageSize
+                                                                @RequestParam(value = "page") Optional<Integer> page,
+                                                                @RequestParam(value = "page_size") Optional<Integer> pageSize
     ) {
-        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
@@ -191,7 +190,7 @@ public class GiftCertificateController {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         }
-        certificateList = giftCertificateService.getCertificates(query, pageNumber, pageSizeNumber);
+        certificateList = giftCertificateService.getCertificates(query, pageNumber-1, pageSizeNumber);
 
         for (GiftCertificateDTO certificate : certificateList) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
@@ -235,18 +234,18 @@ public class GiftCertificateController {
     @GetMapping(value = "/certificates/search", produces = {"application/hal+json"})
     @ResponseStatus(HttpStatus.OK)
     public CollectionModel<GiftCertificateDTO> findCertificates(@RequestParam(value = "tag_name", defaultValue = "") List<String> tagNames,
-                                                                @RequestParam(value = "page") Optional<Long> page,
-                                                                @RequestParam(value = "page_size") Optional<Long> pageSize
+                                                                @RequestParam(value = "page") Optional<Integer> page,
+                                                                @RequestParam(value = "page_size") Optional<Integer> pageSize
     ) {
         if (tagNames.isEmpty()) {
             throw new InvalidInputDataException("Search query mustn't be empty");
         }
-        Long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        Long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<GiftCertificateDTO> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber, pageSizeNumber);
+        List<GiftCertificateDTO> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber-1, pageSizeNumber);
         for (GiftCertificateDTO certificate : certificates) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificateById(certificate.getId())).withSelfRel();

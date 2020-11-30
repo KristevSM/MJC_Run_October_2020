@@ -6,6 +6,6 @@ import com.epam.esm.model.User;
 import java.util.List;
 
 public interface UserService {
-    List<UserDTO> getAllUsers(Long page, Long pageSize);
+    List<UserDTO> getAllUsers(int page, int pageSize);
     UserDTO getUserById(Long id);
 }

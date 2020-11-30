@@ -7,14 +7,14 @@ import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
 import com.epam.esm.model.Order;
 import com.epam.esm.model.Tag;
-import com.epam.esm.repository.CertificateSearchQuery;
-import com.epam.esm.repository.GiftCertificateRepository;
-import com.epam.esm.repository.OrderRepository;
-import com.epam.esm.repository.TagRepository;
+import com.epam.esm.repository.*;
 import com.epam.esm.validator.GiftCertificateValidator;
 import com.epam.esm.validator.TagValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -46,22 +46,38 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         this.tagValidator = tagValidator;
     }
 
-    //todo create method
     @Override
-    public List<GiftCertificateDTO> getCertificates(CertificateSearchQuery query, Long page, Long pageSize) {
-        List<GiftCertificateDTO> certificateDTOS = new ArrayList<>();
-//        try {
-//            certificateList = giftCertificateRepository.getCertificates(query, page, pageSize);
-//        } catch (GiftCertificateNotFoundException e) {
-//            // If certificate not found - return empty list
-//            return certificateList;
+    public List<GiftCertificateDTO> getCertificates(CertificateSearchQuery query, int page, int pageSize) {
+        GiftCertificateSpecification specification = new GiftCertificateSpecification();
+        Sort.Direction direction = Sort.Direction.ASC;
+        String sortProperty = "id";
+
+        if (query.hasPartOfName()) {
+            specification.add(new SearchCriteria("name", query.getPartOfName(), SearchOperation.MATCH));
+        } if (query.hasPartOfDescription()) {
+            specification.add(new SearchCriteria("description", query.getPartOfDescription(), SearchOperation.MATCH));
+        }
+//        if (query.hasTagName()) {
+//            specification.add(new SearchCriteria("tags.name", query.getPartOfName(), SearchOperation.EQUAL));
 //        }
-        return certificateDTOS;
-    }
+        if (query.hasSortParameter()) {
+            sortProperty = query.getSortParameter();
+        } if (query.hasSortOrder()) {
+            if(query.getSortOrder().equals("DESC")) {
+                direction = Sort.Direction.DESC;
+            }
+        }
+        List<GiftCertificate> certificates = giftCertificateRepository.findAll(specification,
+                PageRequest.of(page, pageSize, Sort.by(direction, sortProperty)))
+                .toList();
+        return certificates.stream()
+                .map(certificateConverter::convertCertificateDTOFromCertificate)
+                .collect(Collectors.toList());    }
 
     @Override
-    public List<GiftCertificateDTO> findCertificatesByTags(List<String> tagNames, Long page, Long pageSize) {
-        List<GiftCertificate> certificates = giftCertificateRepository.getGiftCertificatesByTagsNames(tagNames, tagNames.size());
+    public List<GiftCertificateDTO> findCertificatesByTags(List<String> tagNames, int page, int pageSize) {
+        Page<GiftCertificate> certificatePage = giftCertificateRepository.getGiftCertificatesByTagsNames(tagNames, tagNames.size(), PageRequest.of(page, pageSize));
+        List<GiftCertificate> certificates = certificatePage.toList();
         return certificates.stream()
                 .map(certificateConverter::convertCertificateDTOFromCertificate)
                 .collect(Collectors.toList());

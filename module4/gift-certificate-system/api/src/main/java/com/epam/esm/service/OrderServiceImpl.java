@@ -12,6 +12,8 @@ import com.epam.esm.repository.GiftCertificateRepository;
 import com.epam.esm.repository.OrderRepository;
 import com.epam.esm.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -36,8 +38,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderDTO> getAllOrders(Long page, Long pageSize) {
-        List<Order> orderList = orderRepository.findAll();
+    public List<OrderDTO> getAllOrders(int page, int pageSize) {
+        Page<Order> orderPage = orderRepository.findAll(PageRequest.of(page, pageSize));
+        List<Order> orderList = orderPage.toList();
         return orderList.stream()
                 .map(orderConverter::convertOrderDTOFromOrder)
                 .collect(Collectors.toList());
@@ -77,10 +80,10 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderDTO> getUserOrders(Long userId, Long page, Long pageSize) {
+    public List<OrderDTO> getUserOrders(Long userId, int page, int pageSize) {
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", userId)));
-        List<Order> orderList = orderRepository.findByUserId(userId);
+        List<Order> orderList = orderRepository.findByUserId(userId, PageRequest.of(page, pageSize));
         return orderList.stream()
                 .map(orderConverter::convertOrderDTOFromOrder)
                 .collect(Collectors.toList());}

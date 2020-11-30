@@ -49,13 +49,13 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/orders", produces = {"application/hal+json"})
-    public CollectionModel<OrderDTO> findAllOrders(@RequestParam(value = "page") Optional<Long> page,
-                                                @RequestParam(value = "page_size") Optional<Long> pageSize) {
-        long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+    public CollectionModel<OrderDTO> findAllOrders(@RequestParam(value = "page") Optional<Integer> page,
+                                                @RequestParam(value = "page_size") Optional<Integer> pageSize) {
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<OrderDTO> orderList = orderService.getAllOrders(pageNumber, pageSizeNumber);
+        List<OrderDTO> orderList = orderService.getAllOrders(pageNumber-1, pageSizeNumber);
 //        long totalCount = orderService.findOrderTotalCount();
 //        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
         for (OrderDTO orderDTO : orderList) {
@@ -125,14 +125,14 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}/orders", produces = {"application/hal+json"})
     public CollectionModel<OrderDTO> getUserOrders(@PathVariable Long id,
-                                                @RequestParam(value = "page") Optional<Long> page,
-                                                @RequestParam(value = "page_size") Optional<Long> pageSize
+                                                @RequestParam(value = "page") Optional<Integer> page,
+                                                @RequestParam(value = "page_size") Optional<Integer> pageSize
     ) {
-        long pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
-        long pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
+        int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
+        int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
-        List<OrderDTO> orderDTOList = orderService.getUserOrders(id, pageNumber, pageSizeNumber);
+        List<OrderDTO> orderDTOList = orderService.getUserOrders(id, pageNumber-1, pageSizeNumber);
 //        long totalCount = orderService.findOrderTotalCountByUserId(id);
 //        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
         for (OrderDTO orderDTO : orderDTOList) {
