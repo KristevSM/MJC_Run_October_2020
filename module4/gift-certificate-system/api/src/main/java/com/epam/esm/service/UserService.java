@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserService {
     List<UserDTO> getAllUsers(int page, int pageSize);
     UserDTO getUserById(Long id);
+    UserDTO register(User user);
 }

@@ -132,3 +132,6 @@ INSERT INTO orders (certificate_id, user_id, cost) VALUES ('2', '2', '100');
 INSERT INTO orders (certificate_id, user_id, cost) VALUES ('3', '2', '240');
 INSERT INTO orders (certificate_id, user_id, cost) VALUES ('4', '2', '300');
 INSERT INTO orders (certificate_id, user_id, cost) VALUES ('5', '2', '220');
+
+INSERT INTO user_role (name) VALUES ('USER_ROLE');
+INSERT INTO user_role (name) VALUES ('ADMIN_ROLE');

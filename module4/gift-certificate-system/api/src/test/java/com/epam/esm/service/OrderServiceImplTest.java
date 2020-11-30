@@ -24,7 +24,7 @@ class OrderServiceImplTest {
 
     @Test
     public void shouldFindAllOrders() {
-        List<OrderDTO> orders = orderService.getAllOrders(1L, 20L);
+        List<OrderDTO> orders = orderService.getAllOrders(1, 20);
         assertEquals(5L, orders.size());
     }
 

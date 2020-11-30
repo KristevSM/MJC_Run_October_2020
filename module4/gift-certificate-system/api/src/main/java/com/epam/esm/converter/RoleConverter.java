@@ -16,7 +16,6 @@ public class RoleConverter {
         }
         return roles.stream()
                 .map(role -> RoleDTO.builder()
-                        .id(role.getId())
                         .name(role.getName())
                         .build())
                 .collect(Collectors.toSet());
@@ -28,7 +27,6 @@ public class RoleConverter {
         }
         return roleDTOS.stream()
                 .map(roleDTO -> Role.builder()
-                        .id(roleDTO.getId())
                         .name(roleDTO.getName())
                         .users(new HashSet<>())
                         .build())

@@ -15,6 +15,5 @@ import java.io.Serializable;
 public class RoleDTO extends RepresentationModel<RoleDTO> implements Serializable {
 
     private static final long serialVersionUID = -1L;
-    private Long id;
     private String name;
 }
