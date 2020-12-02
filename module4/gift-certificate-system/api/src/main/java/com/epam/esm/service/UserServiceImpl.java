@@ -83,4 +83,18 @@ public class UserServiceImpl implements UserService{
         log.info("IN register - user: {} successfully registered", registeredUser);
         return userConverter.convertUserDTOFromUser(registeredUser);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                .format("User with email: {0} not found", email)));
+    }
+
+    @Override
+    public User findByEmailAndPassword(String email, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        return userRepository.findUserByEmailAndPassword(email, encodedPassword).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                .format("User with email: {0} not found", email)));
+
+    }
 }

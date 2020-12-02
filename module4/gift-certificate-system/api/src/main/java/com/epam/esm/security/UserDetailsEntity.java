@@ -1,6 +1,8 @@
 package com.epam.esm.security;
 
 import com.epam.esm.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Data
+@AllArgsConstructor
 public class UserDetailsEntity implements UserDetails {
 
+    private static final long serialVersionUID = 5326560881929737956L;
     private User user;
 
     @Override
@@ -25,7 +30,7 @@ public class UserDetailsEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getLastName();
+        return user.getEmail();
     }
 
     @Override

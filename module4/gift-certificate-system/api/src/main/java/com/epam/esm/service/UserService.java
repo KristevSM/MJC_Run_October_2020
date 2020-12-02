@@ -9,4 +9,6 @@ public interface UserService {
     List<UserDTO> getAllUsers(int page, int pageSize);
     UserDTO getUserById(Long id);
     UserDTO register(User user);
+    User findByEmail(String email);
+    User findByEmailAndPassword(String email, String password);
 }

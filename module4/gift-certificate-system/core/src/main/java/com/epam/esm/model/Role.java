@@ -1,9 +1,6 @@
 package com.epam.esm.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,13 +18,7 @@ public class Role {
     @Column(name = "name")
     private String name;
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.MERGE})
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     private Set<User> users;
 
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
