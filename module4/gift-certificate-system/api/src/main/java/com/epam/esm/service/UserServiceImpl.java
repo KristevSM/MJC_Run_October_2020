@@ -73,8 +73,8 @@ public class UserServiceImpl implements UserService{
         if (userOptional.isPresent()) {
             throw new IllegalArgumentException(MessageFormat.format("User with same email: {0} already exists", user.getEmail()));
         }
-        Role roleUser = roleRepository.findByName("USER_ROLE").orElseThrow(() -> new IllegalArgumentException(MessageFormat
-                .format("Role with name: {0} not found", "USER_ROLE")));
+        Role roleUser = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new IllegalArgumentException(MessageFormat
+                .format("Role with name: {0} not found", "ROLE_USER")));
         Set<Role> userRoles = new HashSet<>();
         userRoles.add(roleUser);
         user.setRoles(userRoles);

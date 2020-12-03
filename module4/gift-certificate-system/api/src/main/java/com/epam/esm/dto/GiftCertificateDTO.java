@@ -2,10 +2,7 @@ package com.epam.esm.dto;
 
 import com.epam.esm.model.Tag;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
@@ -15,6 +12,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
 public class GiftCertificateDTO extends RepresentationModel<GiftCertificateDTO> implements Serializable {

@@ -119,6 +119,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
+    @ExceptionHandler(JwtAuthenticationException.class)
+    protected ResponseEntity<Object> handleAuthenticationException(InvalidInputDataException ex,
+                                                       WebRequest request) {
+        ApiError apiError = new ApiError(FORBIDDEN, ex);
+        apiError.setMessage("Authentication failed");
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, FORBIDDEN);
+    }
 
 
 }

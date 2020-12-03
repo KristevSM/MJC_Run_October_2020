@@ -91,6 +91,10 @@ project(':api') {
 
         // https://mvnrepository.com/artifact/com.github.java-json-tools/json-patch
         compile group: 'com.github.java-json-tools', name: 'json-patch', version: '1.13'
+
+        // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+        compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+
     }
 }
 

@@ -21,6 +21,10 @@ import java.io.IOException;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class JwtRequestFilter extends OncePerRequestFilter {
 
+    public static final String USERNAME_REQUEST_ATTRIBUTE = "username";
+    public static final String JWT_REQUEST_ATTRIBUTE = "jwt";
+
+
     private final UserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -28,8 +32,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String username = (String) request.getAttribute("username");
-        String jwt = (String) request.getAttribute("jwt");
+        String username = (String) request.getAttribute(USERNAME_REQUEST_ATTRIBUTE);
+        String jwt = (String) request.getAttribute(JWT_REQUEST_ATTRIBUTE);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
