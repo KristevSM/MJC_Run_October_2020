@@ -3,6 +3,7 @@ package com.epam.esm.controller;
 import com.epam.esm.dto.OrderDTO;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.Order;
+import com.epam.esm.security.AuthorizationComponent;
 import com.epam.esm.service.OrderService;
 import com.epam.esm.validator.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,7 +126,7 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}/orders", produces = {"application/hal+json"})
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') && (principal.username == @userServiceImpl.getUserById(#id).username)")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') && @authorizationComponentImpl.userHasAccess(principal, #id)")
     public CollectionModel<OrderDTO> getUserOrders(@PathVariable Long id,
                                                 @RequestParam(value = "page") Optional<Integer> page,
                                                 @RequestParam(value = "page_size") Optional<Integer> pageSize
