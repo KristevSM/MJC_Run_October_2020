@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -93,6 +94,7 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}", produces = {"application/hal+json"})
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') && (principal.username == @userServiceImpl.getUserById(#id).username)")
     public UserDTO findUserById(@PathVariable Long id) {
         UserDTO userDTO = userService.getUserById(id);
         Link selfLink = linkTo(methodOn(UserController.class)

@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS tag_has_gift_certificate (
 
 CREATE TABLE IF NOT EXISTS users (
                                   user_id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
+                                  username varchar(45) NOT NULL UNIQUE,
                                   first_name varchar(40) NOT NULL,
                                   last_name varchar(40) NOT NULL,
                                   email varchar(40) NOT NULL UNIQUE,
@@ -121,11 +122,11 @@ INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12',
 INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '14');
 INSERT INTO tag_has_gift_certificate (tag_id, gift_certificate_id) VALUES ('12', '15');
 
-INSERT INTO users (first_name, last_name, email, password, address, date_of_birth) VALUES ('Petr', 'Petrov', 'petrov@mail.com', 'qwerty', 'Address 1', '2000-10-12');
-INSERT INTO users (first_name, last_name, email, password, address, date_of_birth) VALUES ('Ivan', 'Ivanov', 'ivanov@mail.com', 'qwerty', 'Address 2', '1990-09-17');
-insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Nanete', 'Hadwen', 'nhadwen2@issuu.com', 'nI8NIXv9GnF7', '9 Forest Dale Circle', '2001-12-15');
-insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Lucias', 'Isaacs', 'lisaacs3@unc.edu', 'nxceGe', '7001 Maple Wood Avenue', '2001-04-08');
-insert into users (first_name, last_name, email, password, address, date_of_birth) values ('Carrol', 'Pinwill', 'cpinwill4@dyndns.org', 'emBqhDlf', '63311 Norway Maple Park', '2005-08-09');
+INSERT INTO users (username, first_name, last_name, email, password, address, date_of_birth) VALUES ('petrov@mail.com', 'Petr', 'Petrov', 'petrov@mail.com', 'qwerty', 'Address 1', '2000-10-12');
+INSERT INTO users (username, first_name, last_name, email, password, address, date_of_birth) VALUES ('ivanov@mail.com', 'Ivan', 'Ivanov', 'ivanov@mail.com', 'qwerty', 'Address 2', '1990-09-17');
+insert into users (username, first_name, last_name, email, password, address, date_of_birth) values ('nhadwen2@issuu.com' ,'Nanete', 'Hadwen', 'nhadwen2@issuu.com', 'nI8NIXv9GnF7', '9 Forest Dale Circle', '2001-12-15');
+insert into users (username, first_name, last_name, email, password, address, date_of_birth) values ('lisaacs3@unc.edu', 'Lucias', 'Isaacs', 'lisaacs3@unc.edu', 'nxceGe', '7001 Maple Wood Avenue', '2001-04-08');
+insert into users (username, first_name, last_name, email, password, address, date_of_birth) values ('cpinwill4@dyndns.org', 'Carrol', 'Pinwill', 'cpinwill4@dyndns.org', 'emBqhDlf', '63311 Norway Maple Park', '2005-08-09');
 
 INSERT INTO orders (certificate_id, user_id, cost) VALUES ('1', '1', '200');
 INSERT INTO orders (certificate_id, user_id, cost) VALUES ('2', '2', '100');

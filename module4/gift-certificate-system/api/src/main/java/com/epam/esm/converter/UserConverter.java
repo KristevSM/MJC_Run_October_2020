@@ -20,6 +20,7 @@ public class UserConverter {
 
         UserDTO userDTO = UserDTO.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .dateOfBirth(user.getDateOfBirth())
@@ -37,6 +38,7 @@ public class UserConverter {
     public User convertUserFromUserDto(UserDTO userDTO) {
         User user = User.builder()
                 .id(userDTO.getId())
+                .username(userDTO.getUsername())
                 .firstName(userDTO.getFirstName())
                 .lastName(userDTO.getLastName())
                 .dateOfBirth(userDTO.getDateOfBirth())

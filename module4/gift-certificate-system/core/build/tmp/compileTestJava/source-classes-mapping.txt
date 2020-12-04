@@ -1,8 +1,0 @@
-com/epam/esm/dao/TagDaoImplTest.java
- com.epam.esm.dao.TagDaoImplTest
-com/epam/esm/dao/GiftCertificateDaoImplTest.java
- com.epam.esm.dao.GiftCertificateDaoImplTest
-com/epam/esm/dao/OrderDaoImplTest.java
- com.epam.esm.dao.OrderDaoImplTest
-com/epam/esm/dao/UserDaoImplTest.java
- com.epam.esm.dao.UserDaoImplTest

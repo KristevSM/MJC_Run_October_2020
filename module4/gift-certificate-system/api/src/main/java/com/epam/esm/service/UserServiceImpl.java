@@ -69,9 +69,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO register(User user) {
-        Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
+        Optional<User> userOptional = userRepository.findUserByUsername(user.getUsername());
         if (userOptional.isPresent()) {
-            throw new IllegalArgumentException(MessageFormat.format("User with same email: {0} already exists", user.getEmail()));
+            throw new IllegalArgumentException(MessageFormat.format("User with username: {0} already exists", user.getUsername()));
         }
         Role roleUser = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new IllegalArgumentException(MessageFormat
                 .format("Role with name: {0} not found", "ROLE_USER")));
@@ -85,16 +85,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findUserByEmail(email).orElseThrow(() -> new UserNotFoundException(MessageFormat
-                .format("User with email: {0} not found", email)));
+    public User findByUsername(String username) {
+        return userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                .format("User with username: {0} not found", username)));
     }
 
     @Override
-    public User findByEmailAndPassword(String email, String password) {
+    public User findByUsernameAndPassword(String username, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        return userRepository.findUserByEmailAndPassword(email, encodedPassword).orElseThrow(() -> new UserNotFoundException(MessageFormat
-                .format("User with email: {0} not found", email)));
+        return userRepository.findUserByUsernameAndPassword(username, encodedPassword).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                .format("User with username: {0} not found", username)));
 
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -120,10 +121,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(JwtAuthenticationException.class)
-    protected ResponseEntity<Object> handleAuthenticationException(InvalidInputDataException ex,
+    protected ResponseEntity<Object> handleAuthenticationException(JwtAuthenticationException ex,
                                                        WebRequest request) {
         ApiError apiError = new ApiError(FORBIDDEN, ex);
         apiError.setMessage("Authentication failed");
+        apiError.setDebugMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, FORBIDDEN);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex,
+                                                       WebRequest request) {
+        ApiError apiError = new ApiError(FORBIDDEN, ex);
+        apiError.setMessage("Access denied");
         apiError.setDebugMessage(ex.getMessage());
 
         return new ResponseEntity<>(apiError, FORBIDDEN);

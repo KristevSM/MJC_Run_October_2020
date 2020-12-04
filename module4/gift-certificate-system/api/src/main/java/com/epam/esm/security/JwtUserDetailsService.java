@@ -28,10 +28,10 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new UserDetailsEntity(user);
     }
 
-    private User findUserByUsername(String email) {
-        Optional<User> userOptional = userRepository.findUserByEmail(email);
+    private User findUserByUsername(String username) {
+        Optional<User> userOptional = userRepository.findUserByUsername(username);
         return userOptional.orElseThrow(
-                () -> new UsernameNotFoundException(format("User with email '%s' not found", email))
+                () -> new UsernameNotFoundException(format("User with username '%s' not found", username))
         );
     }
 }

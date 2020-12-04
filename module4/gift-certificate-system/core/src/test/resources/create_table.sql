@@ -18,6 +18,7 @@ CREATE TABLE gift_certificate (
 
 CREATE TABLE users (
                                   user_id bigint(10) NOT NULL AUTO_INCREMENT UNIQUE,
+                                  username varchar(45) NOT NULL UNIQUE,
                                   first_name varchar(40) NOT NULL,
                                   last_name varchar(40) NOT NULL,
                                   email varchar(40) NOT NULL UNIQUE,
