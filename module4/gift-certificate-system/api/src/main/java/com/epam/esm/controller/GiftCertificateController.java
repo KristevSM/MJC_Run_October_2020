@@ -74,6 +74,7 @@ public class GiftCertificateController {
      * @return ResponseEntity.
      */
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<GiftCertificateDTO> addGiftCertificate(@RequestBody @Valid GiftCertificateDTO giftCertificateDTO,
                                                                  UriComponentsBuilder ucBuilder) {
         Long certificateId = giftCertificateService.saveCertificate(giftCertificateDTO);
@@ -95,6 +96,7 @@ public class GiftCertificateController {
      * @return ResponseEntity.
      */
     @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<GiftCertificateDTO> updateGiftCertificate(@PathVariable Long id,
                                                                     @RequestBody JsonPatch patch,
                                                                     UriComponentsBuilder ucBuilder) {
@@ -118,6 +120,7 @@ public class GiftCertificateController {
      * @return ResponseEntity.
      */
     @DeleteMapping(path = "certificates/{id}", produces = {"application/hal+json"})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteGiftCertificate(@PathVariable Long id) {
         giftCertificateService.deleteCertificate(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -267,6 +270,7 @@ public class GiftCertificateController {
      * @return GiftCertificate instance.
      */
     @PostMapping(path = "/certificates/{id}/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public GiftCertificateDTO updateSingleCertificateField(@PathVariable Long id,
                                                            @RequestParam(value = "fieldName", defaultValue = "") String fieldName,

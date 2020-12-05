@@ -53,6 +53,7 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users", produces = {"application/hal+json"})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public CollectionModel<UserDTO> findAllUsers(@RequestParam(value = "page") Optional<Integer> page,
                                               @RequestParam(value = "page_size") Optional<Integer> pageSize) {
         int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
@@ -94,7 +95,7 @@ public class UserController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users/{id}", produces = {"application/hal+json"})
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') && (principal.username == @userServiceImpl.getUserById(#id).username)")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') && @authorizationComponentImpl.userHasAccess(principal, #id)")
     public UserDTO findUserById(@PathVariable Long id) {
         UserDTO userDTO = userService.getUserById(id);
         Link selfLink = linkTo(methodOn(UserController.class)

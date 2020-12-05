@@ -16,6 +16,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -104,6 +105,7 @@ public class TagController {
      * @return ResponseEntity.
      */
     @PostMapping(path = "/tags", consumes = "application/json", produces = "application/json")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<TagDTO> addTag(@RequestBody @Valid TagDTO tagDTO,
                                       UriComponentsBuilder ucBuilder) {
 
@@ -126,6 +128,7 @@ public class TagController {
      * @return ResponseEntity.
      */
     @PatchMapping(path = "tags/{id}", consumes = "application/json-patch+json")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<TagDTO> updateTag(@PathVariable Long id,
                                          @RequestBody JsonPatch patch,
                                          UriComponentsBuilder ucBuilder) {
@@ -150,6 +153,7 @@ public class TagController {
      * @return ResponseEntity.
      */
     @DeleteMapping(path = "tags/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         tagService.deleteTag(id);
         return new ResponseEntity<>(HttpStatus.OK);

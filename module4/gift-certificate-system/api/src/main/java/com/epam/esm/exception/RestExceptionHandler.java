@@ -135,7 +135,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                        WebRequest request) {
         ApiError apiError = new ApiError(FORBIDDEN, ex);
         apiError.setMessage("Access denied");
-        apiError.setDebugMessage(ex.getMessage());
+        apiError.setDebugMessage("You don't have access to view the resource");
 
         return new ResponseEntity<>(apiError, FORBIDDEN);
     }

@@ -7,5 +7,6 @@ import javax.annotation.Nonnull;
 
 public interface AuthorizationComponent {
     boolean userHasAccess(@Nonnull UserDetails principal, @Nonnull Long id);
+    boolean isUsersOrder(@Nonnull UserDetails principal, @Nonnull Long id);
 
 }

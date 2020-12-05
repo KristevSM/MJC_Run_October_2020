@@ -51,6 +51,7 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/orders", produces = {"application/hal+json"})
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public CollectionModel<OrderDTO> findAllOrders(@RequestParam(value = "page") Optional<Integer> page,
                                                 @RequestParam(value = "page_size") Optional<Integer> pageSize) {
         int pageNumber = page.orElse(DEFAULT_PAGE_NUMBER);
@@ -90,6 +91,7 @@ public class OrderController {
      */
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/orders/{id}", produces = {"application/hal+json"})
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') && @authorizationComponentImpl.isUsersOrder(principal, #id)")
     public OrderDTO findOrderById(@PathVariable Long id) {
         OrderDTO orderDTO = orderService.getOrderById(id);
         return addHateoasLinksToOrder(orderDTO);
@@ -97,12 +99,11 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/orders")
-    public OrderDTO makeOrder(@RequestParam(value = "user_id") Optional<Long> userId,
-                           @RequestParam(value = "certificate_id") Optional<Long> certificateId) {
-
-        long userIdFromRequest = userId.orElseThrow(() -> new InvalidInputDataException("Missing value for the userId parameter"));
-        long certificateIdFromRequest = certificateId.orElseThrow(() -> new InvalidInputDataException("Missing value for the certificateId parameter"));
-        OrderDTO orderDTO = orderService.makeOrder(userIdFromRequest, certificateIdFromRequest);
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN') && @authorizationComponentImpl.userHasAccess(principal, #userId)")
+    public OrderDTO makeOrder(@RequestParam(value = "user_id") Long userId,
+                           @RequestParam(value = "certificate_id") Long certificateId) {
+        ValidationUtils.checkId(userId, certificateId);
+        OrderDTO orderDTO = orderService.makeOrder(userId, certificateId);
         return addHateoasLinksToOrder(orderDTO);
     }
 
