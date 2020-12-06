@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -138,6 +139,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setDebugMessage("You don't have access to view the resource");
 
         return new ResponseEntity<>(apiError, FORBIDDEN);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex,
+                                                       WebRequest request) {
+        ApiError apiError = new ApiError(UNAUTHORIZED, ex);
+        apiError.setMessage("Access denied");
+        apiError.setDebugMessage(ex.getLocalizedMessage());
+
+        return new ResponseEntity<>(apiError, UNAUTHORIZED);
     }
 
 
