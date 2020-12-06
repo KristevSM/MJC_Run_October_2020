@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
 @Builder
 @Entity
 @Table(name = "orders")
-public class Order implements Serializable{
+public class Order extends Auditable<String>  implements Serializable{
         private static final long serialVersionUID = -1L;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

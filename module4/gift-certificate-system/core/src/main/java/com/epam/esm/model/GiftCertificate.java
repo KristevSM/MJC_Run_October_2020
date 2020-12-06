@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "gift_certificate")
-public class GiftCertificate implements Serializable {
+public class GiftCertificate extends Auditable<String>  implements Serializable {
 
     private static final long serialVersionUID = -1L;
     @Id
