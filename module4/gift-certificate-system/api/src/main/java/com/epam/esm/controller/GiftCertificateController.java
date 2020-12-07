@@ -16,6 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
@@ -177,8 +178,6 @@ public class GiftCertificateController {
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<GiftCertificateDTO> certificateList;
-
         CertificateSearchQuery query = new CertificateSearchQuery();
         tagName.ifPresent(query::setTagName);
         partOfName.ifPresent(query::setPartOfName);
@@ -194,7 +193,8 @@ public class GiftCertificateController {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         }
-        certificateList = giftCertificateService.getCertificates(query, pageNumber-1, pageSizeNumber);
+        Page<GiftCertificateDTO> certificateList
+                = giftCertificateService.getCertificates(query, pageNumber - 1, pageSizeNumber);
 
         for (GiftCertificateDTO certificate : certificateList) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
@@ -202,7 +202,20 @@ public class GiftCertificateController {
             certificate.add(selfLink);
         }
         Link link = linkTo(GiftCertificateController.class).slash("certificates").withSelfRel();
-        return new CollectionModel<>(certificateList, link);
+
+        CollectionModel<GiftCertificateDTO> collectionModel = new CollectionModel(certificateList, link);
+
+        if (pageNumber > 1) {
+            Link previousPage = linkTo(methodOn(GiftCertificateController.class)
+                    .findCertificates(tagName, partOfName, partOfDescription, sortParameter, sortOrder, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
+            collectionModel.add(previousPage);
+        }
+        if (pageNumber < certificateList.getTotalPages()) {
+            Link nextPage = linkTo(methodOn(GiftCertificateController.class)
+                    .findCertificates(tagName, partOfName, partOfDescription, sortParameter, sortOrder, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
+            collectionModel.add(nextPage);
+        }
+        return collectionModel;
     }
 
     /**
@@ -249,14 +262,26 @@ public class GiftCertificateController {
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<GiftCertificateDTO> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber-1, pageSizeNumber);
+        Page<GiftCertificateDTO> certificates = giftCertificateService.findCertificatesByTags(tagNames, pageNumber - 1, pageSizeNumber);
         for (GiftCertificateDTO certificate : certificates) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificateById(certificate.getId())).withSelfRel();
             certificate.add(selfLink);
         }
         Link link = linkTo(GiftCertificateController.class).slash("certificates").withSelfRel();
-        return new CollectionModel<>(certificates, link);
+        CollectionModel<GiftCertificateDTO> collectionModel = new CollectionModel(certificates, link);
+
+        if (pageNumber > 1) {
+            Link previousPage = linkTo(methodOn(GiftCertificateController.class)
+                    .findCertificates(tagNames, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
+            collectionModel.add(previousPage);
+        }
+        if (pageNumber < certificates.getTotalPages()) {
+            Link nextPage = linkTo(methodOn(GiftCertificateController.class)
+                    .findCertificates(tagNames, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
+            collectionModel.add(nextPage);
+        }
+        return collectionModel;
     }
 
     /**

@@ -5,6 +5,7 @@ import com.epam.esm.model.User;
 import com.epam.esm.service.UserService;
 import com.epam.esm.validator.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
@@ -61,9 +62,7 @@ public class UserController {
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<UserDTO> userDTOList = userService.getAllUsers(pageNumber-1, pageSizeNumber);
-//        long totalCount = userService.findUsersTotalCount();
-//        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
+        Page<UserDTO> userDTOList = userService.getAllUsers(pageNumber-1, pageSizeNumber);
 
         for (UserDTO userDTO : userDTOList) {
             Link selfLink = linkTo(methodOn(UserController.class)
@@ -79,11 +78,11 @@ public class UserController {
                     .findAllUsers(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-//        if (pageNumber < totalPages) {
-//            Link nextPage = linkTo(methodOn(UserController.class)
-//                    .findAllUsers(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
-//            collectionModel.add(nextPage);
-//        }
+        if (pageNumber < userDTOList.getTotalPages()) {
+            Link nextPage = linkTo(methodOn(UserController.class)
+                    .findAllUsers(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
+            collectionModel.add(nextPage);
+        }
         return collectionModel;
     }
 

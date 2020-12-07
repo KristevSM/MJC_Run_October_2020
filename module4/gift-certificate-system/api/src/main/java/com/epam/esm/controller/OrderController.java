@@ -7,6 +7,7 @@ import com.epam.esm.security.AuthorizationComponent;
 import com.epam.esm.service.OrderService;
 import com.epam.esm.validator.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
@@ -58,9 +59,8 @@ public class OrderController {
         int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<OrderDTO> orderList = orderService.getAllOrders(pageNumber-1, pageSizeNumber);
-//        long totalCount = orderService.findOrderTotalCount();
-//        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
+        Page<OrderDTO> orderList = orderService.getAllOrders(pageNumber-1, pageSizeNumber);
+
         for (OrderDTO orderDTO : orderList) {
             Link selfLink = linkTo(methodOn(OrderController.class)
                     .findOrderById(orderDTO.getId())).withRel("currentOrder");
@@ -75,11 +75,11 @@ public class OrderController {
                     .findAllOrders(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-//        if (pageNumber < totalPages) {
-//            Link nextPage = linkTo(methodOn(OrderController.class)
-//                    .findAllOrders(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
-//            collectionModel.add(nextPage);
-//        }
+        if (pageNumber < orderList.getTotalPages()) {
+            Link nextPage = linkTo(methodOn(OrderController.class)
+                    .findAllOrders(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
+            collectionModel.add(nextPage);
+        }
         return collectionModel;
     }
 
@@ -136,9 +136,8 @@ public class OrderController {
         int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
-        List<OrderDTO> orderDTOList = orderService.getUserOrders(id, pageNumber-1, pageSizeNumber);
-//        long totalCount = orderService.findOrderTotalCountByUserId(id);
-//        double totalPages = Math.ceil((double) totalCount / (double) pageSizeNumber);
+        Page<OrderDTO> orderDTOList = orderService.getUserOrders(id, pageNumber-1, pageSizeNumber);
+
         for (OrderDTO orderDTO : orderDTOList) {
             Link selfLink = linkTo(methodOn(OrderController.class)
                     .findOrderById(orderDTO.getId())).withRel("order");
@@ -151,11 +150,11 @@ public class OrderController {
                     .getUserOrders(id, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-//        if (pageNumber < totalPages) {
-//            Link nextPage = linkTo(methodOn(OrderController.class)
-//                    .getUserOrders(id, Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
-//            collectionModel.add(nextPage);
-//        }
+        if (pageNumber < orderDTOList.getTotalPages()) {
+            Link nextPage = linkTo(methodOn(OrderController.class)
+                    .getUserOrders(id, Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
+            collectionModel.add(nextPage);
+        }
         return collectionModel;
     }
 }

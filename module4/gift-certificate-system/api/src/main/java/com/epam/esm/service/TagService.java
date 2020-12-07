@@ -2,12 +2,13 @@ package com.epam.esm.service;
 
 import com.epam.esm.dto.TagDTO;
 import com.epam.esm.model.Tag;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public interface TagService {
 
-    List<TagDTO> findAllTags(int page, int pageSize);
+    Page<TagDTO> findAllTags(int page, int pageSize);
 
     TagDTO findTagById(Long id);
 

@@ -39,12 +39,9 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<TagDTO> findAllTags(int page, int pageSize) {
-        Page<Tag> tagPage = tagRepository.findAll(PageRequest.of(page, pageSize));
-        List<Tag> tagList = tagPage.toList();
-        return tagList.stream()
-                .map(tagConverter::convertTagDtoFromTag)
-                .collect(Collectors.toList());
+    public Page<TagDTO> findAllTags(int page, int pageSize) {
+        return tagRepository.findAll(PageRequest.of(page, pageSize))
+                .map(tagConverter::convertTagDtoFromTag);
     }
 
     @Override

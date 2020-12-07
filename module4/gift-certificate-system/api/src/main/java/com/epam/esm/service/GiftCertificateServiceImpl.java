@@ -49,14 +49,15 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public List<GiftCertificateDTO> getCertificates(CertificateSearchQuery query, int page, int pageSize) {
+    public Page<GiftCertificateDTO> getCertificates(CertificateSearchQuery query, int page, int pageSize) {
         GiftCertificateSpecification specification = new GiftCertificateSpecification();
         Sort.Direction direction = Sort.Direction.ASC;
         String sortProperty = "id";
 
         if (query.hasPartOfName()) {
             specification.add(new SearchCriteria("name", query.getPartOfName(), SearchOperation.MATCH));
-        } if (query.hasPartOfDescription()) {
+        }
+        if (query.hasPartOfDescription()) {
             specification.add(new SearchCriteria("description", query.getPartOfDescription(), SearchOperation.MATCH));
         }
 //        if (query.hasTagName()) {
@@ -64,25 +65,21 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 //        }
         if (query.hasSortParameter()) {
             sortProperty = query.getSortParameter();
-        } if (query.hasSortOrder()) {
-            if(query.getSortOrder().equals("DESC")) {
+        }
+        if (query.hasSortOrder()) {
+            if (query.getSortOrder().equals("DESC")) {
                 direction = Sort.Direction.DESC;
             }
         }
-        List<GiftCertificate> certificates = giftCertificateRepository.findAll(specification,
+        return giftCertificateRepository.findAll(specification,
                 PageRequest.of(page, pageSize, Sort.by(direction, sortProperty)))
-                .toList();
-        return certificates.stream()
-                .map(certificateConverter::convertCertificateDTOFromCertificate)
-                .collect(Collectors.toList());    }
+                .map(certificateConverter::convertCertificateDTOFromCertificate);
+    }
 
     @Override
-    public List<GiftCertificateDTO> findCertificatesByTags(List<String> tagNames, int page, int pageSize) {
-        Page<GiftCertificate> certificatePage = giftCertificateRepository.getGiftCertificatesByTagsNames(tagNames, tagNames.size(), PageRequest.of(page, pageSize));
-        List<GiftCertificate> certificates = certificatePage.toList();
-        return certificates.stream()
-                .map(certificateConverter::convertCertificateDTOFromCertificate)
-                .collect(Collectors.toList());
+    public Page<GiftCertificateDTO> findCertificatesByTags(List<String> tagNames, int page, int pageSize) {
+        return giftCertificateRepository.getGiftCertificatesByTagsNames(tagNames, tagNames.size(), PageRequest.of(page, pageSize))
+                .map(certificateConverter::convertCertificateDTOFromCertificate);
     }
 
     @Override

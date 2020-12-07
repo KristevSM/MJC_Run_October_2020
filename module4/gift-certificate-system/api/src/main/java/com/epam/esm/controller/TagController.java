@@ -1,6 +1,7 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.UserDTO;
 import com.epam.esm.model.Tag;
 import com.epam.esm.service.TagService;
 import com.epam.esm.validator.ValidationUtils;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
@@ -66,14 +68,25 @@ public class TagController {
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        List<TagDTO> tagDTOList = tagService.findAllTags(pageNumber-1, pageSizeNumber);
+        Page<TagDTO> tagDTOList = tagService.findAllTags(pageNumber-1, pageSizeNumber);
         for (TagDTO tagDTO : tagDTOList) {
             Link selfLink = linkTo(methodOn(TagController.class)
                     .findTagById(tagDTO.getId())).withSelfRel();
             tagDTO.add(selfLink);
         }
-        Link link = linkTo(TagController.class).slash("tags").withSelfRel();
-        return new CollectionModel<>(tagDTOList, link);    }
+        Link tagLink = linkTo(TagController.class).slash("tags").withSelfRel();
+        CollectionModel<TagDTO> collectionModel = new CollectionModel(tagDTOList, tagLink);
+        if (pageNumber > 1) {
+            Link previousPage = linkTo(methodOn(TagController.class)
+                    .findAllTags(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
+            collectionModel.add(previousPage);
+        }
+        if (pageNumber < tagDTOList.getTotalPages()) {
+            Link nextPage = linkTo(methodOn(TagController.class)
+                    .findAllTags(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
+            collectionModel.add(nextPage);
+        }
+        return collectionModel;    }
 
     /**
      * Gets tag by id.

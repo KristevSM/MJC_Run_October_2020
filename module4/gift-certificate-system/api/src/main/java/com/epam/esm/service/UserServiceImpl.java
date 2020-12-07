@@ -46,12 +46,9 @@ public class UserServiceImpl implements UserService{
      * @return Users list.
      */
     @Override
-    public List<UserDTO> getAllUsers(int page, int pageSize) {
-        Page<User> userPage = userRepository.findAll(PageRequest.of(page, pageSize));
-        List<User> userList = userPage.toList();
-        return userList.stream()
-                .map(userConverter::convertUserDTOFromUser)
-                .collect(Collectors.toList());
+    public Page<UserDTO> getAllUsers(int page, int pageSize) {
+        return userRepository.findAll(PageRequest.of(page, pageSize))
+                        .map(userConverter::convertUserDTOFromUser);
     }
 
     /**

@@ -40,12 +40,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderDTO> getAllOrders(int page, int pageSize) {
-        Page<Order> orderPage = orderRepository.findAll(PageRequest.of(page, pageSize));
-        List<Order> orderList = orderPage.toList();
-        return orderList.stream()
-                .map(orderConverter::convertOrderDTOFromOrder)
-                .collect(Collectors.toList());
+    public Page<OrderDTO> getAllOrders(int page, int pageSize) {
+        return orderRepository.findAll(PageRequest.of(page, pageSize))
+                .map(orderConverter::convertOrderDTOFromOrder);
     }
 
     @Override
@@ -82,12 +79,10 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderDTO> getUserOrders(Long userId, int page, int pageSize) {
+    public Page<OrderDTO> getUserOrders(Long userId, int page, int pageSize) {
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", userId)));
-        List<Order> orderList = orderRepository.findByUserId(userId, PageRequest.of(page, pageSize));
-        return orderList.stream()
-                .map(orderConverter::convertOrderDTOFromOrder)
-                .collect(Collectors.toList());}
+        return orderRepository.findByUserId(userId, PageRequest.of(page, pageSize))
+                .map(orderConverter::convertOrderDTOFromOrder);}
 
 }
