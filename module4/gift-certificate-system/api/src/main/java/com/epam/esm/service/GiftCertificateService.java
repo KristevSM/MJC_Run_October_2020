@@ -12,8 +12,8 @@ public interface GiftCertificateService {
     Page<GiftCertificateDTO> getCertificates(CertificateSearchQuery query, int page, int pageSize);
     Page<GiftCertificateDTO> findCertificatesByTags(List<String> tagNames, int page, int pageSize);
     GiftCertificateDTO findCertificateById(Long id);
-    Long saveCertificate(GiftCertificateDTO giftCertificateDTO);
-    void updateCertificate(GiftCertificateDTO giftCertificateDTO);
+    GiftCertificateDTO saveCertificate(GiftCertificateDTO giftCertificateDTO);
+    GiftCertificateDTO updateCertificate(GiftCertificateDTO giftCertificateDTO);
     void deleteCertificate(Long id);
     GiftCertificateDTO updateSingleCertificateField(Long id, String fieldName,String fieldValue);
 }

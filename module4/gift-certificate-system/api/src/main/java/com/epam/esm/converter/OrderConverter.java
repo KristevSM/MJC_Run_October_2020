@@ -13,7 +13,7 @@ public class OrderConverter {
     private final GiftCertificateConverter giftCertificateConverter;
     private final UserConverter userConverter;
 
-    public OrderDTO convertOrderDTOFromOrder(Order order) {
+    public OrderDTO convertFromEntity(Order order) {
         if (order == null) {
             return OrderDTO.builder().build();
         }
@@ -21,15 +21,15 @@ public class OrderConverter {
                 .id(order.getId())
                 .cost(order.getCost())
                 .orderDate(order.getOrderDate())
-                .userDTO(userConverter.convertUserDTOFromUser(order.getUser()))
+                .userDTO(userConverter.convertFromEntity(order.getUser()))
                 .build();
         if (order.getGiftCertificate() != null) {
-            orderDTO.setGiftCertificateDTO(giftCertificateConverter.convertCertificateDTOFromCertificate(order.getGiftCertificate()));
+            orderDTO.setGiftCertificateDTO(giftCertificateConverter.convertFromEntity(order.getGiftCertificate()));
         }
         return orderDTO;
     }
 
-    public Order convertOrderFromOrderDTO(OrderDTO orderDTO) {
+    public Order convertFromDTO(OrderDTO orderDTO) {
         if (orderDTO == null) {
             return Order.builder().build();
         }
@@ -37,10 +37,10 @@ public class OrderConverter {
                 .id(orderDTO.getId())
                 .cost(orderDTO.getCost())
                 .orderDate(orderDTO.getOrderDate())
-                .user(userConverter.convertUserFromUserDto(orderDTO.getUserDTO()))
+                .user(userConverter.convertFromDTO(orderDTO.getUserDTO()))
                 .build();
         if (orderDTO.getGiftCertificateDTO() != null) {
-            order.setGiftCertificate(giftCertificateConverter.convertCertificateFromCertificateDTO(orderDTO.getGiftCertificateDTO()));
+            order.setGiftCertificate(giftCertificateConverter.convertFromDTO(orderDTO.getGiftCertificateDTO()));
         }
         return order;
     }

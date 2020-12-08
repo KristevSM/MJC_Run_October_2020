@@ -12,9 +12,9 @@ public interface TagService {
 
     TagDTO findTagById(Long id);
 
-    Long saveTag(TagDTO tagDTO);
+    TagDTO saveTag(TagDTO tagDTO);
 
-    void updateTag(TagDTO tagDTO);
+    TagDTO updateTag(TagDTO tagDTO);
 
     void deleteTag(Long id);
 

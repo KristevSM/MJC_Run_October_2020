@@ -25,7 +25,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -73,30 +72,30 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
         return giftCertificateRepository.findAll(specification,
                 PageRequest.of(page, pageSize, Sort.by(direction, sortProperty)))
-                .map(certificateConverter::convertCertificateDTOFromCertificate);
+                .map(certificateConverter::convertFromEntity);
     }
 
     @Override
     public Page<GiftCertificateDTO> findCertificatesByTags(List<String> tagNames, int page, int pageSize) {
         return giftCertificateRepository.getGiftCertificatesByTagsNames(tagNames, tagNames.size(), PageRequest.of(page, pageSize))
-                .map(certificateConverter::convertCertificateDTOFromCertificate);
+                .map(certificateConverter::convertFromEntity);
     }
 
     @Override
     public GiftCertificateDTO findCertificateById(Long id) {
         GiftCertificate certificate = giftCertificateRepository.findById(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
                 .format("Gift certificate with id: {0} not found", id)));
-        return certificateConverter.convertCertificateDTOFromCertificate(certificate);
+        return certificateConverter.convertFromEntity(certificate);
     }
 
     @Override
-    public Long saveCertificate(GiftCertificateDTO giftCertificateDTO) {
+    public GiftCertificateDTO saveCertificate(GiftCertificateDTO giftCertificateDTO) {
         giftCertificateDTO.setCreateDate(ZonedDateTime.now());
         giftCertificateDTO.setLastUpdateDate(ZonedDateTime.now());
         if (giftCertificateDTO.getTags() == null) {
             giftCertificateDTO.setTags(new ArrayList<>());
         }
-        GiftCertificate certificate = certificateConverter.convertCertificateFromCertificateDTO(giftCertificateDTO);
+        GiftCertificate certificate = certificateConverter.convertFromDTO(giftCertificateDTO);
         BindingResult result = new BeanPropertyBindingResult(certificate, "giftCertificate");
         certificateValidator.validate(certificate, result);
         if (result.hasErrors()) {
@@ -122,9 +121,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         certificate.setTags(new ArrayList<>());
         GiftCertificate newCertificate = giftCertificateRepository.save(certificate);
         certificate.setTags(newTags);
-        giftCertificateRepository.save(certificate);
+        newCertificate = giftCertificateRepository.save(certificate);
 
-        return newCertificate.getId();
+        return certificateConverter.convertFromEntity(newCertificate);
     }
 
     private void checkTag(BindingResult result, Tag tag, BindingResult resultTagValidation) {
@@ -140,12 +139,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public void updateCertificate(GiftCertificateDTO giftCertificateDTO) {
+    public GiftCertificateDTO updateCertificate(GiftCertificateDTO giftCertificateDTO) {
         giftCertificateDTO.setLastUpdateDate(ZonedDateTime.now());
         if (giftCertificateDTO.getTags() == null) {
             giftCertificateDTO.setTags(new ArrayList<>());
         }
-        GiftCertificate giftCertificate = certificateConverter.convertCertificateFromCertificateDTO(giftCertificateDTO);
+        GiftCertificate giftCertificate = certificateConverter.convertFromDTO(giftCertificateDTO);
         BindingResult result = new BeanPropertyBindingResult(giftCertificate, "giftCertificate");
         certificateValidator.validate(giftCertificate, result);
         if (result.hasErrors()) {
@@ -169,7 +168,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             }
             giftCertificate.setTags(newTags);
             giftCertificate.setLastUpdateDate(ZonedDateTime.now());
-            giftCertificateRepository.save(giftCertificate);
+            GiftCertificate updatedCertificate = giftCertificateRepository.save(giftCertificate);
+            return certificateConverter.convertFromEntity(updatedCertificate);
         }
     }
 
@@ -223,6 +223,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
         certificate.setLastUpdateDate(ZonedDateTime.now());
         giftCertificateRepository.save(certificate);
-        return certificateConverter.convertCertificateDTOFromCertificate(certificate);
+        return certificateConverter.convertFromEntity(certificate);
     }
 }

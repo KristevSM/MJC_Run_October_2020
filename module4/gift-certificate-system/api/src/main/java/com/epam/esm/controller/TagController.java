@@ -114,18 +114,14 @@ public class TagController {
      * Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
      * @param tagDTO             Tag instance.
-     * @param ucBuilder       UriComponentsBuilder instance.
      * @return ResponseEntity.
      */
     @PostMapping(path = "/tags", consumes = "application/json", produces = "application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<TagDTO> addTag(@RequestBody @Valid TagDTO tagDTO,
-                                      UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<TagDTO> addTag(@RequestBody @Valid TagDTO tagDTO) {
 
-            Long tagId = tagService.saveTag(tagDTO);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/tags/{id}").buildAndExpand(tagId).toUri());
-            return new ResponseEntity<>(headers, HttpStatus.CREATED);
+            TagDTO tagDTOupdated = tagService.saveTag(tagDTO);
+            return new ResponseEntity<>(tagDTOupdated, HttpStatus.CREATED);
     }
 
     /**
@@ -137,22 +133,18 @@ public class TagController {
      *
      * @param id        Tag id.
      * @param patch     JsonPatch.
-     * @param ucBuilder UriComponentsBuilder instance.
      * @return ResponseEntity.
      */
     @PatchMapping(path = "tags/{id}", consumes = "application/json-patch+json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<TagDTO> updateTag(@PathVariable Long id,
-                                         @RequestBody JsonPatch patch,
-                                         UriComponentsBuilder ucBuilder) {
+                                         @RequestBody JsonPatch patch) {
         try {
             TagDTO oldTag = tagService.findTagById(id);
             TagDTO tagPatched = applyPatchToTag(patch, oldTag);
 
-                tagService.updateTag(tagPatched);
-                HttpHeaders headers = new HttpHeaders();
-                headers.setLocation(ucBuilder.path("/tags/{id}").buildAndExpand(tagPatched.getId()).toUri());
-                return new ResponseEntity<>(headers, HttpStatus.CREATED);
+            TagDTO tagDTOUpdated = tagService.updateTag(tagPatched);
+                return new ResponseEntity<>(tagDTOUpdated, HttpStatus.CREATED);
 
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

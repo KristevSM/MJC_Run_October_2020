@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor()
 @NoArgsConstructor
@@ -35,7 +36,7 @@ public class GiftCertificate extends Auditable<String>  implements Serializable 
     private ZonedDateTime lastUpdateDate;
     @Column(name = "duration")
     private int duration;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tag_has_gift_certificate",
             //foreign key for Certificate in tag_has_gift_certificate table
             joinColumns = @JoinColumn(name = "gift_certificate_id"),

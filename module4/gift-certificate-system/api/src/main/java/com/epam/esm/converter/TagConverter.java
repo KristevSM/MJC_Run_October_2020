@@ -10,21 +10,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class TagConverter {
-    public TagDTO convertTagDtoFromTag(Tag tag) {
+    public TagDTO convertFromEntity(Tag tag) {
         return TagDTO.builder()
                 .id(tag.getId())
                 .name(tag.getName())
                 .build();
     }
 
-    public Tag convertTagFromTagDTO(TagDTO tagDTO) {
+    public Tag convertFromDTO(TagDTO tagDTO) {
         return Tag.builder()
                 .id(tagDTO.getId())
                 .name(tagDTO.getName())
                 .build();
     }
 
-    List<TagDTO> convertTagDTOsFromTags(List<Tag> tags) {
+    List<TagDTO> convertDTOsFromEntity(List<Tag> tags) {
         if (tags == null) {
             return new ArrayList<>();
         }
@@ -36,7 +36,7 @@ public class TagConverter {
                 .collect(Collectors.toList());
     }
 
-    List<Tag> convertTagsFromTagDTOs(List<TagDTO> tagDTOs) {
+    List<Tag> convertFromDTOs(List<TagDTO> tagDTOs) {
         if (tagDTOs == null) {
             return new ArrayList<>();
         }

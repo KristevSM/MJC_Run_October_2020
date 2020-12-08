@@ -62,9 +62,9 @@ public class UserController {
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
 
-        Page<UserDTO> userDTOList = userService.getAllUsers(pageNumber-1, pageSizeNumber);
+        Page<UserDTO> userDTOPage = userService.getAllUsers(pageNumber-1, pageSizeNumber);
 
-        for (UserDTO userDTO : userDTOList) {
+        for (UserDTO userDTO : userDTOPage) {
             Link selfLink = linkTo(methodOn(UserController.class)
                     .findUserById(userDTO.getId())).withRel("currentUser");
             userDTO.add(selfLink);
@@ -72,13 +72,13 @@ public class UserController {
 
         Link usersLink = linkTo(UserController.class).slash("users").withRel("usersList");
 
-        CollectionModel<UserDTO> collectionModel = new CollectionModel(userDTOList, usersLink);
+        CollectionModel<UserDTO> collectionModel = new CollectionModel(userDTOPage, usersLink);
         if (pageNumber > 1) {
             Link previousPage = linkTo(methodOn(UserController.class)
                     .findAllUsers(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-        if (pageNumber < userDTOList.getTotalPages()) {
+        if (pageNumber < userDTOPage.getTotalPages()) {
             Link nextPage = linkTo(methodOn(UserController.class)
                     .findAllUsers(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
             collectionModel.add(nextPage);

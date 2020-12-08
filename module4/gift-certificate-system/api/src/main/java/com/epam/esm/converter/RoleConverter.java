@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class RoleConverter {
-    Set<RoleDTO> convertRoleDTOsFromRoles(Set<Role> roles) {
+    Set<RoleDTO> convertFromEntity(Set<Role> roles) {
         if (roles == null) {
             return new HashSet<>();
         }
@@ -21,7 +21,7 @@ public class RoleConverter {
                 .collect(Collectors.toSet());
     }
 
-    Set<Role> convertRolesFromRoleDTOs(Set<RoleDTO> roleDTOS) {
+    Set<Role> convertFromDTO(Set<RoleDTO> roleDTOS) {
         if (roleDTOS == null) {
             return new HashSet<>();
         }

@@ -13,7 +13,7 @@ public class GiftCertificateConverter {
     private final TagConverter tagConverter;
 
 
-    public GiftCertificateDTO convertCertificateDTOFromCertificate(GiftCertificate certificate) {
+    public GiftCertificateDTO convertFromEntity(GiftCertificate certificate) {
         GiftCertificateDTO giftCertificateDTO = GiftCertificateDTO.builder()
                 .id(certificate.getId())
                 .name(certificate.getName())
@@ -24,12 +24,12 @@ public class GiftCertificateConverter {
                 .price(certificate.getPrice())
                 .build();
         if (certificate.getTags() != null) {
-            giftCertificateDTO.setTags(tagConverter.convertTagDTOsFromTags(certificate.getTags()));
+            giftCertificateDTO.setTags(tagConverter.convertDTOsFromEntity(certificate.getTags()));
         }
         return giftCertificateDTO;
     }
 
-    public GiftCertificate convertCertificateFromCertificateDTO(GiftCertificateDTO certificateDTO) {
+    public GiftCertificate convertFromDTO(GiftCertificateDTO certificateDTO) {
         GiftCertificate giftCertificate = GiftCertificate.builder()
                 .id(certificateDTO.getId())
                 .name(certificateDTO.getName())
@@ -40,7 +40,7 @@ public class GiftCertificateConverter {
                 .price(certificateDTO.getPrice())
                 .build();
         if (certificateDTO.getTags() != null) {
-            giftCertificate.setTags(tagConverter.convertTagsFromTagDTOs(certificateDTO.getTags()));
+            giftCertificate.setTags(tagConverter.convertFromDTOs(certificateDTO.getTags()));
         }
         return giftCertificate;
     }

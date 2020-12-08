@@ -136,21 +136,21 @@ public class OrderController {
         int pageSizeNumber = pageSize.orElse(DEFAULT_PAGE_SIZE);
 
         ValidationUtils.checkPaginationData(pageNumber, pageSizeNumber);
-        Page<OrderDTO> orderDTOList = orderService.getUserOrders(id, pageNumber-1, pageSizeNumber);
+        Page<OrderDTO> orderDTOPage = orderService.getUserOrders(id, pageNumber-1, pageSizeNumber);
 
-        for (OrderDTO orderDTO : orderDTOList) {
+        for (OrderDTO orderDTO : orderDTOPage) {
             Link selfLink = linkTo(methodOn(OrderController.class)
                     .findOrderById(orderDTO.getId())).withRel("order");
             orderDTO.add(selfLink);
         }
 
-        CollectionModel<OrderDTO> collectionModel = new CollectionModel(orderDTOList);
+        CollectionModel<OrderDTO> collectionModel = new CollectionModel(orderDTOPage);
         if (pageNumber > 1) {
             Link previousPage = linkTo(methodOn(OrderController.class)
                     .getUserOrders(id, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-        if (pageNumber < orderDTOList.getTotalPages()) {
+        if (pageNumber < orderDTOPage.getTotalPages()) {
             Link nextPage = linkTo(methodOn(OrderController.class)
                     .getUserOrders(id, Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
             collectionModel.add(nextPage);

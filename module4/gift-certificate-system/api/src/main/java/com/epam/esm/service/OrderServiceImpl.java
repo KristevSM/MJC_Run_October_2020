@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -42,14 +40,14 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Page<OrderDTO> getAllOrders(int page, int pageSize) {
         return orderRepository.findAll(PageRequest.of(page, pageSize))
-                .map(orderConverter::convertOrderDTOFromOrder);
+                .map(orderConverter::convertFromEntity);
     }
 
     @Override
     public OrderDTO getOrderById(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                 .format("Order with id: {0} not found", id)));
-        return orderConverter.convertOrderDTOFromOrder(order);
+        return orderConverter.convertFromEntity(order);
     }
 
     @Override
@@ -68,7 +66,7 @@ public class OrderServiceImpl implements OrderService{
         Order newOrder= orderRepository.save(order);
         Order orderFromDao = orderRepository.findById(newOrder.getId()).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                 .format("Order with id: {0} not found", newOrder.getId())));
-        return orderConverter.convertOrderDTOFromOrder(orderFromDao);
+        return orderConverter.convertFromEntity(orderFromDao);
     }
 
     @Override
@@ -83,6 +81,6 @@ public class OrderServiceImpl implements OrderService{
         userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", userId)));
         return orderRepository.findByUserId(userId, PageRequest.of(page, pageSize))
-                .map(orderConverter::convertOrderDTOFromOrder);}
+                .map(orderConverter::convertFromEntity);}
 
 }

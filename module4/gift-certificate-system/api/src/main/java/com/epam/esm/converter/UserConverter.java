@@ -16,7 +16,7 @@ public class UserConverter {
 
     private final RoleConverter roleConverter;
 
-    public UserDTO convertUserDTOFromUser(User user) {
+    public UserDTO convertFromEntity(User user) {
 
         UserDTO userDTO = UserDTO.builder()
                 .id(user.getId())
@@ -30,12 +30,12 @@ public class UserConverter {
                 .build();
         Set<Role> roles = user.getRoles();
         if (roles != null) {
-            userDTO.setRoles(roleConverter.convertRoleDTOsFromRoles(roles));
+            userDTO.setRoles(roleConverter.convertFromEntity(roles));
         }
         return userDTO;
     }
 
-    public User convertUserFromUserDto(UserDTO userDTO) {
+    public User convertFromDTO(UserDTO userDTO) {
         User user = User.builder()
                 .id(userDTO.getId())
                 .username(userDTO.getUsername())
@@ -48,7 +48,7 @@ public class UserConverter {
                 .build();
         Set<RoleDTO> roleDTOS = userDTO.getRoles();
         if (roleDTOS != null) {
-            user.setRoles(roleConverter.convertRolesFromRoleDTOs(roleDTOS));
+            user.setRoles(roleConverter.convertFromDTO(roleDTOS));
         }
         return user;
     }

@@ -4,7 +4,6 @@ import com.epam.esm.converter.UserConverter;
 import com.epam.esm.dto.UserDTO;
 import com.epam.esm.exception.UserNotFoundException;
 import com.epam.esm.model.Role;
-import com.epam.esm.model.Tag;
 import com.epam.esm.model.User;
 import com.epam.esm.repository.RoleRepository;
 import com.epam.esm.repository.UserRepository;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -48,7 +46,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Page<UserDTO> getAllUsers(int page, int pageSize) {
         return userRepository.findAll(PageRequest.of(page, pageSize))
-                        .map(userConverter::convertUserDTOFromUser);
+                        .map(userConverter::convertFromEntity);
     }
 
     /**
@@ -61,7 +59,7 @@ public class UserServiceImpl implements UserService{
     public UserDTO getUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(MessageFormat
                 .format("User with id: {0} not found", id)));
-        return userConverter.convertUserDTOFromUser(user);
+        return userConverter.convertFromEntity(user);
     }
 
     @Override
@@ -78,7 +76,7 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User registeredUser = userRepository.save(user);
         log.info("IN register - user: {} successfully registered", registeredUser);
-        return userConverter.convertUserDTOFromUser(registeredUser);
+        return userConverter.convertFromEntity(registeredUser);
     }
 
     @Override

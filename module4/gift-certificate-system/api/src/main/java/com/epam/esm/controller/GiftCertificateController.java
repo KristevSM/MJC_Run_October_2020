@@ -71,17 +71,13 @@ public class GiftCertificateController {
      * <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
      * @param giftCertificateDTO GiftCertificate instance.
-     * @param ucBuilder          UriComponentsBuilder instance.
      * @return ResponseEntity.
      */
     @PostMapping(path = "/certificates", consumes = "application/json", produces = "application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<GiftCertificateDTO> addGiftCertificate(@RequestBody @Valid GiftCertificateDTO giftCertificateDTO,
-                                                                 UriComponentsBuilder ucBuilder) {
-        Long certificateId = giftCertificateService.saveCertificate(giftCertificateDTO);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificateId).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public GiftCertificateDTO addGiftCertificate(@RequestBody @Valid GiftCertificateDTO giftCertificateDTO) {
+        return giftCertificateService.saveCertificate(giftCertificateDTO);
     }
 
     /**
@@ -89,25 +85,21 @@ public class GiftCertificateController {
      * <p>
      * First, finds a certificate by ID. Subsequently, if the certificate record is found, invokes
      * the applyPatchToGiftCertificate(patch, giftCertificate) method. Then applies the JsonPatch to the certificate.
-     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.NO_CONTENT</i>.
+     * Is returning <i>ResponseEntity</i> with <i>HttpStatus.CREATED</i>.
      *
      * @param id        GiftCertificate id.
      * @param patch     JsonPatch.
-     * @param ucBuilder UriComponentsBuilder instance.
      * @return ResponseEntity.
      */
     @PatchMapping(path = "certificates/{id}", consumes = "application/json-patch+json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<GiftCertificateDTO> updateGiftCertificate(@PathVariable Long id,
-                                                                    @RequestBody JsonPatch patch,
-                                                                    UriComponentsBuilder ucBuilder) {
+                                                                    @RequestBody JsonPatch patch) {
         try {
             GiftCertificateDTO oldCertificate = giftCertificateService.findCertificateById(id);
             GiftCertificateDTO certificatePatched = applyPatchToGiftCertificate(patch, oldCertificate);
-            giftCertificateService.updateCertificate(certificatePatched);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/certificates/{id}").buildAndExpand(certificatePatched.getId()).toUri());
-            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+            GiftCertificateDTO updatedCertificate = giftCertificateService.updateCertificate(certificatePatched);
+            return new ResponseEntity<>(updatedCertificate, HttpStatus.CREATED);
 
         } catch (JsonPatchException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -193,24 +185,24 @@ public class GiftCertificateController {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         }
-        Page<GiftCertificateDTO> certificateList
+        Page<GiftCertificateDTO> certificateDTOPage
                 = giftCertificateService.getCertificates(query, pageNumber - 1, pageSizeNumber);
 
-        for (GiftCertificateDTO certificate : certificateList) {
+        for (GiftCertificateDTO certificate : certificateDTOPage) {
             Link selfLink = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificateById(certificate.getId())).withSelfRel();
             certificate.add(selfLink);
         }
         Link link = linkTo(GiftCertificateController.class).slash("certificates").withSelfRel();
 
-        CollectionModel<GiftCertificateDTO> collectionModel = new CollectionModel(certificateList, link);
+        CollectionModel<GiftCertificateDTO> collectionModel = new CollectionModel(certificateDTOPage, link);
 
         if (pageNumber > 1) {
             Link previousPage = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificates(tagName, partOfName, partOfDescription, sortParameter, sortOrder, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(previousPage);
         }
-        if (pageNumber < certificateList.getTotalPages()) {
+        if (pageNumber < certificateDTOPage.getTotalPages()) {
             Link nextPage = linkTo(methodOn(GiftCertificateController.class)
                     .findCertificates(tagName, partOfName, partOfDescription, sortParameter, sortOrder, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
             collectionModel.add(nextPage);
