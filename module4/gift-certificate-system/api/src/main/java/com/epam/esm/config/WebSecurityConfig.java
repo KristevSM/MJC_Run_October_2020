@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationEntryPoint RESTAuthenticationEntryPoint(){
+    public AuthenticationEntryPoint RESTAuthenticationEntryPoint() {
         return new RESTAuthenticationEntryPoint();
     }
 
@@ -50,16 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/token").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/certificates").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/certificates/{id}").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/certificates/search").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/tags").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/tags/{id}").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/tags/popular").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/gift-certificates/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/gift-certificates/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/gift-certificates/signup").permitAll()
+                .antMatchers("/gift-certificates/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(RESTAuthenticationEntryPoint())
