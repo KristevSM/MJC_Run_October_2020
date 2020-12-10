@@ -2,8 +2,11 @@ package com.epam.esm.service;
 
 import com.epam.esm.converter.UserConverter;
 import com.epam.esm.dto.UserDTO;
+import com.epam.esm.exception.DaoException;
+import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.exception.UserNotFoundException;
 import com.epam.esm.model.Role;
+import com.epam.esm.model.Tag;
 import com.epam.esm.model.User;
 import com.epam.esm.repository.RoleRepository;
 import com.epam.esm.repository.UserRepository;
@@ -45,8 +48,13 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public Page<UserDTO> getAllUsers(int page, int pageSize) {
-        return userRepository.findAll(PageRequest.of(page, pageSize))
-                        .map(userConverter::convertFromEntity);
+        try {
+            return userRepository.findAll(PageRequest.of(page, pageSize))
+                    .map(userConverter::convertFromEntity);
+        } catch (Exception e) {
+            log.error("IN getAllUsers - Unable to get User's list: {}", e.getMessage());
+            throw new DaoException("Unable to get User's list");
+        }
     }
 
     /**
@@ -57,9 +65,14 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public UserDTO getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(MessageFormat
-                .format("User with id: {0} not found", id)));
-        return userConverter.convertFromEntity(user);
+        try {
+            User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                    .format("User with id: {0} not found", id)));
+            return userConverter.convertFromEntity(user);
+        } catch (Exception e) {
+            log.error("IN getUserById - Unable to get the User by id: {}", e.getMessage());
+            throw new DaoException("Unable to get the User by id");
+        }
     }
 
     @Override
@@ -74,22 +87,36 @@ public class UserServiceImpl implements UserService{
         userRoles.add(roleUser);
         user.setRoles(userRoles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User registeredUser = userRepository.save(user);
-        log.info("IN register - user: {} successfully registered", registeredUser);
-        return userConverter.convertFromEntity(registeredUser);
+        try {
+            User registeredUser = userRepository.save(user);
+            log.info("IN register - user: {} successfully registered", registeredUser);
+            return userConverter.convertFromEntity(registeredUser);
+        } catch (Exception e) {
+            log.error("IN register - Unable to save new User: {}", e.getMessage());
+            throw new DaoException("Unable to get save new User");
+        }
     }
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(MessageFormat
-                .format("User with username: {0} not found", username)));
+        try {
+            return userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                    .format("User with username: {0} not found", username)));
+        } catch (Exception e) {
+            log.error("IN findByUsername - Unable to find the User by id: {}", e.getMessage());
+            throw new DaoException("Unable to find the User by id");
+        }
     }
 
     @Override
     public User findByUsernameAndPassword(String username, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        return userRepository.findUserByUsernameAndPassword(username, encodedPassword).orElseThrow(() -> new UserNotFoundException(MessageFormat
-                .format("User with username: {0} not found", username)));
-
+        try {
+            return userRepository.findUserByUsernameAndPassword(username, encodedPassword).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                    .format("User with username: {0} not found", username)));
+        } catch (Exception e) {
+            log.error("IN findByUsernameAndPassword - Unable to find the User by user name and password: {}", e.getMessage());
+            throw new DaoException("Unable to find the User by user name and password");
+        }
     }
 }

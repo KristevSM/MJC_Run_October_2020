@@ -17,15 +17,15 @@ public class ApiError {
     private String debugMessage;
     private List<FieldValidationError> fieldValidationErrors;
 
-    ApiError() {
+    public ApiError() {
     }
 
-    ApiError(HttpStatus status) {
+    public ApiError(HttpStatus status) {
         this();
         this.status = status;
     }
 
-    ApiError(HttpStatus status, Throwable ex) {
+    public ApiError(HttpStatus status, Throwable ex) {
         this();
         this.status = status;
         this.message = "Unexpected error";

@@ -2,6 +2,7 @@ package com.epam.esm.service;
 
 import com.epam.esm.converter.GiftCertificateConverter;
 import com.epam.esm.dto.GiftCertificateDTO;
+import com.epam.esm.exception.DaoException;
 import com.epam.esm.exception.GiftCertificateNotFoundException;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.model.GiftCertificate;
@@ -10,6 +11,7 @@ import com.epam.esm.model.Tag;
 import com.epam.esm.repository.*;
 import com.epam.esm.validator.GiftCertificateValidator;
 import com.epam.esm.validator.TagValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private final GiftCertificateRepository giftCertificateRepository;
@@ -70,60 +73,80 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 direction = Sort.Direction.DESC;
             }
         }
-        return giftCertificateRepository.findAll(specification,
-                PageRequest.of(page, pageSize, Sort.by(direction, sortProperty)))
-                .map(certificateConverter::convertFromEntity);
+        try {
+            return giftCertificateRepository.findAll(specification,
+                    PageRequest.of(page, pageSize, Sort.by(direction, sortProperty)))
+                    .map(certificateConverter::convertFromEntity);
+        } catch (Exception e) {
+            log.error("IN getCertificates - Unable to get the list of Gift certificates: {}", e.getMessage());
+            throw new DaoException("Unable to get the list of Gift certificates");
+        }
     }
 
     @Override
     public Page<GiftCertificateDTO> findCertificatesByTags(List<String> tagNames, int page, int pageSize) {
-        return giftCertificateRepository.getGiftCertificatesByTagsNames(tagNames, tagNames.size(), PageRequest.of(page, pageSize))
-                .map(certificateConverter::convertFromEntity);
+        try {
+            return giftCertificateRepository.getGiftCertificatesByTagsNames(tagNames, tagNames.size(), PageRequest.of(page, pageSize))
+                    .map(certificateConverter::convertFromEntity);
+        } catch (Exception e) {
+            log.error("IN findCertificatesByTags - Unable to get the list of Gift certificates: {}", e.getMessage());
+            throw new DaoException("Unable to get the list of Gift certificates");
+        }
     }
 
     @Override
     public GiftCertificateDTO findCertificateById(Long id) {
-        GiftCertificate certificate = giftCertificateRepository.findById(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
-                .format("Gift certificate with id: {0} not found", id)));
-        return certificateConverter.convertFromEntity(certificate);
+        try {
+            GiftCertificate certificate = giftCertificateRepository.findById(id).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
+                    .format("Gift certificate with id: {0} not found", id)));
+            return certificateConverter.convertFromEntity(certificate);
+        } catch (Exception e) {
+            log.error("IN findCertificateById - Unable to get the list of Gift certificates: {}", e.getMessage());
+            throw new DaoException("Unable to get the list of Gift certificates");
+        }
+
     }
 
     @Override
     public GiftCertificateDTO saveCertificate(GiftCertificateDTO giftCertificateDTO) {
-        giftCertificateDTO.setCreateDate(ZonedDateTime.now());
-        giftCertificateDTO.setLastUpdateDate(ZonedDateTime.now());
-        if (giftCertificateDTO.getTags() == null) {
-            giftCertificateDTO.setTags(new ArrayList<>());
+        try {
+            giftCertificateDTO.setCreateDate(ZonedDateTime.now());
+            giftCertificateDTO.setLastUpdateDate(ZonedDateTime.now());
+            if (giftCertificateDTO.getTags() == null) {
+                giftCertificateDTO.setTags(new ArrayList<>());
+            }
+            GiftCertificate certificate = certificateConverter.convertFromDTO(giftCertificateDTO);
+            BindingResult result = new BeanPropertyBindingResult(certificate, "giftCertificate");
+            certificateValidator.validate(certificate, result);
+            if (result.hasErrors()) {
+                String brokenField = result.getFieldErrors().get(0).getField();
+                String errorCode = result.getFieldErrors().get(0).getCode();
+                throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
+                        brokenField, errorCode));
+            }
+            if (giftCertificateRepository.getCertificateByName(certificate.getName()).isPresent()) {
+                throw new IllegalArgumentException(MessageFormat.format("Certificate with name: {0} already exists", certificate.getName()));
+            }
+            List<Tag> oldTags = certificate.getTags();
+            List<Tag> newTags = new ArrayList<>();
+            for (Tag tag : oldTags) {
+                BindingResult resultTagValidation = new BeanPropertyBindingResult(tag, "tag");
+                tagValidator.validate(tag, result);
+                Optional<Tag> currentTag = tagRepository.findByName(tag.getName());
+                if (currentTag.isPresent()) {
+                    tag.setId(currentTag.get().getId());
+                } else checkTag(result, tag, resultTagValidation);
+                newTags.add(tag);
+            }
+            certificate.setTags(new ArrayList<>());
+            GiftCertificate newCertificate = giftCertificateRepository.save(certificate);
+            certificate.setTags(newTags);
+            newCertificate = giftCertificateRepository.save(certificate);
+            return certificateConverter.convertFromEntity(newCertificate);
+        } catch (Exception e) {
+            log.error("IN saveCertificate - Unable to save new Gift certificate: {}", e.getMessage());
+            throw new DaoException("Unable to save new Gift certificate");
         }
-        GiftCertificate certificate = certificateConverter.convertFromDTO(giftCertificateDTO);
-        BindingResult result = new BeanPropertyBindingResult(certificate, "giftCertificate");
-        certificateValidator.validate(certificate, result);
-        if (result.hasErrors()) {
-            String brokenField = result.getFieldErrors().get(0).getField();
-            String errorCode = result.getFieldErrors().get(0).getCode();
-            throw new InvalidInputDataException(MessageFormat.format("Unexpected certificate''s field: {0}, error code: {1}",
-                    brokenField, errorCode));
-        }
-        if (giftCertificateRepository.getCertificateByName(certificate.getName()).isPresent()) {
-            throw new IllegalArgumentException(MessageFormat.format("Certificate with name: {0} already exists", certificate.getName()));
-        }
-        List<Tag> oldTags = certificate.getTags();
-        List<Tag> newTags = new ArrayList<>();
-        for (Tag tag : oldTags) {
-            BindingResult resultTagValidation = new BeanPropertyBindingResult(tag, "tag");
-            tagValidator.validate(tag, result);
-            Optional<Tag> currentTag = tagRepository.findByName(tag.getName());
-            if (currentTag.isPresent()) {
-                tag.setId(currentTag.get().getId());
-            } else checkTag(result, tag, resultTagValidation);
-            newTags.add(tag);
-        }
-        certificate.setTags(new ArrayList<>());
-        GiftCertificate newCertificate = giftCertificateRepository.save(certificate);
-        certificate.setTags(newTags);
-        newCertificate = giftCertificateRepository.save(certificate);
-
-        return certificateConverter.convertFromEntity(newCertificate);
     }
 
     private void checkTag(BindingResult result, Tag tag, BindingResult resultTagValidation) {
@@ -133,8 +156,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         } else {
-            Tag newTag = tagRepository.save(tag);
-            tag.setId(newTag.getId());
+            try {
+                Tag newTag = tagRepository.save(tag);
+                tag.setId(newTag.getId());
+            } catch (Exception e) {
+                log.error("IN checkTag - Unable to save new Tag: {}", e.getMessage());
+                throw new DaoException("Unable to save new Tag");
+            }
         }
     }
 
@@ -168,23 +196,33 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             }
             giftCertificate.setTags(newTags);
             giftCertificate.setLastUpdateDate(ZonedDateTime.now());
-            GiftCertificate updatedCertificate = giftCertificateRepository.save(giftCertificate);
-            return certificateConverter.convertFromEntity(updatedCertificate);
+            try {
+                GiftCertificate updatedCertificate = giftCertificateRepository.save(giftCertificate);
+                return certificateConverter.convertFromEntity(updatedCertificate);
+            } catch (Exception e) {
+                log.error("IN updateCertificate - Unable to update Gift certificate: {}", e.getMessage());
+                throw new DaoException("Unable to update Gift certificate");
+            }
         }
     }
 
     @Override
     public void deleteCertificate(Long id) {
-        Optional<GiftCertificate> certificate = giftCertificateRepository.findById(id);
-        if (certificate.isPresent()) {
-            List<Order> orders = certificate.get().getOrders();
-            for (Order order : orders) {
-                order.setGiftCertificate(null);
-                orderRepository.save(order);
+        try {
+            Optional<GiftCertificate> certificate = giftCertificateRepository.findById(id);
+            if (certificate.isPresent()) {
+                List<Order> orders = certificate.get().getOrders();
+                for (Order order : orders) {
+                    order.setGiftCertificate(null);
+                    orderRepository.save(order);
+                }
+                giftCertificateRepository.delete(certificate.get());
+            } else {
+                throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} not found", id));
             }
-            giftCertificateRepository.delete(certificate.get());
-        } else {
-            throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} not found", id));
+        } catch (Exception e) {
+            log.error("IN deleteCertificate - Unable to delete Gift certificate: {}", e.getMessage());
+            throw new DaoException("Unable to delete Gift certificate");
         }
     }
 
@@ -222,7 +260,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     brokenField, errorCode));
         }
         certificate.setLastUpdateDate(ZonedDateTime.now());
-        giftCertificateRepository.save(certificate);
+        try {
+            giftCertificateRepository.save(certificate);
+        } catch (Exception e) {
+            log.error("IN updateSingleCertificateField - Unable to update single field of Gift certificate: {}", e.getMessage());
+            throw new DaoException("Unable to update single field of Gift certificate");
+        }
         return certificateConverter.convertFromEntity(certificate);
     }
 }

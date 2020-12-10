@@ -104,7 +104,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleDaoException(DaoException ex,
                                                         WebRequest request) {
         ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR, ex);
-        apiError.setMessage("DaoException");
+        apiError.setMessage("Dao exception");
         apiError.setDebugMessage(ex.getMessage());
 
         return new ResponseEntity<>(apiError, INTERNAL_SERVER_ERROR);
@@ -119,36 +119,35 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
+    
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex,
+                                                       WebRequest request) {
+        ApiError apiError = new ApiError(UNAUTHORIZED, ex);
+        apiError.setMessage("Access denied");
+        apiError.setDebugMessage("User not authorized");
 
+        return new ResponseEntity<>(apiError, FORBIDDEN);
+    }
 
     @ExceptionHandler(JwtAuthenticationException.class)
     protected ResponseEntity<Object> handleAuthenticationException(JwtAuthenticationException ex,
                                                        WebRequest request) {
-        ApiError apiError = new ApiError(FORBIDDEN, ex);
-        apiError.setMessage("Authentication failed");
-        apiError.setDebugMessage(ex.getMessage());
-
-        return new ResponseEntity<>(apiError, FORBIDDEN);
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex,
-                                                       WebRequest request) {
-        ApiError apiError = new ApiError(FORBIDDEN, ex);
-        apiError.setMessage("Access denied");
-        apiError.setDebugMessage("You don't have access to view the resource");
-
-        return new ResponseEntity<>(apiError, FORBIDDEN);
-    }
-
-    @ExceptionHandler(AuthenticationException.class)
-    protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex,
-                                                       WebRequest request) {
         ApiError apiError = new ApiError(UNAUTHORIZED, ex);
-        apiError.setMessage("Access denied");
+        apiError.setMessage("Authentication failed");
         apiError.setDebugMessage(ex.getLocalizedMessage());
 
         return new ResponseEntity<>(apiError, UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserAccessDeniedException.class)
+    protected ResponseEntity<Object> handleUserAccessDeniedException(UserAccessDeniedException ex,
+                                                                   WebRequest request) {
+        ApiError apiError = new ApiError(FORBIDDEN, ex);
+        apiError.setMessage("Access denied");
+        apiError.setDebugMessage(ex.getLocalizedMessage());
+
+        return new ResponseEntity<>(apiError, FORBIDDEN);
     }
 
 

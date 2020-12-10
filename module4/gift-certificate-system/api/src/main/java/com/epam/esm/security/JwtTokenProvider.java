@@ -29,7 +29,13 @@ public class JwtTokenProvider {
     private UserDetailsService userDetailsService;
 
     public String getUsernameFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
+        String userName;
+        try {
+            userName = getClaimFromToken(token, Claims::getSubject);
+        } catch (Exception e) {
+            throw new JwtAuthenticationException("JWT token is expired or invalid");
+        }
+        return userName;
     }
 
     private Date getExpirationDateFromToken(String token) {
@@ -98,6 +104,12 @@ public class JwtTokenProvider {
     }
 
     public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+        String userName;
+        try {
+            userName = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+        } catch (Exception e) {
+            throw new JwtAuthenticationException("JWT token is expired or invalid");
+        }
+        return userName;
     }
 }

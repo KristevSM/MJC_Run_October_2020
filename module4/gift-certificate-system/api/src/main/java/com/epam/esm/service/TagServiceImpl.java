@@ -2,14 +2,18 @@ package com.epam.esm.service;
 
 import com.epam.esm.converter.TagConverter;
 import com.epam.esm.dto.TagDTO;
+import com.epam.esm.exception.DaoException;
 import com.epam.esm.exception.InvalidInputDataException;
 import com.epam.esm.exception.TagNotFoundException;
 import com.epam.esm.model.Tag;
 import com.epam.esm.repository.TagRepository;
 import com.epam.esm.validator.TagValidator;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -20,6 +24,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
@@ -35,8 +40,13 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Page<TagDTO> findAllTags(int page, int pageSize) {
-        return tagRepository.findAll(PageRequest.of(page, pageSize))
-                .map(tagConverter::convertFromEntity);
+        try {
+            return tagRepository.findAll(PageRequest.of(page, pageSize))
+                    .map(tagConverter::convertFromEntity);
+        } catch (Exception e) {
+            log.error("IN findAllTags - Unable to get the list of Tags: {}", e.getMessage());
+            throw new DaoException("Unable to get the list of Tags");
+        }
     }
 
     @Override
@@ -61,8 +71,14 @@ public class TagServiceImpl implements TagService {
             throw new InvalidInputDataException(MessageFormat.format("Unexpected tag''s field: {0}, error code: {1}",
                     brokenField, errorCode));
         }
-        Tag newTag = tagRepository.save(tag);
-        return tagConverter.convertFromEntity(newTag);    }
+        try {
+            Tag newTag = tagRepository.save(tag);
+            return tagConverter.convertFromEntity(newTag);
+        } catch (Exception e) {
+            log.error("IN saveTag - Unable to save new Tag: {}", e.getMessage());
+            throw new DaoException("Unable to save new Tag");
+        }
+    }
 
     @Override
     public TagDTO updateTag(TagDTO tagDTO) {
@@ -79,22 +95,37 @@ public class TagServiceImpl implements TagService {
             if (tagFromDao.isPresent()) {
                 throw new InvalidInputDataException(MessageFormat.format("Tag with name: {0} already exists", tag.getName()));
             }
-            Tag newTag = tagRepository.save(tag);
-            return tagConverter.convertFromEntity(newTag);
+            try {
+                Tag newTag = tagRepository.save(tag);
+                return tagConverter.convertFromEntity(newTag);
+            } catch (Exception e) {
+                log.error("IN updateTag - Unable to update the Tag: {}", e.getMessage());
+                throw new DaoException("Unable to update the Tag");
+            }
         }
     }
 
     @Override
     public void deleteTag(Long id) {
-        Tag tag = tagRepository.findById(id).orElseThrow(() ->
-                new TagNotFoundException(MessageFormat.format("Tag with id: {0} not found", id)));
-        tagRepository.delete(tag);
+        try {
+            Tag tag = tagRepository.findById(id).orElseThrow(() ->
+                    new TagNotFoundException(MessageFormat.format("Tag with id: {0} not found", id)));
+            tagRepository.delete(tag);
+        } catch (Exception e) {
+            log.error("IN deleteTag - Unable to delete the Tag: {}", e.getMessage());
+            throw new DaoException("Unable to delete the Tag");
+        }
     }
 
     @Override
     public TagDTO getUsersMostWidelyUsedTag() {
-        Tag tag = tagRepository.getUsersMostWidelyUsedTag().orElseThrow(() ->
-                new TagNotFoundException("Tag not found"));
-        return tagConverter.convertFromEntity(tag);
+        try {
+            Tag tag = tagRepository.getUsersMostWidelyUsedTag().orElseThrow(() ->
+                    new TagNotFoundException("Tag not found"));
+            return tagConverter.convertFromEntity(tag);
+        } catch (Exception e) {
+            log.error("IN getUsersMostWidelyUsedTag - Unable to get the Tag: {}", e.getMessage());
+            throw new DaoException("Unable to get the Tag");
+        }
     }
 }

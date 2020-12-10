@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -42,9 +43,9 @@ public class JwtValidationFilter extends OncePerRequestFilter {
                 request.setAttribute(USERNAME_REQUEST_ATTRIBUTE, username);
                 request.setAttribute(JWT_REQUEST_ATTRIBUTE, jwtToken);
             } catch (SignatureException e) {
-                throw new JwtAuthenticationException("Calculating JWT signature failed: JWT signature does not match locally computed signature.");
+                throw new AccessDeniedException("Calculating JWT signature failed: JWT signature does not match locally computed signature.");
             } catch (IllegalArgumentException e) {
-                throw new JwtAuthenticationException("Unable to get JWT Token");
+                throw new AccessDeniedException("Unable to get JWT Token");
             }
         }
     }

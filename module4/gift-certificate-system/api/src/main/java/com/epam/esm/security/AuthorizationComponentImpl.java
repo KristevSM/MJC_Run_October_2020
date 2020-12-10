@@ -3,6 +3,7 @@ package com.epam.esm.security;
 import com.epam.esm.dto.RoleDTO;
 import com.epam.esm.dto.UserDTO;
 import com.epam.esm.exception.InvalidInputDataException;
+import com.epam.esm.exception.UserAccessDeniedException;
 import com.epam.esm.model.Role;
 import com.epam.esm.model.User;
 import com.epam.esm.service.UserService;
@@ -34,7 +35,7 @@ public class AuthorizationComponentImpl implements AuthorizationComponent{
         } else if (principal.getUsername().equals(user.getUsername())) {
             return true;
         } else {
-            throw new AccessDeniedException("You don't have access to view the resource");
+            throw new UserAccessDeniedException("You don't have access to view the resource!");
         }
     }
 
@@ -47,6 +48,6 @@ public class AuthorizationComponentImpl implements AuthorizationComponent{
         } else if (user.getOrders().stream().anyMatch(o -> o.getId().equals(id))) {
             return true;
         } else {
-            throw new AccessDeniedException("You don't have access to view the resource");
+            throw new UserAccessDeniedException("You don't have access to view the resource");
         }    }
 }
