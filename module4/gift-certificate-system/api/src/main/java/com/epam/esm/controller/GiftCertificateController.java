@@ -44,7 +44,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * Gets data from rest in JSON format on path "/gift-certificates".
  */
 @RestController
-@RequestMapping("/gift-certificates")
+@RequestMapping("/api")
 public class GiftCertificateController {
 
     private final GiftCertificateService giftCertificateService;
