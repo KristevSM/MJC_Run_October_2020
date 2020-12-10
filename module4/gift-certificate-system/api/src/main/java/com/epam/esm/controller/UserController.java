@@ -32,6 +32,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController {
 
     private final UserService userService;
+    private final PaginationUtil paginationUtil;
 
     /**
      * Constructor accepts service layer object.
@@ -39,8 +40,9 @@ public class UserController {
      * @param userService UserService instance.
      */
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PaginationUtil paginationUtil) {
         this.userService = userService;
+        this.paginationUtil = paginationUtil;
     }
 
     /**
@@ -73,16 +75,12 @@ public class UserController {
         Link usersLink = linkTo(UserController.class).slash("users").withRel("usersList");
 
         CollectionModel<UserDTO> collectionModel = new CollectionModel(userDTOPage, usersLink);
-        if (pageNumber > 1) {
-            Link previousPage = linkTo(methodOn(UserController.class)
-                    .findAllUsers(Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
-            collectionModel.add(previousPage);
-        }
-        if (pageNumber < userDTOPage.getTotalPages()) {
-            Link nextPage = linkTo(methodOn(UserController.class)
-                    .findAllUsers(Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
-            collectionModel.add(nextPage);
-        }
+        paginationUtil.addPaginationLinksToUserDTO(
+                collectionModel,
+                pageNumber,
+                userDTOPage.getTotalPages(),
+                pageSizeNumber
+        );
         return collectionModel;
     }
 

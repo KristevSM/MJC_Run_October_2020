@@ -32,6 +32,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class OrderController {
 
     private final OrderService orderService;
+    private final PaginationUtil paginationUtil;
+
 
     /**
      * Accepts service layer objects.
@@ -39,8 +41,9 @@ public class OrderController {
      * @param orderService OrderService instance.
      */
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, PaginationUtil paginationUtil) {
         this.orderService = orderService;
+        this.paginationUtil = paginationUtil;
     }
 
     /**
@@ -145,16 +148,13 @@ public class OrderController {
         }
 
         CollectionModel<OrderDTO> collectionModel = new CollectionModel(orderDTOPage);
-        if (pageNumber > 1) {
-            Link previousPage = linkTo(methodOn(OrderController.class)
-                    .getUserOrders(id, Optional.of(pageNumber - 1), Optional.of(pageSizeNumber))).withRel("previousPage");
-            collectionModel.add(previousPage);
-        }
-        if (pageNumber < orderDTOPage.getTotalPages()) {
-            Link nextPage = linkTo(methodOn(OrderController.class)
-                    .getUserOrders(id, Optional.of(pageNumber + 1), Optional.of(pageSizeNumber))).withRel("nextPage");
-            collectionModel.add(nextPage);
-        }
+        paginationUtil.addPaginationLinksToOrderDTO(
+                id,
+                collectionModel,
+                pageNumber,
+                orderDTOPage.getTotalPages(),
+                pageSizeNumber
+        );
         return collectionModel;
     }
 }
