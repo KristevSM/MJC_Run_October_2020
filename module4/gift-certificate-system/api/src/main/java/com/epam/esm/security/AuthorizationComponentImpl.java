@@ -20,9 +20,10 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class AuthorizationComponentImpl implements AuthorizationComponent{
+public class AuthorizationComponentImpl implements AuthorizationComponent {
 
     private final UserService userService;
+
     @Override
     public boolean userHasAccess(@Nonnull UserDetails principal, @Nonnull Long id) {
         if (id == null) {
@@ -30,12 +31,12 @@ public class AuthorizationComponentImpl implements AuthorizationComponent{
         }
         UserDTO user = userService.getUserById(id);
         Collection<? extends GrantedAuthority> roles = principal.getAuthorities();
-        if (roles.stream().anyMatch(r-> r.getAuthority().contains("ROLE_ADMIN"))) {
+        if (roles.stream().anyMatch(r -> r.getAuthority().contains("ROLE_ADMIN"))) {
             return true;
         } else if (principal.getUsername().equals(user.getUsername())) {
             return true;
         } else {
-            throw new UserAccessDeniedException("You don't have access to view the resource!");
+            throw new AccessDeniedException("You don't have access to view the resource!");
         }
     }
 
@@ -43,11 +44,12 @@ public class AuthorizationComponentImpl implements AuthorizationComponent{
     public boolean isUsersOrder(@Nonnull UserDetails principal, @Nonnull Long id) {
         User user = userService.findByUsername(principal.getUsername());
         Collection<? extends GrantedAuthority> roles = principal.getAuthorities();
-        if (roles.stream().anyMatch(r-> r.getAuthority().contains("ROLE_ADMIN"))) {
+        if (roles.stream().anyMatch(r -> r.getAuthority().contains("ROLE_ADMIN"))) {
             return true;
         } else if (user.getOrders().stream().anyMatch(o -> o.getId().equals(id))) {
             return true;
         } else {
-            throw new UserAccessDeniedException("You don't have access to view the resource");
-        }    }
+            throw new AccessDeniedException("You don't have access to view the resource");
+        }
+    }
 }

@@ -5,7 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -62,7 +65,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(GiftCertificateNotFoundException.class)
     protected ResponseEntity<Object> handleGiftCertificateNotFound(GiftCertificateNotFoundException ex,
-                                                                      WebRequest request) {
+                                                                   WebRequest request) {
         ApiError apiError = new ApiError(NOT_FOUND, ex);
         apiError.setMessage("The Gift Certificate not found");
         apiError.setDebugMessage(ex.getMessage());
@@ -72,7 +75,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TagNotFoundException.class)
     protected ResponseEntity<Object> handleTagNotFound(TagNotFoundException ex,
-                                                                   WebRequest request) {
+                                                       WebRequest request) {
         ApiError apiError = new ApiError(NOT_FOUND, ex);
         apiError.setMessage("The Tag not found");
         apiError.setDebugMessage(ex.getMessage());
@@ -82,7 +85,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OrderNotFoundException.class)
     protected ResponseEntity<Object> handleOrderNotFound(OrderNotFoundException ex,
-                                                       WebRequest request) {
+                                                         WebRequest request) {
         ApiError apiError = new ApiError(NOT_FOUND, ex);
         apiError.setMessage("The Order not found");
         apiError.setDebugMessage(ex.getMessage());
@@ -92,7 +95,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     protected ResponseEntity<Object> handleUserNotFound(UserNotFoundException ex,
-                                                         WebRequest request) {
+                                                        WebRequest request) {
         ApiError apiError = new ApiError(NOT_FOUND, ex);
         apiError.setMessage("The User not found");
         apiError.setDebugMessage(ex.getMessage());
@@ -119,36 +122,33 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(apiError, BAD_REQUEST);
     }
-    
+
     @ExceptionHandler(AccessDeniedException.class)
     protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex,
-                                                       WebRequest request) {
-        ApiError apiError = new ApiError(UNAUTHORIZED, ex);
-        apiError.setMessage("Access denied");
-        apiError.setDebugMessage("User not authorized");
-
-        return new ResponseEntity<>(apiError, FORBIDDEN);
+                                                                 WebRequest request) {
+        //todo What is anonymousUser?
+        ApiError apiError;
+        if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+                && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+            apiError = new ApiError(FORBIDDEN, ex);
+            apiError.setMessage("Access denied");
+            apiError.setDebugMessage("You don't have access to view the resource");
+            return new ResponseEntity<>(apiError, FORBIDDEN);
+        } else {
+            apiError = new ApiError(UNAUTHORIZED, ex);
+            apiError.setMessage("Access denied");
+            apiError.setDebugMessage("User not authorized");
+            return new ResponseEntity<>(apiError, UNAUTHORIZED);
+        }
     }
 
     @ExceptionHandler(JwtAuthenticationException.class)
     protected ResponseEntity<Object> handleAuthenticationException(JwtAuthenticationException ex,
-                                                       WebRequest request) {
+                                                                   WebRequest request) {
         ApiError apiError = new ApiError(UNAUTHORIZED, ex);
         apiError.setMessage("Authentication failed");
         apiError.setDebugMessage(ex.getLocalizedMessage());
 
         return new ResponseEntity<>(apiError, UNAUTHORIZED);
     }
-
-    @ExceptionHandler(UserAccessDeniedException.class)
-    protected ResponseEntity<Object> handleUserAccessDeniedException(UserAccessDeniedException ex,
-                                                                   WebRequest request) {
-        ApiError apiError = new ApiError(FORBIDDEN, ex);
-        apiError.setMessage("Access denied");
-        apiError.setDebugMessage(ex.getLocalizedMessage());
-
-        return new ResponseEntity<>(apiError, FORBIDDEN);
-    }
-
-
 }

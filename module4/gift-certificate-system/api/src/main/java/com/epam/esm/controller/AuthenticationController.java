@@ -22,10 +22,8 @@ public class AuthenticationController {
 
     @PostMapping
     public ResponseEntity generate(@RequestBody AuthenticationRequest authenticationRequest) {
-        String username = authenticationRequest.getUsername();
         String token = authenticationService.generateToken(authenticationRequest);
         Map<Object, Object> response = new HashMap<>();
-        response.put("username", username);
         response.put("token", token);
         return ResponseEntity.ok(response);
     }
