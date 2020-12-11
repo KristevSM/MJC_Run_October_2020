@@ -13,12 +13,6 @@ class GiftCertificateServiceImplTest {
     @Autowired
     private GiftCertificateService giftCertificateService;
 
-//    @Test
-//    public void shouldFindAllCertificates() {
-//        List<Order> orders = giftCertificateService.getCertificates(1L, 20L);
-//        assertEquals(5L, orders.size());
-//    }
-
     @Test
     void shouldFindCertificateById() {
         GiftCertificateDTO certificate1 = giftCertificateService.findCertificateById(1L);

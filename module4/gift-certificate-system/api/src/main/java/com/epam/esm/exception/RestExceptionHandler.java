@@ -126,7 +126,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex,
                                                                  WebRequest request) {
-        //todo What is anonymousUser?
         ApiError apiError;
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
                 && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {

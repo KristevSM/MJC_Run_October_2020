@@ -22,11 +22,6 @@ class OrderServiceImplTest {
     @Autowired
     private OrderService orderService;
 
-    @Test
-    public void shouldFindAllOrders() {
-        List<OrderDTO> orders = orderService.getAllOrders(1, 20);
-        assertEquals(5L, orders.size());
-    }
 
     @Test
     void shouldFindOrderById() {

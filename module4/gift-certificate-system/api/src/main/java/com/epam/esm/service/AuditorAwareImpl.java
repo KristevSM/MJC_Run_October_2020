@@ -1,5 +1,6 @@
-package com.epam.esm.security;
+package com.epam.esm.service;
 
+import com.epam.esm.security.UserDetailsEntity;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
