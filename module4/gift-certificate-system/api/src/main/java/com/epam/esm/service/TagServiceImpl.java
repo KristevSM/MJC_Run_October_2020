@@ -107,14 +107,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void deleteTag(Long id) {
-        try {
             Tag tag = tagRepository.findById(id).orElseThrow(() ->
                     new TagNotFoundException(MessageFormat.format("Tag with id: {0} not found", id)));
             tagRepository.delete(tag);
-        } catch (Exception e) {
-            log.error("IN deleteTag - Unable to delete the Tag: {}", e.getMessage());
-            throw new DaoException("Unable to delete the Tag");
-        }
     }
 
     @Override

@@ -128,7 +128,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                                  WebRequest request) {
         ApiError apiError;
         if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-                && !SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
+                && SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().noneMatch(r -> r.getAuthority().contains("ROLE_ANONYMOUS"))) {
             apiError = new ApiError(FORBIDDEN, ex);
             apiError.setMessage("Access denied");
             apiError.setDebugMessage("You don't have access to view the resource");

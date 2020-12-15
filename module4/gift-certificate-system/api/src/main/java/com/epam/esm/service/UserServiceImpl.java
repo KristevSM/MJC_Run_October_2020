@@ -65,14 +65,9 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public UserDTO getUserById(Long id) {
-        try {
             User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(MessageFormat
                     .format("User with id: {0} not found", id)));
             return userConverter.convertFromEntity(user);
-        } catch (Exception e) {
-            log.error("IN getUserById - Unable to get the User by id: {}", e.getMessage());
-            throw new DaoException("Unable to get the User by id");
-        }
     }
 
     @Override
@@ -99,24 +94,14 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findByUsername(String username) {
-        try {
             return userRepository.findUserByUsername(username).orElseThrow(() -> new UserNotFoundException(MessageFormat
                     .format("User with username: {0} not found", username)));
-        } catch (Exception e) {
-            log.error("IN findByUsername - Unable to find the User by id: {}", e.getMessage());
-            throw new DaoException("Unable to find the User by id");
-        }
     }
 
     @Override
     public User findByUsernameAndPassword(String username, String password) {
         String encodedPassword = passwordEncoder.encode(password);
-        try {
             return userRepository.findUserByUsernameAndPassword(username, encodedPassword).orElseThrow(() -> new UserNotFoundException(MessageFormat
                     .format("User with username: {0} not found", username)));
-        } catch (Exception e) {
-            log.error("IN findByUsernameAndPassword - Unable to find the User by user name and password: {}", e.getMessage());
-            throw new DaoException("Unable to find the User by user name and password");
-        }
     }
 }

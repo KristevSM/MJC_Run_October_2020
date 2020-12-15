@@ -53,19 +53,13 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public OrderDTO getOrderById(Long id) {
-        try {
             Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                     .format("Order with id: {0} not found", id)));
             return orderConverter.convertFromEntity(order);
-        } catch (Exception e) {
-            log.error("IN getOrderById - Unable to find the order by id: {}", e.getMessage());
-            throw new DaoException("Unable to find the order by id");
-        }
     }
 
     @Override
     public OrderDTO makeOrder(Long userId, Long certificateId) {
-        try {
             GiftCertificate certificate = giftCertificateRepository.findById(certificateId).orElseThrow(() -> new GiftCertificateNotFoundException(MessageFormat
                     .format("Gift certificate with id: {0} not found", certificateId)));
 
@@ -77,6 +71,7 @@ public class OrderServiceImpl implements OrderService{
                     .user(user)
                     .orderDate(ZonedDateTime.now())
                     .build();
+        try {
             Order newOrder= orderRepository.save(order);
             Order orderFromDao = orderRepository.findById(newOrder.getId()).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                     .format("Order with id: {0} not found", newOrder.getId())));
@@ -89,27 +84,17 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void removeOrder(Long orderId) {
-        try {
             Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(MessageFormat
                     .format("Order with id: {0} not found", orderId)));
             orderRepository.delete(order);
-        } catch (Exception e) {
-            log.error("IN removeOrder - Unable to delete the order: {}", e.getMessage());
-            throw new DaoException("Unable to delete the order");
-        }
     }
 
     @Override
     public Page<OrderDTO> getUserOrders(Long userId, int page, int pageSize) {
-        try {
-            userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
-                    .format("User with id: {0} not found", userId)));
-            return orderRepository.findByUserId(userId, PageRequest.of(page, pageSize))
-                    .map(orderConverter::convertFromEntity);
-        } catch (Exception e) {
-            log.error("IN getUserOrders - Unable to find the order by user's id: {}", e.getMessage());
-            throw new DaoException("Unable to find the order by user's id");
-        }
+        userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(MessageFormat
+                .format("User with id: {0} not found", userId)));
+        return orderRepository.findByUserId(userId, PageRequest.of(page, pageSize))
+                .map(orderConverter::convertFromEntity);
     }
 
 }

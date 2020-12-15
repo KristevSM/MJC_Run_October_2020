@@ -109,7 +109,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public GiftCertificateDTO saveCertificate(GiftCertificateDTO giftCertificateDTO) {
-        try {
             giftCertificateDTO.setCreateDate(ZonedDateTime.now());
             giftCertificateDTO.setLastUpdateDate(ZonedDateTime.now());
             if (giftCertificateDTO.getTags() == null) {
@@ -141,6 +140,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             certificate.setTags(new ArrayList<>());
             GiftCertificate newCertificate = giftCertificateRepository.save(certificate);
             certificate.setTags(newTags);
+        try {
             newCertificate = giftCertificateRepository.save(certificate);
             return certificateConverter.convertFromEntity(newCertificate);
         } catch (Exception e) {
@@ -208,21 +208,21 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public void deleteCertificate(Long id) {
-        try {
-            Optional<GiftCertificate> certificate = giftCertificateRepository.findById(id);
-            if (certificate.isPresent()) {
+        Optional<GiftCertificate> certificate = giftCertificateRepository.findById(id);
+        if (certificate.isPresent()) {
+            try {
                 List<Order> orders = certificate.get().getOrders();
                 for (Order order : orders) {
                     order.setGiftCertificate(null);
                     orderRepository.save(order);
                 }
                 giftCertificateRepository.delete(certificate.get());
-            } else {
-                throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} not found", id));
+            } catch (Exception e) {
+                log.error("IN deleteCertificate - Unable to delete Gift certificate: {}", e.getMessage());
+                throw new DaoException("Unable to delete Gift certificate");
             }
-        } catch (Exception e) {
-            log.error("IN deleteCertificate - Unable to delete Gift certificate: {}", e.getMessage());
-            throw new DaoException("Unable to delete Gift certificate");
+        } else {
+            throw new GiftCertificateNotFoundException(MessageFormat.format("Gift certificate with id: {0} not found", id));
         }
     }
 
