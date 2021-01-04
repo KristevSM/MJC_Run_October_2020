@@ -1,0 +1,8 @@
+rootProject.name = 'gift-certificate-system'
+include 'core'
+include 'api'
+
+project(':core').projectDir = new File(settingsDir, '/core')
+project(':api').projectDir = new File(settingsDir, '/api')
+
+

@@ -1,0 +1,14 @@
+
+plugins { id "io.spring.dependency-management" version "1.0.4.RELEASE" }
+
+ext { springBootVersion = '2.3.5.RELEASE' }
+
+jar {
+    enabled = true
+    baseName = 'core'
+    version = '1.0-SNAPSHOT'
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
