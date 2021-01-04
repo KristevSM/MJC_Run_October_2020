@@ -8,17 +8,22 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
 
-jar {
-    baseName = 'web'
-    version = '1.0-SNAPSHOT'
+war {
+    baseName = 'gift-certificate-system'
+    version = '0.0.1-SNAPSHOT'
 }
-
-bootJar {
-    manifest {
-        attributes 'Start-Class': 'com.epam.esm.App'
-    }
-}
+//jar {
+//    baseName = 'web'
+//    version = '1.0-SNAPSHOT'
+//}
+//
+//bootJar {
+//    manifest {
+//        attributes 'Start-Class': 'com.epam.esm.App'
+//    }
+//}
 sourceCompatibility = 1.8
 
 repositories { mavenCentral() }
