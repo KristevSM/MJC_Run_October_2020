@@ -39,6 +39,9 @@ public class JwtValidationFilter extends OncePerRequestFilter {
         if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
             String jwtToken = requestTokenHeader.substring(BEARER_HEADER_OFFSET);
             try {
+                if (!jwtTokenProvider.validateToken(jwtTokenProvider.resolveToken(request))) {
+                    throw new JwtAuthenticationException("JWT token is expired or invalid");
+                }
                 String username = jwtTokenProvider.getUsernameFromToken(jwtToken);
                 request.setAttribute(USERNAME_REQUEST_ATTRIBUTE, username);
                 request.setAttribute(JWT_REQUEST_ATTRIBUTE, jwtToken);
