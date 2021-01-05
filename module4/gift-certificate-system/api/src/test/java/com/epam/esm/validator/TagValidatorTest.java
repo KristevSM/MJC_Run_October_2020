@@ -1,4 +1,4 @@
-package esm.validator;
+package com.epam.esm.validator;
 
 import com.epam.esm.model.Tag;
 import com.epam.esm.validator.TagValidator;
