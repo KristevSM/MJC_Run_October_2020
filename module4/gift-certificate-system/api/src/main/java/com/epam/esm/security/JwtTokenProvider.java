@@ -19,10 +19,10 @@ import java.util.function.Function;
 
 @Component
 public class JwtTokenProvider {
-    @Value("${jwt.expiration.time}")
-    private long jwtTokenValidity;
-    @Value("${jwt.token.secret}")
-    private String secret;
+//    @Value("${jwt.expiration.time}")
+    private long jwtTokenValidity = 36000;
+//    @Value("${jwt.token.secret}")
+    private String secret = "jwtapp";
 
     @Qualifier("jwtUserDetailsService")
     @Autowired
