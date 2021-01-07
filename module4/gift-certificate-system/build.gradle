@@ -1,7 +1,22 @@
 group 'by.kristev'
 version '1.0-SNAPSHOT'
 
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath group: "org.sonarsource.scanner.gradle", name:"sonarqube-gradle-plugin", version:"3.0"
+    }
+}
+
 apply plugin: 'java'
+apply plugin: "org.sonarqube"
+
 
 sourceCompatibility = 1.8
 
@@ -42,7 +57,16 @@ subprojects {
         compile('org.springframework.boot:spring-boot-starter')
         compile('org.springframework.boot:spring-boot-starter-security')
         testCompile('org.springframework.boot:spring-boot-starter-test')
+
+        // https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin
+        compile group: 'org.sonarsource.scanner.maven', name: 'sonar-maven-plugin', version: '3.7.0.1746'
+
     }
+//    sonarqube {
+//        properties {
+//            property "sonar.sources", "src"
+//        }
+//    }
 
     test {
         // Enable JUnit 5 (Gradle 4.6+).
