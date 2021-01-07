@@ -57,9 +57,9 @@ subprojects {
         compile('org.springframework.boot:spring-boot-starter')
         compile('org.springframework.boot:spring-boot-starter-security')
         testCompile('org.springframework.boot:spring-boot-starter-test')
-
-        // https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin
-        compile group: 'org.sonarsource.scanner.maven', name: 'sonar-maven-plugin', version: '3.7.0.1746'
+//
+//        // https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin
+//        compile group: 'org.sonarsource.scanner.maven', name: 'sonar-maven-plugin', version: '3.7.0.1746'
 
     }
 //    sonarqube {
