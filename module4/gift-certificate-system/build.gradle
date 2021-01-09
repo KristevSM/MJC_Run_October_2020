@@ -32,9 +32,11 @@ dependencies {
 allprojects {
 
     apply plugin: "java"
+    apply plugin: "jacoco"
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+
 
 }
 
@@ -80,6 +82,20 @@ subprojects {
             events "passed", "skipped", "failed"
         }
     }
+    jacoco {
+        toolVersion = '0.7.5.201505241946'
+    }
+
+    jacocoTestReport {
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = true
+        }
+    }
+    test.finalizedBy jacocoTestReport
+
+
 }
 
 project(':core') {
