@@ -95,7 +95,6 @@ subprojects {
     }
     test.finalizedBy jacocoTestReport
 
-
 }
 
 project(':core') {
