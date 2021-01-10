@@ -26,6 +26,7 @@ war {
 //        attributes 'Start-Class': 'com.epam.esm.App'
 //    }
 //}
+
 sourceCompatibility = 1.8
 
 repositories { mavenCentral() }
